@@ -7,7 +7,6 @@ using System.Text.RegularExpressions;
 using System.Threading;
 
 namespace ekread {
-
     public class IpValidator {
         public static void MakeHttpIfNeed(ref string arg) {
             if (!arg.StartsWith("http://") && arg.StartsWith("https://"))
@@ -62,7 +61,7 @@ namespace ekread {
             }
 
             IWebDriver driver = new ChromeDriver();
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(Ekreader.TIMEOT_OPENING/8);
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(Ekreader.TIMEOT_OPENING/8.0);
 
             foreach (string url in ips) {
                 ProcessIp(driver, url);
@@ -78,8 +77,7 @@ namespace ekread {
         }
 
         static void ProcessIp(IWebDriver driver, string url) {
-            string frio_url = "http://roach/maint/frio/frio_order_air.php";
-            frio_url = "http://192.168.11.9/maint/frio/frio_order_air.php";
+            var frioUrl = "http://192.168.11.9/maint/frio/frio_order_air.php";
             Thread.Sleep(500);
             try {
                 Console.WriteLine("");
@@ -101,7 +99,7 @@ namespace ekread {
             Console.WriteLine("======= Успешно прочитан {0}, получены данные: {1}", url, data);
             Thread.Sleep(500);
             try {
-                driver.Navigate().GoToUrl(frio_url);
+                driver.Navigate().GoToUrl(frioUrl);
             }
             catch (Exception ex) {
                 Console.WriteLine("======= Ошибка соединения с ip {0}", url);
@@ -110,11 +108,11 @@ namespace ekread {
             Thread.Sleep(500);
 
             if (!reader.SaveDataToFrio(data)) {
-                Console.WriteLine("======= Error: Не удалось записать данные в сервер {0}", frio_url);
+                Console.WriteLine("======= Error: Не удалось записать данные в сервер {0}", frioUrl);
                 return;
             }
             Thread.Sleep(500);
-            Console.WriteLine("======= Записано из {0} в {1}", url, frio_url);
+            Console.WriteLine("======= Записано из {0} в {1}", url, frioUrl);
             Thread.Sleep(500);
         }
 
