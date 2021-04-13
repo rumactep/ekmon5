@@ -361,3 +361,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/mbread/env3632
+/mbread/env3864
+/mbread/pyt
