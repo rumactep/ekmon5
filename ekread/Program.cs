@@ -14,6 +14,7 @@ namespace ekread {
                 arg = "http://" + arg;
         }
         public static bool IsValidIp(string arg) {
+
             Regex ip1 = new Regex(@"\b\d{1,3}\.\b");
             MatchCollection matches1 = ip1.Matches(arg);
 
