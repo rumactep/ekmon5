@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
@@ -15,20 +16,29 @@ namespace tmb {
             TaskNumber = taskNumber;
         }
 
-        static float Ushort2float(ushort sh1, ushort sh2) {
+        static float Ushort2Float(ushort sh1, ushort sh2) {
             return BitConverter.ToSingle(BitConverter.GetBytes(((uint)sh2 << 16) + sh1), 0);
         }
+
+        static (ushort sh1, ushort sh2) Float2Ushort(float ff) {
+            byte[] bb = BitConverter.GetBytes(ff);
+            return (BitConverter.ToUInt16(bb, 0), BitConverter.ToUInt16(bb, 2));
+        }
+
 
         public static async Task ReadDataThread(object o) {
             ElektronikondataReader reader = (ElektronikondataReader) o;
             ushort elapsed = 0;
             int offset = 4000 + reader.TaskNumber * 500;
             while (true) {
-                reader.Storage.InputRegisters[4064] = (ushort) (offset + 4 + elapsed);
-                reader.Storage.InputRegisters[4065] = (ushort) (offset + 5 + elapsed);
-                reader.Storage.InputRegisters[4066] = (ushort) (offset + 6 + elapsed);
-                reader.Storage.InputRegisters[4067] = (ushort) (offset + 7 + elapsed);
-                4000
+                SparsePointSource<ushort> registers = reader.Storage.InputRegisters;
+                registers[4064] = (ushort) (offset + 4 + elapsed);
+                registers[4065] = (ushort) (offset + 5 + elapsed);
+                registers[4066] = (ushort) (offset + 6 + elapsed);
+                registers[4067] = (ushort) (offset + 7 + elapsed);
+
+                (registers[4000], registers[4001]) = Float2Ushort(18.8f);
+                Debug.Assert(Math.Abs(18.8f - Ushort2Float(registers[4000], registers[4001])) < 0.001);
                 Console.WriteLine("TaskNumber={0}, elapsed={1}", reader.TaskNumber, elapsed);
                 await Task.Delay(10000);
                 elapsed += 10;
