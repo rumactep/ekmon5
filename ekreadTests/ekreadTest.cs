@@ -1,7 +1,5 @@
 using ekread;
 using NUnit.Framework;
-using System;
-using System.Text.RegularExpressions;
 
 namespace ekreadTests {
     public class Tests {

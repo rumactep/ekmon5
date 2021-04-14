@@ -16,8 +16,8 @@ namespace ekread {
         }
 
         public override string ToString() {
-            return string.Format("serial: {0}, pressure: {1}, temperature: {2}, dewpoint: {3}, worktime: {4}, startcount: {5}, serveceplan1: {6}",
-                Serial, Pressure, Temperature, Dewpoint, Worktime, Startcount, Serviceplan1);            
+            return
+                $"serial: {Serial}, pressure: {Pressure}, temperature: {Temperature}, dewpoint: {Dewpoint}, worktime: {Worktime}, startcount: {Startcount}, serveceplan1: {Serviceplan1}";            
         }
 
         public string Serial { get; set; }
@@ -112,7 +112,6 @@ namespace ekread {
             catch (NoSuchElementException ex) {
                 Console.WriteLine(ex.ToString());
                 throw;
-                return "-";
             }
         }
 
