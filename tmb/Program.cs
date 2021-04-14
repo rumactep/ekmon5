@@ -15,17 +15,20 @@ namespace tmb {
             TaskNumber = taskNumber;
         }
 
+        static float Ushort2float(ushort sh1, ushort sh2) {
+            return BitConverter.ToSingle(BitConverter.GetBytes(((uint)sh2 << 16) + sh1), 0);
+        }
+
         public static async Task ReadDataThread(object o) {
             ElektronikondataReader reader = (ElektronikondataReader) o;
             ushort elapsed = 0;
-            int offset = 40001 + reader.TaskNumber * 500;
+            int offset = 4000 + reader.TaskNumber * 500;
             while (true) {
-                reader.Storage.InputRegisters[30011] = (ushort) (offset + 11 + elapsed);
-                reader.Storage.InputRegisters[30012] = (ushort) (offset + 12 + elapsed);
-                reader.Storage.InputRegisters[30013] = (ushort) (offset + 13 + elapsed);
-                reader.Storage.InputRegisters[30014] = (ushort) (offset + 14 + elapsed);
-                reader.Storage.InputRegisters[30015] = (ushort) (offset + 15 + elapsed);
-                reader.Storage.InputRegisters[30016] = (ushort) (offset + 16 + elapsed);
+                reader.Storage.InputRegisters[4064] = (ushort) (offset + 4 + elapsed);
+                reader.Storage.InputRegisters[4065] = (ushort) (offset + 5 + elapsed);
+                reader.Storage.InputRegisters[4066] = (ushort) (offset + 6 + elapsed);
+                reader.Storage.InputRegisters[4067] = (ushort) (offset + 7 + elapsed);
+                4000
                 Console.WriteLine("TaskNumber={0}, elapsed={1}", reader.TaskNumber, elapsed);
                 await Task.Delay(10000);
                 elapsed += 10;
