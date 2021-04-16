@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.1433
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31129.286
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ekread", "ekread\ekread.csproj", "{ADAB6EF4-9E95-47F1-9AF6-5873A8E49434}"
 EndProject
@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ekreadTests", "ekreadTests\
 EndProject
 Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "mbread", "mbread\mbread.pyproj", "{9A304FB5-F1E1-49C4-98B1-374CB4ECD509}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tmb", "tmb\tmb.csproj", "{748DE91B-7CBB-47FE-B8E9-839529EFD2B6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ek2mb", "tmb\ek2mb.csproj", "{748DE91B-7CBB-47FE-B8E9-839529EFD2B6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

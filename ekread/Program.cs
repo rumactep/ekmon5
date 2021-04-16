@@ -6,7 +6,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Threading;
 
-namespace ekread {
+namespace ek2mb {
     public class IpValidator {
         public static void MakeHttpIfNeed(ref string arg) {
             if (!arg.StartsWith("http://") && arg.StartsWith("https://"))

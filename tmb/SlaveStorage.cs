@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using NModbus;
 
-namespace tmb {
+namespace ek2mb {
 
     // Discrete Inputs (CoilDiscretes) — дискретные входы, для чтения. 10001 по 19999. 
     // Coils (CoilInputs) — дискретные выходы, для чтения и записи. 20001 по 29999. 
@@ -27,6 +27,16 @@ namespace tmb {
             }
         }
     }
+    public static class FloatHelper {
+        public static float Ushort2Float(ushort ush1, ushort ush2) {
+            return BitConverter.ToSingle(BitConverter.GetBytes(((uint)ush2 << 16) + ush1), 0);
+        }
+
+        public static (ushort sh1, ushort sh2) Float2Ushort(float ff) {
+            byte[] bb = BitConverter.GetBytes(ff);
+            return (BitConverter.ToUInt16(bb, 0), BitConverter.ToUInt16(bb, 2));
+        }
+    }
     public class SlaveStorage : ISlaveDataStore {
         public SlaveStorage() {
             CoilDiscretes = new SparsePointSource<bool>(); // Discrete Inputs
@@ -39,6 +49,11 @@ namespace tmb {
         public SparsePointSource<bool> CoilInputs { get; } // Coils
         public SparsePointSource<ushort> HoldingRegisters { get; }
         public SparsePointSource<ushort> InputRegisters { get; }
+
+        public float this[ushort inputRegister] {
+            get { return FloatHelper.Ushort2Float(InputRegisters[inputRegister], InputRegisters[(ushort)(inputRegister + 1)]); }
+            set { (InputRegisters[inputRegister], InputRegisters[(ushort)(inputRegister + 1)]) = FloatHelper.Float2Ushort(value); }
+        }
 
         IPointSource<bool> ISlaveDataStore.CoilDiscretes => CoilDiscretes;
         IPointSource<bool> ISlaveDataStore.CoilInputs => CoilInputs;
