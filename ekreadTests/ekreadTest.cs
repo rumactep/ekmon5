@@ -1,9 +1,9 @@
-using ek2mb;
 using NUnit.Framework;
 using System;
+using ekread;
 
 namespace ekreadTests {
-    public class ekreadTest {
+    public class EkreadTest {
         [Test]
         public void TestGood() {
             Assert.IsTrue(IpValidator.IsValidIp("192.168.1.1"));

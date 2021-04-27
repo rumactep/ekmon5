@@ -51,8 +51,8 @@ namespace ek2mb {
         public SparsePointSource<ushort> InputRegisters { get; }
 
         public float this[ushort inputRegister] {
-            get { return FloatHelper.Ushort2Float(InputRegisters[inputRegister], InputRegisters[(ushort)(inputRegister + 1)]); }
-            set { (InputRegisters[inputRegister], InputRegisters[(ushort)(inputRegister + 1)]) = FloatHelper.Float2Ushort(value); }
+            get => FloatHelper.Ushort2Float(InputRegisters[inputRegister], InputRegisters[(ushort)(inputRegister + 1)]);
+            set => (InputRegisters[inputRegister], InputRegisters[(ushort)(inputRegister + 1)]) = FloatHelper.Float2Ushort(value);
         }
 
         IPointSource<bool> ISlaveDataStore.CoilDiscretes => CoilDiscretes;
@@ -75,7 +75,7 @@ namespace ek2mb {
         /// <param name="registerIndex"></param>
         /// <returns></returns>
         public TPoint this[ushort registerIndex] {
-            get => _values.TryGetValue(registerIndex, out var value) ? value : default(TPoint);
+            get => _values.TryGetValue(registerIndex, out TPoint value) ? value : default(TPoint);
             set => _values[registerIndex] = value;
         }
 
