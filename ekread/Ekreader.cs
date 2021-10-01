@@ -5,7 +5,7 @@ using OpenQA.Selenium;
 
 namespace ekread {
     public class Ekdata {
-        public Ekdata(string serial, string pressure, string temperature, string dewpoint, string worktime, string startcount, string serviceplan1) {
+        public Ekdata(string serial, string machinestate, string pressure, string temperature, string dewpoint, string worktime, string startcount, string serviceplan1) {
             Serial = serial;
             Machinestate = machinestate;
             Pressure = pressure;
