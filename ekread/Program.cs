@@ -1,12 +1,12 @@
-﻿using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Threading;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
 
-namespace ek2mb {
+namespace ekread {
     public class IpValidator {
         public static void MakeHttpIfNeed(ref string arg) {
             if (!arg.StartsWith("http://") && arg.StartsWith("https://"))

@@ -34,12 +34,11 @@ namespace ek2mb {
             ushort elapsed = 0;
             int offset = 4000 + UnitId * 500;
             while (true) {
-                var storage = Storage;
-                storage.InputRegisters[4064] = (ushort)(offset + 4 + elapsed);
-                storage.InputRegisters[4065] = (ushort)(offset + 5 + elapsed);
-                storage.InputRegisters[4066] = (ushort)(offset + 6 + elapsed);
-                storage.InputRegisters[4067] = (ushort)(offset + 7 + elapsed);
-
+                SlaveStorage storage = reader.Storage;
+                storage.InputRegisters[4064] = (ushort) -(offset + 4 + elapsed);
+                storage.InputRegisters[4065] = (ushort) (offset + 5 + elapsed);
+                storage.InputRegisters[4066] = (ushort) (offset + 6 + elapsed);
+                storage.InputRegisters[4067] = (ushort) (offset + 7 + elapsed);
 
                 storage[4000] = 18.8f;
                 Debug.Assert(Math.Abs(18.8f - FloatHelper.Ushort2Float(storage.InputRegisters[4000], storage.InputRegisters[4001])) < 0.001);

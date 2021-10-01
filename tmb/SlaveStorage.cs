@@ -51,8 +51,8 @@ namespace ek2mb {
         public SparsePointSource<ushort> InputRegisters { get; }
 
         public float this[ushort inputRegister] {
-            get { return FloatHelper.Ushort2Float(InputRegisters[inputRegister], InputRegisters[(ushort)(inputRegister + 1)]); }
-            set { (InputRegisters[inputRegister], InputRegisters[(ushort)(inputRegister + 1)]) = FloatHelper.Float2Ushort(value); }
+            get => FloatHelper.Ushort2Float(InputRegisters[inputRegister], InputRegisters[(ushort)(inputRegister + 1)]);
+            set => (InputRegisters[inputRegister], InputRegisters[(ushort)(inputRegister + 1)]) = FloatHelper.Float2Ushort(value);
         }
 
         IPointSource<bool> ISlaveDataStore.CoilDiscretes => CoilDiscretes;

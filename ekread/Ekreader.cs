@@ -1,11 +1,11 @@
-﻿using OpenQA.Selenium;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Threading;
+using OpenQA.Selenium;
 
-namespace ek2mb {
-    class Ekdata {
-        public Ekdata(string serial, string machinestate, string pressure, string temperature, string dewpoint, string worktime, string startcount, string serviceplan1) {
+namespace ekread {
+    public class Ekdata {
+        public Ekdata(string serial, string pressure, string temperature, string dewpoint, string worktime, string startcount, string serviceplan1) {
             Serial = serial;
             Machinestate = machinestate;
             Pressure = pressure;
