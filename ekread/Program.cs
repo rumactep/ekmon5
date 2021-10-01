@@ -27,9 +27,11 @@ namespace ek2mb {
         }
 
     }
-    public class Program {
+
+    public class Program { 
 
         static void Main(string[] args) {
+            Console.WriteLine("14 сен 2021.  должна работать с версией хрома 93");
             const string settingsFilename = "ekreadips.txt";
             List<string> ips = new List<string>();
             if (args.Length == 0) {

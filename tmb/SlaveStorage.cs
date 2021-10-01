@@ -75,8 +75,14 @@ namespace ek2mb {
         /// <param name="registerIndex"></param>
         /// <returns></returns>
         public TPoint this[ushort registerIndex] {
-            get => _values.TryGetValue(registerIndex, out var value) ? value : default(TPoint);
-            set => _values[registerIndex] = value;
+            // TODO: добавить lock на чтение - запись для синхронизации работы из разных потоков
+            get {
+                return _values.TryGetValue(registerIndex, out var value) ? value : default(TPoint);
+            }
+
+            set {
+                _values[registerIndex] = value;
+            }
         }
 
         public TPoint[] ReadPoints(ushort startAddress, ushort numberOfPoints) {

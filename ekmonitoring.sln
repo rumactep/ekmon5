@@ -11,6 +11,8 @@ Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "mbread", "mbread\mbread.pyp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ek2mb", "tmb\ek2mb.csproj", "{748DE91B-7CBB-47FE-B8E9-839529EFD2B6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "simpletest", "simpletest\simpletest.csproj", "{2144B834-2468-46BE-89D4-ADBC326C780A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,10 @@ Global
 		{748DE91B-7CBB-47FE-B8E9-839529EFD2B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{748DE91B-7CBB-47FE-B8E9-839529EFD2B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{748DE91B-7CBB-47FE-B8E9-839529EFD2B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2144B834-2468-46BE-89D4-ADBC326C780A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2144B834-2468-46BE-89D4-ADBC326C780A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2144B834-2468-46BE-89D4-ADBC326C780A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2144B834-2468-46BE-89D4-ADBC326C780A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

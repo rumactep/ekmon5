@@ -1,6 +1,8 @@
 using ek2mb;
+using Newtonsoft.Json;
 using NUnit.Framework;
 using System;
+using System.Collections.Generic;
 
 namespace ekreadTests {
     public class ekreadTest {
@@ -20,6 +22,20 @@ namespace ekreadTests {
             Assert.IsTrue(IpValidator.IsValidIp("192.168.1.1"));
         }
     }
+    public class CompressorInfo {
+        public int cnumber { get; set; }
+        public string cip { get; set; }
+    }
+
+    public class JsonTest {
+        [Test]
+        public void TestJsonCompressorInfo() {
+            string jsonText = @"[{cnumber:1,cip:""192.168.1.1""}, {cnumber:2,cip:""192.168.1.2""}]";
+            var sponsors = JsonConvert.DeserializeObject<IList<CompressorInfo>>(jsonText);
+            
+        }
+    }
+
     public class ShortTest {
         [Test]
         public void TestFloat() {

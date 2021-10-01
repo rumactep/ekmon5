@@ -5,8 +5,9 @@ using System.Threading;
 
 namespace ek2mb {
     class Ekdata {
-        public Ekdata(string serial, string pressure, string temperature, string dewpoint, string worktime, string startcount, string serviceplan1) {
+        public Ekdata(string serial, string machinestate, string pressure, string temperature, string dewpoint, string worktime, string startcount, string serviceplan1) {
             Serial = serial;
+            Machinestate = machinestate;
             Pressure = pressure;
             Temperature = temperature;
             Dewpoint = dewpoint;
@@ -17,10 +18,11 @@ namespace ek2mb {
 
         public override string ToString() {
             return
-                $"serial: {Serial}, pressure: {Pressure}, temperature: {Temperature}, dewpoint: {Dewpoint}, worktime: {Worktime}, startcount: {Startcount}, serveceplan1: {Serviceplan1}";            
+                $"serial: {Serial}, machinestate: {Machinestate}, pressure: {Pressure}, temperature: {Temperature}, dewpoint: {Dewpoint}, worktime: {Worktime}, startcount: {Startcount}, serveceplan1: {Serviceplan1}";            
         }
 
         public string Serial { get; set; }
+        public string Machinestate { get; set; }
         public string Pressure { get; set; }
         public string Temperature { get; set; }
         public string Dewpoint { get; set; }
@@ -41,13 +43,14 @@ namespace ek2mb {
                 Console.WriteLine("error: serial is empty, exiting.");
                 return null;
             }
+            string machinestate = Readmachinestate();
             string pressure = ReadPressure();
             string temperature = ReadDischargeTemperature();
             string dewpoint = ReadDewPoint();
             string worktime = ReadWorktime();
             string startcount = ReadStartcount();
             string serviceplan1 = ReadServiceplan1();
-            return new Ekdata(serial, pressure, temperature, dewpoint, worktime, startcount, serviceplan1);
+            return new Ekdata(serial, machinestate, pressure, temperature, dewpoint, worktime, startcount, serviceplan1);
         }
 
         string ReadSerial() {
@@ -57,8 +60,20 @@ namespace ek2mb {
             while (stopwatch.Elapsed < TimeSpan.FromSeconds(TIMEOT_OPENING) && string.IsNullOrEmpty(serial.Text)) 
                 serial = _driver.FindElement(By.Id("serial"));
             string result = serial.Text.Replace("Serial Number : ", "");
-            return result.Replace("Cepийный Hoмep: ", "");
-            
+            return result.Replace("Cepийный Hoмep: ", "");            
+        }
+
+        string Readmachinestate() {
+            // <td id="MACHINESTATER0C1">Cocтoяниe Maшины</td>
+            // <td id = "MACHINESTATER0C2" > Зaгpyзкa </ td >
+            IWebElement header = _driver.FindElement(By.Id("MACHINESTATER0C1"));
+            if (header.Text == "Cocтoяниe Maшины" || header.Text == "Machine Status") {
+                IWebElement value = _driver.FindElement(By.Id("MACHINESTATER0C2"));
+                return value.Text;
+            }
+            else {
+                return string.Empty;
+            }
         }
 
         string ReadWorktime() {
@@ -84,6 +99,7 @@ namespace ek2mb {
                     return string.Empty;
             }
         }
+
 
         string ReadServiceplan1() {
             // <td id="SERVICEPLANR0C1" style="width: 110px;">4000</td>
@@ -162,8 +178,10 @@ namespace ek2mb {
                 IWebElement element = _driver.FindElement(By.Id("serial"));
                 var stopwatch = new Stopwatch();
                 stopwatch.Start();
-                while (stopwatch.Elapsed < TimeSpan.FromSeconds(TIMEOT_OPENING) && element == null)
+                while (stopwatch.Elapsed < TimeSpan.FromSeconds(TIMEOT_OPENING) && element == null) { 
                     element = _driver.FindElement(By.Id("serial"));
+                    Thread.Sleep(100);
+                }
                 if (element == null)
                     return false;
                 element.Clear();
