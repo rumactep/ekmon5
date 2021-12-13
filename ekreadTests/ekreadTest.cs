@@ -2,6 +2,7 @@ using Newtonsoft.Json;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using ekread;
 
 namespace ekreadTests {
@@ -22,17 +23,23 @@ namespace ekreadTests {
             Assert.IsTrue(IpValidator.IsValidIp("192.168.1.1"));
         }
     }
-    public class CompressorInfo {
-        public int cnumber { get; set; }
-        public string cip { get; set; }
+    public class CompressorInfo2 {
+        public int Cnumber { get; set; }
+        public string Cip { get; set; }
     }
 
     public class JsonTest {
         [Test]
         public void TestJsonCompressorInfo() {
             string jsonText = @"[{cnumber:1,cip:""192.168.1.1""}, {cnumber:2,cip:""192.168.1.2""}]";
-            var sponsors = JsonConvert.DeserializeObject<IList<CompressorInfo>>(jsonText);
-            
+            var compressors = JsonConvert.DeserializeObject<List<CompressorInfo2>>(jsonText);
+            Assert.AreEqual(2, compressors.Count);
+            var compressor1 = compressors[0];
+            var compressor2 = compressors[1];
+            Assert.AreEqual(1, compressor1.Cnumber);
+            Assert.AreEqual(2, compressor2.Cnumber);
+            Assert.AreEqual("192.168.1.1", compressor1.Cip);
+            Assert.AreEqual("192.168.1.2", compressor2.Cip);
         }
     }
 

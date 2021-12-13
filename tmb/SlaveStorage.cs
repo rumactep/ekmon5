@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using NModbus;
 
 namespace ek2mb {
-
+    // используем InputRegisters
     // Discrete Inputs (CoilDiscretes) — дискретные входы, для чтения. 10001 по 19999. 
     // Coils (CoilInputs) — дискретные выходы, для чтения и записи. 20001 по 29999. 
     // Input Registers — 16-битные входы для чтения. 30001 по 39999
@@ -20,14 +20,17 @@ namespace ek2mb {
                 case LoggingLevel.Debug:
                 case LoggingLevel.Error:
                 case LoggingLevel.Trace:
-                case LoggingLevel.Warning: return false;
-                case LoggingLevel.Information: return true;
+                case LoggingLevel.Warning: return true; 
+                case LoggingLevel.Information: return false;
 
                 default: return false;
             }
         }
     }
     public static class FloatHelper {
+        public static float Ushort2Float((ushort ush1, ushort ush2) ush) {
+            return Ushort2Float(ush.ush1, ush.ush2);
+        }
         public static float Ushort2Float(ushort ush1, ushort ush2) {
             return BitConverter.ToSingle(BitConverter.GetBytes(((uint)ush2 << 16) + ush1), 0);
         }
@@ -37,22 +40,78 @@ namespace ek2mb {
             return (BitConverter.ToUInt16(bb, 0), BitConverter.ToUInt16(bb, 2));
         }
     }
+
+    // карта регистров данных воздушного компрессора
+    // перечень всех возможных параметров
+    // используем InputRegisters
+    // 1 word номер компрессора
+    // 2 word состояние компрессора. 0 - (неизвестно, нет связи) 1 - авария, 2 - стоп, 3 - разгрузка, 4 загрузка
+    // 3 word Pacxoд (в процентах)
+    // 4 word Time
+    // 5 6 float давление на выходе, бар
+    // 7 8 float выход ступени компрессора
+
     public class SlaveStorage : ISlaveDataStore {
-        public SlaveStorage() {
+        public SlaveStorage(CompressorInfo info) {
+            Info = info;
             CoilDiscretes = new SparsePointSource<bool>(); // Discrete Inputs
             CoilInputs = new SparsePointSource<bool>(); // Coils
             InputRegisters = new SparsePointSource<ushort>();
             HoldingRegisters = new SparsePointSource<ushort>();
+            Number = info.Cnumber;
         }
 
-        public SparsePointSource<bool> CoilDiscretes { get; } // Discrete Inputs
-        public SparsePointSource<bool> CoilInputs { get; } // Coils
-        public SparsePointSource<ushort> HoldingRegisters { get; }
+        public enum CompressorTags : ushort {
+            Number = 1,
+            WorkState = 2,
+            Flow = 3,
+            Time = 4,
+            Pressure = 5,
+            Temperature = 7,
+        }
+        /// номер компрессора
+        public ushort Number {
+            get => InputRegisters[(ushort)CompressorTags.Number];
+            set => InputRegisters[(ushort)CompressorTags.Number] = value;
+        }
+
+        public ushort WorkState {
+            get => InputRegisters[(ushort)CompressorTags.WorkState];
+            set => InputRegisters[(ushort)CompressorTags.WorkState] = value;
+        }
+
+        public ushort Flow {
+            get => InputRegisters[(ushort)CompressorTags.Flow];
+            set => InputRegisters[(ushort)CompressorTags.Flow] = value;
+        }
+
+        public float Pressure {
+            get => this[(ushort)CompressorTags.Pressure];
+            set => this[(ushort)CompressorTags.Pressure] = value;
+        }
+
+        public float Temperature {
+            get => this[(ushort)CompressorTags.Temperature];
+            set => this[(ushort)CompressorTags.Temperature] = value;
+        }
+
+        public ushort Time {
+            get => InputRegisters[(ushort)CompressorTags.Time];
+            set => InputRegisters[(ushort)CompressorTags.Time] = value;
+        }
+
+        public CompressorInfo Info { get; }
+        protected SparsePointSource<bool> CoilDiscretes { get; } // Discrete Inputs
+        protected SparsePointSource<bool> CoilInputs { get; } // Coils
+        protected SparsePointSource<ushort> HoldingRegisters { get; }
         public SparsePointSource<ushort> InputRegisters { get; }
 
-        public float this[ushort inputRegister] {
-            get => FloatHelper.Ushort2Float(InputRegisters[inputRegister], InputRegisters[(ushort)(inputRegister + 1)]);
-            set => (InputRegisters[inputRegister], InputRegisters[(ushort)(inputRegister + 1)]) = FloatHelper.Float2Ushort(value);
+        protected float this[ushort register] {
+            get => FloatHelper.Ushort2Float(InputRegisters.GetTwoValues(register));
+            set {
+                (ushort ush1, ushort ush2) values = FloatHelper.Float2Ushort(value);
+                InputRegisters.SetTwoValues(register, values.ush1, values.ush2);
+            }
         }
 
         IPointSource<bool> ISlaveDataStore.CoilDiscretes => CoilDiscretes;
@@ -61,46 +120,48 @@ namespace ek2mb {
         IPointSource<ushort> ISlaveDataStore.InputRegisters => InputRegisters;
     }
 
-    /// <summary>
-    /// Sparse storage for points.
-    /// </summary>
     public class SparsePointSource<TPoint> : IPointSource<TPoint> {
+        private readonly object _valuesLock = new object();
         private readonly Dictionary<ushort, TPoint> _values = new Dictionary<ushort, TPoint>();
 
         public event EventHandler<StorageEventArgs<TPoint>> StorageOperationOccurred;
 
-        /// <summary>
-        /// Gets or sets the value of an individual point wih tout 
-        /// </summary>
-        /// <param name="registerIndex"></param>
-        /// <returns></returns>
         public TPoint this[ushort registerIndex] {
-            // TODO: добавить lock на чтение - запись для синхронизации работы из разных потоков
             get {
-                return _values.TryGetValue(registerIndex, out var value) ? value : default(TPoint);
+                lock (_valuesLock) 
+                    return _values.TryGetValue(registerIndex, out var value) ? value : default(TPoint);
             }
-
             set {
-                _values[registerIndex] = value;
+                lock (_valuesLock)
+                    _values[registerIndex] = value;
             }
         }
 
+        public (TPoint, TPoint) GetTwoValues(ushort registerIndex) {
+            // lock (_valuesLock) 
+                return (this[registerIndex], this[(ushort) (registerIndex + 1)]);
+        }
+
+        public void SetTwoValues(ushort registerIndex, TPoint value1, TPoint value2) {
+            // lock (_valuesLock) {
+                _values[registerIndex] = value1;
+                _values[(ushort) (registerIndex + 1)] = value2;
+            // }
+        }
+
+
         public TPoint[] ReadPoints(ushort startAddress, ushort numberOfPoints) {
             var points = new TPoint[numberOfPoints];
-            for (ushort i = 0; i < numberOfPoints; i++) {
+            for (ushort i = 0; i < numberOfPoints; i++) 
                 points[i] = this[(ushort) (i + startAddress)];
-            }
-            StorageOperationOccurred?.Invoke(this,
-                new StorageEventArgs<TPoint>(PointOperation.Read, startAddress, points));
+            StorageOperationOccurred?.Invoke(this, new StorageEventArgs<TPoint>(PointOperation.Read, startAddress, points));
             return points;
         }
 
         public void WritePoints(ushort startAddress, TPoint[] points) {
-            for (ushort i = 0; i < points.Length; i++) {
+            for (ushort i = 0; i < points.Length; i++) 
                 this[(ushort) (i + startAddress)] = points[i];
-            }
-            StorageOperationOccurred?.Invoke(this,
-                new StorageEventArgs<TPoint>(PointOperation.Write, startAddress, points));
+            StorageOperationOccurred?.Invoke(this, new StorageEventArgs<TPoint>(PointOperation.Write, startAddress, points));
         }
     }
 
@@ -110,12 +171,13 @@ namespace ek2mb {
             StartingAddress = startingAddress;
             Points = points;
         }
-
         public ushort StartingAddress { get; }
-
         public TPoint[] Points { get; }
-
         public PointOperation Operation { get; }
+
+        public override string ToString() {
+            return $"tag: {StartingAddress}, Points:{string.Join(" ", Points)}";
+        }
     }
 
     public enum PointOperation {

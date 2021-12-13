@@ -20,16 +20,18 @@ def ushort2float(ff) :
 
 # Modbus Reader for reading specified modbus registers via read_input_registers function
 #client = ModbusClient('127.0.0.1')
-client = ModbusClient('192.168.15.55')
+#client = ModbusClient('192.168.15.55')
+#client = ModbusClient('192.168.8.156')
 client = ModbusClient('127.0.0.1')
-printResponse(client.read_input_registers(4000, 2, unit = 1))
-printResponse(client.read_input_registers(4003, 2, unit = 1))
-printResponse(client.read_input_registers(4006, 2, unit = 1))
-printResponse(client.read_input_registers(4009, 2, unit = 1))
+unitid = 4
+printResponse(client.read_input_registers(1, 1, unit = unitid))
+printResponse(client.read_input_registers(2, 1, unit = unitid))
+printResponse(client.read_input_registers(3, 1, unit = unitid))
 
-printResponse(client.read_input_registers(4064, 1, unit = 1))
-printResponse(client.read_input_registers(4065, 1, unit = 1))
-printResponse(client.read_input_registers(4066, 1, unit = 1))
-printResponse(client.read_input_registers(4067, 1, unit = 1))
+printResponse(client.read_input_registers(4, 2, unit = unitid))
+printResponse(client.read_input_registers(5, 2, unit = unitid))
+
+printResponse(client.read_input_registers(6, 2, unit = unitid))
+printResponse(client.read_input_registers(7, 2, unit = unitid))
 
 client.close()

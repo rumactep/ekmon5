@@ -13,6 +13,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ek2mb", "tmb\ek2mb.csproj",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "simpletest", "simpletest\simpletest.csproj", "{2144B834-2468-46BE-89D4-ADBC326C780A}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ekmbTests", "ekmbTests\ekmbTests.csproj", "{1F8078EB-F106-4A42-98CB-D9336FCA6FEE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "airtgbot", "airtgbot\airtgbot.csproj", "{58A37AB0-CD75-4603-98D7-6B7B29C162F8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +41,14 @@ Global
 		{2144B834-2468-46BE-89D4-ADBC326C780A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2144B834-2468-46BE-89D4-ADBC326C780A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2144B834-2468-46BE-89D4-ADBC326C780A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F8078EB-F106-4A42-98CB-D9336FCA6FEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F8078EB-F106-4A42-98CB-D9336FCA6FEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F8078EB-F106-4A42-98CB-D9336FCA6FEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F8078EB-F106-4A42-98CB-D9336FCA6FEE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58A37AB0-CD75-4603-98D7-6B7B29C162F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58A37AB0-CD75-4603-98D7-6B7B29C162F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58A37AB0-CD75-4603-98D7-6B7B29C162F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58A37AB0-CD75-4603-98D7-6B7B29C162F8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

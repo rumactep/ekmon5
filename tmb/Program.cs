@@ -1,98 +1,61 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
+using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using NModbus;
 
 namespace ek2mb {
-
-    public class ElektronikondataReader {
-        public SlaveStorage Storage { get; }
-
-        // 
-        public int UnitId { get; }
-
-        public ElektronikondataReader(int unitId, SlaveStorage storage) {
-            Storage = storage;
-            UnitId = unitId;
-        }
-
-        // карта регистров данных воздушного компрессора
-        // перечень всех возможных параметров
-        // 1 word номер компрессора
-        // 2 word состояние связи с компрессором
-        // 3 word состояние аварии
-        // 4 word состояние компрессора
-        // 5,6 float давление на выходе
-        // 7,8 float выход ступени компрессора
-        // 9,10 float точка росы осушителя 
-
-        public async Task ReadDataThreadAsync() {
-            ushort elapsed = 0;
-            int offset = 4000 + UnitId * 500;
-            while (true) {                
-                Storage.InputRegisters[4064] = (ushort) -(offset + 4 + elapsed);
-                Storage.InputRegisters[4065] = (ushort) (offset + 5 + elapsed);
-                Storage.InputRegisters[4066] = (ushort) (offset + 6 + elapsed);
-                Storage.InputRegisters[4067] = (ushort) (offset + 7 + elapsed);
-
-                Storage[4000] = 18.8f;
-                Debug.Assert(Math.Abs(18.8f - FloatHelper.Ushort2Float(Storage.InputRegisters[4000], Storage.InputRegisters[4001])) < 0.001);
-                Console.WriteLine("UnitId={0}, elapsed={1}", UnitId, elapsed);
-                await Task.Delay(10000);
-                elapsed += 10;
-            }        
-        }
-
-         public static async Task StaticReadDataThreadAsync(object o) {
-            ElektronikondataReader reader = (ElektronikondataReader) o;
-            await reader.ReadDataThreadAsync();            
-        }
-    }
     public class CompressorInfo {
-        public int cnumber { get; set; }
-        public string cip { get; set; }
+        // UnitId - номер устройства в модбасе
+        public byte UnitId { get; set; }
+
+        // Cnumber - номер компрессора - для понимания человеком
+        public ushort Cnumber { get; set; }
+        public string Cip { get; set; }
 
         public override string ToString() {
-            return $"cnumber: {cnumber}, cip: {cip}";
+            return $"Cnumber: {Cnumber}, UnitId: {UnitId}, Cip: {Cip}";
         }
     }
 
     public class Program {
+        const int PORT_MODBUS = 502;
         private static void Main(string[] args) {
-            List<CompressorInfo> compressors = ReadCompressorList();
-            const int port = 502;
-            IPAddress localaddr = new IPAddress(new byte[] { 127, 0, 0, 1 });
-            TcpListener slaveTcpListener = new TcpListener(localaddr, port);
-            slaveTcpListener.Start();
-            // NullModbusLogger.Instance = ;
+            List<CompressorInfo> compressorInfos = ReadCompressorList();
+            IPAddress[] addressList = Dns.GetHostEntry(Dns.GetHostName()).AddressList;
+            foreach (IPAddress address in addressList) 
+                Console.WriteLine($"found local ip: {address}");
+            TcpListener tcpListener = new TcpListener(IPAddress.Any, PORT_MODBUS);
+            Console.WriteLine($"starting TcpListener for Modbus on port: {PORT_MODBUS}");
+            ReadLogger logger = new ReadLogger();
+            IModbusFactory factory = new ModbusFactory(null, true);
+            IModbusSlaveNetwork network = factory.CreateSlaveNetwork(tcpListener);
+            for (int i = 0; i < compressorInfos.Count; i++) {
+                var info = compressorInfos[i];
+                var storage = new SlaveStorage(info);
+                ElektronikonReader reader = new ElektronikonReader(storage, i);
+                
+                Task.Factory.StartNew(ElektronikonReader.StaticReadDataThreadAsync, reader);
 
-            IModbusFactory factory = new ModbusFactory(null, true, new ReadLogger());
-            IModbusSlaveNetwork network = factory.CreateSlaveNetwork(slaveTcpListener);
-            // List<string> ips = new List<string>{"192.168.8.200", "192.168.8.201", "192.168.8.202" };
-            for (int i = 0; i < compressors.Count; i++) {
-                SlaveStorage storage = new SlaveStorage();
-                ElektronikondataReader reader = new ElektronikondataReader(i + 1, storage);
-                Task.Factory.StartNew(ElektronikondataReader.StaticReadDataThreadAsync, reader);
-                IModbusSlave slave = factory.CreateSlave((byte) (i + 1), storage);
+                Thread.Sleep(2000);
+                IModbusSlave slave = factory.CreateSlave(info.UnitId, storage);
                 network.AddSlave(slave);
             }
-
-            network.ListenAsync().GetAwaiter().GetResult();
-
-            // prevent the main thread from exiting
-            // Thread.Sleep(Timeout.Infinite);
-        
-
-            Console.WriteLine("Press any key to exit " + args);
+            Thread.Sleep(5000);
+            tcpListener.Start();
+            //network.ListenAsync().GetAwaiter().GetResult();
+            Console.WriteLine("Press any key to exit");
             Console.ReadKey();
+
+
         }
 
         private static List<CompressorInfo> ReadCompressorList() {
-            string jsonText = @"[{cnumber:4,cip:""192.168.11.208""}, {cnumber:5,cip:""192.168.11.209""}, {cnumber:8,cip:""192.168.11.211""}, {cnumber:10,cip:""192.168.11.210""}, {cnumber:12,cip:""192.168.11.207""}, {cnumber:13,cip:""192.168.11.212""}, {cnumber:14,cip:""192.168.11.221""}]";
+            // string jsonText = @"[{UnitId:4,cnumber:4,cip:""192.168.11.208""}, {UnitId:5,cnumber:5,cip:""192.168.11.209""}, {UnitId:8,cnumber:8,cip:""192.168.11.211""}, {UnitId:10,cnumber:10,cip:""192.168.11.210""}, {UnitId:12,cnumber:12,cip:""192.168.11.207""}, {UnitId:13,cnumber:13,cip:""192.168.11.212""}, {UnitId:14,cnumber:14,cip:""192.168.11.221""}]"; 
+            string jsonText = @"[{UnitId:4,cnumber:4,cip:""192.168.11.208""}]";
             return JsonConvert.DeserializeObject<List<CompressorInfo>>(jsonText);
         }
     }
