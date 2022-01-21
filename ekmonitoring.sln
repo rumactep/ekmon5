@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31129.286
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ekread", "ekread\ekread.csproj", "{ADAB6EF4-9E95-47F1-9AF6-5873A8E49434}"
 EndProject
@@ -15,7 +15,17 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "simpletest", "simpletest\si
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ekmbTests", "ekmbTests\ekmbTests.csproj", "{1F8078EB-F106-4A42-98CB-D9336FCA6FEE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "airtgbot", "airtgbot\airtgbot.csproj", "{58A37AB0-CD75-4603-98D7-6B7B29C162F8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "airtgbot", "airtgbot\airtgbot.csproj", "{58A37AB0-CD75-4603-98D7-6B7B29C162F8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "scriptreader", "scriptreader\scriptreader.csproj", "{00F13329-FA43-4D3B-B748-AFB50283049C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "smartlink", "smartlink\smartlink.csproj", "{2E83B93B-5B4B-4B4B-9976-5EFF145B340F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ekrequest", "ekrequest\ekrequest.csproj", "{61A17AB4-9286-4B86-BAFF-55716F806A74}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "smartlinkTests", "smartlinkTests\smartlinkTests.csproj", "{E51EB428-30C8-4BB5-A0B6-6DDAEBC11453}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "alter2", "alter2\alter2.csproj", "{BBD96648-4021-4222-897D-FCA28B6F46FB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,6 +59,26 @@ Global
 		{58A37AB0-CD75-4603-98D7-6B7B29C162F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{58A37AB0-CD75-4603-98D7-6B7B29C162F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{58A37AB0-CD75-4603-98D7-6B7B29C162F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00F13329-FA43-4D3B-B748-AFB50283049C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00F13329-FA43-4D3B-B748-AFB50283049C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00F13329-FA43-4D3B-B748-AFB50283049C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00F13329-FA43-4D3B-B748-AFB50283049C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E83B93B-5B4B-4B4B-9976-5EFF145B340F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E83B93B-5B4B-4B4B-9976-5EFF145B340F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E83B93B-5B4B-4B4B-9976-5EFF145B340F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E83B93B-5B4B-4B4B-9976-5EFF145B340F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{61A17AB4-9286-4B86-BAFF-55716F806A74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61A17AB4-9286-4B86-BAFF-55716F806A74}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61A17AB4-9286-4B86-BAFF-55716F806A74}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61A17AB4-9286-4B86-BAFF-55716F806A74}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E51EB428-30C8-4BB5-A0B6-6DDAEBC11453}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E51EB428-30C8-4BB5-A0B6-6DDAEBC11453}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E51EB428-30C8-4BB5-A0B6-6DDAEBC11453}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E51EB428-30C8-4BB5-A0B6-6DDAEBC11453}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BBD96648-4021-4222-897D-FCA28B6F46FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BBD96648-4021-4222-897D-FCA28B6F46FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BBD96648-4021-4222-897D-FCA28B6F46FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BBD96648-4021-4222-897D-FCA28B6F46FB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
