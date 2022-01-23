@@ -1,33 +1,82 @@
-
-
 using System;
 using System.Collections.Generic;
 
+namespace smartlink; 
+
 public class ReadAnalogInputs {
+    public static ElektronikonRequest GetElektronikonRequest4() {
+        ElektronikonRequest er = new ElektronikonRequest();
+        for (int i = 0x2010; i < 0x2090; i++) {
+            er.AddQuestion(new DataItem(i, 1));
+            er.AddQuestion(new DataItem(i, 4));
+            // er.AddQuestion(new DataItem(i, 6));
+        }
+        return er;
+    }
+    public static ElektronikonRequest GetElektronikonRequest6() {
+        ElektronikonRequest er = new ElektronikonRequest();
+        for (int i = 0x2010; i < 0x2090; i++) {
+            er.AddQuestion(new DataItem(i, 1));
+            er.AddQuestion(new DataItem(i, 4));
+            er.AddQuestion(new DataItem(i, 6));
+        }
+        return er;
+    }
 
-	public static void main() {
-		new ReadAnalogInputs().run();
-	}
-	
-	public async void run() {
-		// 192.168.11.208/cgi-bin/mkv.cgi
-		ElektronikonClient ec = new ElektronikonClient("192.168.100.100/cgi-bin/mkv.cgi");
-		
-		ElektronikonRequest er = new ElektronikonRequest();
-		
-	    for (int i = 0x2010; i < 0x2090; i++) {
-	    	er.addQuestion(new DataItem(i, 1));
-	    	er.addQuestion(new DataItem(i, 4));
-	    	er.addQuestion(new DataItem(i, 6));
-	    }
+    public void Run() {
+        // 192.168.11.208/cgi-bin/mkv.cgi
+        ElektronikonClient client = new ElektronikonClient("192.168.100.100/cgi-bin/mkv.cgi");
 
-		Dictionary<DataItem, byte[]> items = await ec.Ask(er);
+        ElektronikonRequest request = GetElektronikonRequest4();
 
-		
-		foreach (var item in items) {
-			Console.WriteLine($"{item.Key} -> {item.Value}"); 
-		}
+        // string question = request.GetRequestString();
+        Dictionary<DataItem, string> answer = SendReceiveBy1000(client, request);
 
-	}
-	
+
+        foreach ((DataItem key, string value) in answer) {
+            Console.WriteLine($"{key} -> {value}"); 
+        }
+    }
+
+    private Dictionary<DataItem, string> SendReceiveBy1000(ElektronikonClient client, ElektronikonRequest request) {
+        string answerString = client.GetAnswerString(request.GetRequestString());
+        Dictionary<DataItem, string> answer = ConvertToAnswer(answerString);
+        return answer; 
+
+
+    }
+
+    // public void SenReceive() {
+    //     var v1000 = 1000;
+    //     for (var idx = 0; idx < vQUESTIONS.length; idx += v1000) {
+    //         var vQuestionsSlice;
+    //         if ((vQUESTIONS.length - idx) <= v1000)
+    //             vQuestionsSlice = vQUESTIONS.slice(idx, vQUESTIONS.length);
+    //         else
+    //             vQuestionsSlice = vQUESTIONS.slice(idx, idx + v1000);
+    //
+    //         var vQuestions = "";
+    //         for (var iQ = 0; iQ < vQuestionsSlice.length; iQ++)
+    //             vQuestions += HexString(vQuestionsSlice[iQ].INDEX, 4) + HexString(vQuestionsSlice[iQ].SUBINDEX, 2);
+    //
+    //         //var url208 = "http://" + document.location.hostname + "/cgi-bin/mkv.cgi";
+    //         var url208 = "http://" + "192.168.11.208" + "/cgi-bin/mkv.cgi";
+    //         var vAnswers = Post(url208, vQuestions); //
+    //
+    //         for (var iQ = 0, iA = 0; iQ < vQuestionsSlice.length; iQ++) {
+    //             if (vAnswers != null && vAnswers.charAt(iA) != "X") {
+    //                 vQuestionsSlice[iQ].setData(vAnswers.substring(iA, iA + 8));
+    //                 iA += 8;
+    //             }
+    //             else {
+    //                 vQuestionsSlice[iQ].setData("X");
+    //                 iA++;
+    //             }
+    //         }
+    //     }
+    // }
+
+    private Dictionary<DataItem, string> ConvertToAnswer(string answerString) {
+        return new Dictionary<DataItem, string>();
+    }
 }

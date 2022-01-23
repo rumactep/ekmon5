@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using smartlink;
 using Xunit;
 
-namespace smartlinkTests {
-    public class DataItemTest {
-        [Fact]
-        public void Test1() {
+namespace smartlinkTests; 
 
-        }
+public class DataItemTest {
+    [Fact]
+    public void TestToString() {
+        var item = new DataItem(8208, 1);
+        var str = item.ToString();
+        Assert.Equal("201001", str);
     }
 }

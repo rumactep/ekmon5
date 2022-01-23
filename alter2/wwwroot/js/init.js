@@ -8,7 +8,7 @@ var vJSON = {
     CALCULATEDANALOGINPUTS: [],
     CONVERTERS: [],
     SPECIALPROTECTIONS: [],
-    SPM: [],
+    SPM2: [],
     SERVICEPLAN: [],
     ANALOGOUTPUTS: [],
     ES: {
@@ -156,7 +156,9 @@ function load_settings() {
     Q_2000_CNV(vQuestions);
     Q_2000_DO(vQuestions);
     Q_2000_CAI(vQuestions);
-    Q_2000_CNV(vQuestions);
+
+    //Q_2000_CNV(vQuestions);
+
     Q_2000_SPR(vQuestions);
     Q_2000_AO(vQuestions);
     Q_2000_SPM(vQuestions);
@@ -172,12 +174,13 @@ function load_settings() {
     A_2000_CNV(vQuestions, vJSON.CONVERTERS);
     A_2000_DO(vQuestions, vJSON.DIGITALOUTPUTS);
     A_2000_CAI(vQuestions, vJSON.CALCULATEDANALOGINPUTS);
+
     A_2000_SPR(vQuestions, vJSON.SPECIALPROTECTIONS);
     A_2000_AO(vQuestions, vJSON.ANALOGOUTPUTS);
-    A_2000_SPM(vQuestions, vJSON.SPM);
-    A_3000_ES(vQuestions, vJSON.ES);
+    A_2000_SPM(vQuestions, vJSON.SPM2);
+    A_3000_ES(vQuestions, vJSON.ES); //!!! нет в чек боксах
     A_2000_SPL(vQuestions, vJSON.SERVICEPLAN);
-    A_2000_MMT(vQuestions, vJSON.DEVICE);
+    A_2000_MMT(vQuestions, vJSON.DEVICE); // !!! нет в чек боксах
 
     create_checkbox('ANALOGINPUTS', 1, vJSON.ANALOGINPUTS);
     create_checkbox('ANALOGOUTPUTS', 2, vJSON.ANALOGOUTPUTS);
@@ -188,10 +191,10 @@ function load_settings() {
     create_checkbox('SPECIALPROTECTIONS', 8, vJSON.SPECIALPROTECTIONS);
     create_checkbox('SERVICEPLAN', 9, vJSON.SERVICEPLAN);
     create_checkbox('CALCULATEDANALOGINPUTS', 10, vJSON.CALCULATEDANALOGINPUTS);
-    create_checkbox('SPM', 11, vJSON.SPM);
+    create_checkbox('SPM', 11, vJSON.SPM2);
 
     create_tables();
-    refresh_data();
+    //refresh_data();
 }
 
 function refresh_data() {
@@ -206,7 +209,7 @@ function refresh_data() {
 
     Q_3000_SPR(vQuestions, vJSON.SPECIALPROTECTIONS);
     Q_3000_AO(vQuestions, vJSON.ANALOGOUTPUTS);
-    Q_3000_SPM(vQuestions, vJSON.SPM);
+    Q_3000_SPM(vQuestions, vJSON.SPM2);
     Q_3000_ES(vQuestions, vJSON.ES);
     Q_3000_SPL(vQuestions, vJSON.SERVICEPLAN);
     Q_3000_MS(vQuestions);
@@ -220,9 +223,10 @@ function refresh_data() {
         A_3000_CNV(vQuestions, vJSON.CONVERTERS);
         A_3000_DO(vQuestions, vJSON.DIGITALOUTPUTS);
         A_3000_CAI(vQuestions, vJSON.CALCULATEDANALOGINPUTS);
+
         A_3000_SPR(vQuestions, vJSON.SPECIALPROTECTIONS);
         A_3000_AO(vQuestions, vJSON.ANALOGOUTPUTS);
-        A_3000_SPM(vQuestions, vJSON.SPM);
+        A_3000_SPM(vQuestions, vJSON.SPM2);
         A_3000_ES(vQuestions, vJSON.ES);
         A_3000_SPL(vQuestions, vJSON.SERVICEPLAN);
         A_3000_MS(vQuestions, vJSON.DEVICE);
@@ -241,11 +245,12 @@ function create_tables() {
     create_table('COUNTERS', vJSON.COUNTERS, 2, language.get('TABLETITLE', 3), language.get('TABLEVALUE', 1));
     create_table('CONVERTERS', vJSON.CONVERTERS, 3, language.get('TABLETITLE', 4), language.get('TABLEVALUE', 1), '');
     create_table('DIGITALINPUTS', vJSON.DIGITALINPUTS, 3, language.get('TABLETITLE', 6), language.get('TABLEVALUE', 1), '');
+
     create_table('DIGITALOUTPUTS', vJSON.DIGITALOUTPUTS, 3, language.get('TABLETITLE', 7), language.get('TABLEVALUE', 1), '');
     create_table('SPECIALPROTECTIONS', vJSON.SPECIALPROTECTIONS, 2, language.get('TABLETITLE', 8), '');
     create_table('SERVICEPLAN', vJSON.SERVICEPLAN, 4, language.get('TABLETITLE', 9), '', '', language.get('TABLEVALUE', 2));
     create_table('CALCULATEDANALOGINPUTS', vJSON.CALCULATEDANALOGINPUTS, 3, language.get('TABLETITLE', 10), language.get('TABLEVALUE', 2), '');
-    create_table('SPM', vJSON.SPM, 3, language.get('TABLETITLE', 12), '', ''); // mist nog index in TABLETITLE
+    create_table('SPM', vJSON.SPM2, 3, language.get('TABLETITLE', 12), '', ''); // mist nog index in TABLETITLE
 
     es.clean();
     es.update(vJSON.ES);
@@ -258,11 +263,12 @@ function fill_tables() {
     update_table('CONVERTERS', vJSON.CONVERTERS);
     update_table('DIGITALINPUTS', vJSON.DIGITALINPUTS);
     update_table('DIGITALOUTPUTS', vJSON.DIGITALOUTPUTS);
+
     update_table('SPECIALPROTECTIONS', vJSON.SPECIALPROTECTIONS);
     update_table('SERVICEPLAN', vJSON.SERVICEPLAN);
     update_table('MACHINESTATE', vJSON.DEVICE);
     update_table('CALCULATEDANALOGINPUTS', vJSON.CALCULATEDANALOGINPUTS);
-    update_table('SPM', vJSON.SPM);
+    update_table('SPM', vJSON.SPM2);
 
     es.update(vJSON.ES);
 }

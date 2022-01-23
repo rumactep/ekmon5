@@ -1,22 +1,24 @@
 using System.Collections.Generic;
 using System.Text;
 
+namespace smartlink; 
+
 public class ElektronikonRequest {
 
-	private List<DataItem> _requests = new List<DataItem>();
+    private readonly List<DataItem> _requests = new();
 	
-	public ElektronikonRequest addQuestion(DataItem dataItem) {
-		_requests.Add(dataItem);
-		return this;
-	}
+    public ElektronikonRequest AddQuestion(DataItem dataItem) {
+        _requests.Add(dataItem);
+        return this;
+    }
 	
-	public IList<DataItem> GetRequests() {
-		return _requests.AsReadOnly();
-	}
+    // public IList<DataItem> GetRequests() {
+    //     return _requests.AsReadOnly();
+    // }
 	
-	public string GetRequestString() {
-		StringBuilder sb = new StringBuilder();
-		_requests.ForEach(r => sb.Append(r));
-		return sb.ToString();
-	}	
+    public string GetRequestString() {
+        StringBuilder sb = new StringBuilder();
+        _requests.ForEach(r => sb.Append(r));
+        return sb.ToString();
+    }	
 }

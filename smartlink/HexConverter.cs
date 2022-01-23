@@ -1,18 +1,20 @@
 
+namespace smartlink; 
+
 public class HexConverter {
 
-	public static string ToHexString(byte[] array) {
-		string s = System.Text.Encoding.ASCII.GetString(array, 0, array.Length);
-		//string s = System.Text.Encoding.UTF8.GetString(array, 0, array.Length);
-		//return DatatypeConverter.printHexBinary(array);
-		return s;
-	}
+    public static string ToHexString(byte[] array) {
+        string s = System.Text.Encoding.ASCII.GetString(array, 0, array.Length);
+        //string s = System.Text.Encoding.UTF8.GetString(array, 0, array.Length);
+        //return DatatypeConverter.printHexBinary(array);
+        return s;
+    }
 
-	public static byte[] toByteArray(string str) {
-		byte[] buffer = System.Text.Encoding.ASCII.GetBytes(str);
+    public static byte[] ToByteArray(string str) {
+        byte[] buffer = System.Text.Encoding.ASCII.GetBytes(str);
 		
-		//return DatatypeConverter.parseHexBinary(str);
-		return buffer;
-	}
+        //return DatatypeConverter.parseHexBinary(str);
+        return buffer;
+    }
 	
 }

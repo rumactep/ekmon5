@@ -21,7 +21,7 @@ namespace simpletest {
         static void Main(string[] args) {
             string jsonText = @"[{cnumber:4,cip:""192.168.11.208""}, {cnumber:5,cip:""192.168.11.209""}, {cnumber:8,cip:""192.168.11.211""}, {cnumber:10,cip:""192.168.11.210""}, {cnumber:12,cip:""192.168.11.207""}, {cnumber:13,cip:""192.168.11.212""}, {cnumber:14,cip:""192.168.11.221""}]";
             //string jsonText = @"[{cnumber:1,cip:""192.168.1.1""}, {cnumber:2,cip:""192.168.1.2""}]";
-            var compressors = JsonConvert.DeserializeObject<List<CompressorInfo>>(jsonText);
+            List<CompressorInfo> compressors = JsonConvert.DeserializeObject<List<CompressorInfo>>(jsonText);
             Console.WriteLine(jsonText);
             compressors.ForEach(Console.WriteLine);
             Console.ReadKey();

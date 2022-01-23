@@ -45,7 +45,7 @@ function Questions() {
         }
     }
     this.SendReceive = function () {
-        var v1000 = 2000;
+        var v1000 = 1000;
         for (var idx = 0; idx < vQUESTIONS.length; idx += v1000) {
             var vQuestionsSlice;
             if ((vQUESTIONS.length - idx) <= v1000)
@@ -53,17 +53,20 @@ function Questions() {
             else
                 vQuestionsSlice = vQUESTIONS.slice(idx, idx + v1000);
 
-            var vQuestions = "";
+            var vQuestionsString = "";
             for (var iQ = 0; iQ < vQuestionsSlice.length; iQ++)
-                vQuestions += HexString(vQuestionsSlice[iQ].INDEX, 4) + HexString(vQuestionsSlice[iQ].SUBINDEX, 2);
+                vQuestionsString += HexString(vQuestionsSlice[iQ].INDEX, 4) + HexString(vQuestionsSlice[iQ].SUBINDEX, 2);
 
-            var url208 = "http://" + document.location.hostname + "/cgi-bin/mkv.cgi";
+            //var url208 = "http://" + document.location.hostname + "/cgi-bin/mkv.cgi";
             var url208 = "http://" + "192.168.11.208" + "/cgi-bin/mkv.cgi";
-            var vAnswers = Post(url208, vQuestions); //
+            //var vAnswersString = Post(url208, vQuestionsString); //
+            var vAnswersString = "12345601";
+
 
             for (var iQ = 0, iA = 0; iQ < vQuestionsSlice.length; iQ++) {
-                if (vAnswers != null && vAnswers.charAt(iA) != "X") {
-                    vQuestionsSlice[iQ].setData(vAnswers.substring(iA, iA + 8));
+                if (vAnswersString != null && vAnswersString.charAt(iA) != "X") {
+                    var substring = vAnswersString.substring(iA, iA + 8);
+                    vQuestionsSlice[iQ].setData(substring);
                     iA += 8;
                 } else {
                     vQuestionsSlice[iQ].setData("X");
@@ -76,18 +79,18 @@ function Questions() {
 
 function Question() {
     //PRIVATE
-    var vDATA = null;
+    var _vData = null;
 
     //PUBLIC
     this.INDEX = 0;
     this.SUBINDEX = 0;
     this.setData = function (DATA) {
-        var vData = new Data();
-        vData.DATA = DATA;
-        vDATA = vData;
+        var data = new Data();
+        data.DATA = DATA;
+        _vData = data;
     }
     this.getData = function () {
-        return vDATA;
+        return _vData;
     }
 }
 
