@@ -8,13 +8,19 @@ function Q_2000_AI(QUESTIONS) {
 function A_2000_AI(QUESTIONS, JSON) {
     for (var i = 0x2010; i < 0x2090; i++) {
         try {
-            if (QUESTIONS.getData(i, 1).Byte(0) != 0) {
+            var vData1 = QUESTIONS.getData(i, 1);
+            var byte = vData1.Byte(0);
+            if (byte != 0) {
                 var vAnalogInput = new AnalogInput();
-                vAnalogInput.MPL = QUESTIONS.getData(i, 1).UInt16(1);
-                vAnalogInput.INPUTTYPE = QUESTIONS.getData(i, 1).Byte(1);
-                vAnalogInput.DISPLAYPRECISION = QUESTIONS.getData(i, 4).Byte(3);
+                vAnalogInput.MPL = vData1.UInt16(1);
+                vAnalogInput.INPUTTYPE = vData1.Byte(1);
+                var data4 = QUESTIONS.getData(i, 4);
+                vAnalogInput.DISPLAYPRECISION = data4.Byte(3);
                 vAnalogInput.RTD_SI = i - 0x2010 + 1;
                 JSON[JSON.length] = vAnalogInput;
+            } else {
+                var q = 0;
+                q++;
             }
         } catch (e) {
         }

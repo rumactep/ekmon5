@@ -75,12 +75,17 @@ function Questions(NUMBEROF) {
 
 
             for (var iQ = 0, iA = 0; iQ < vQuestionsSlice.length; iQ++) {
+                var questionsiQ = vQuestionsSlice[iQ];
                 if (vAnswersString != null && vAnswersString.charAt(iA) != "X") {
                     var substring = vAnswersString.substring(iA, iA + 8);
-                    vQuestionsSlice[iQ].setData(substring);
+                    questionsiQ.setData(substring);
+                    if (questionsiQ.INDEX == 0x3113 && questionsiQ.SUBINDEX == 1)
+                        StopHere();
                     iA += 8;
                 } else {
-                    vQuestionsSlice[iQ].setData("X");
+                    if (questionsiQ.INDEX == 0x3113 && questionsiQ.SUBINDEX == 1)
+                        StopHere();
+                    questionsiQ.setData("X");
                     iA++;
                 }
             }
@@ -88,6 +93,9 @@ function Questions(NUMBEROF) {
             q++;
         }
     }
+}
+
+function StopHere() {
 }
 
 function Question() {
