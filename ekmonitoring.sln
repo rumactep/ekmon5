@@ -17,13 +17,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ekmbTests", "ekmbTests\ekmb
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "airtgbot", "airtgbot\airtgbot.csproj", "{58A37AB0-CD75-4603-98D7-6B7B29C162F8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "scriptreader", "scriptreader\scriptreader.csproj", "{00F13329-FA43-4D3B-B748-AFB50283049C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "smartlink", "smartlink\smartlink.csproj", "{2E83B93B-5B4B-4B4B-9976-5EFF145B340F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "smartlink", "smartlink\smartlink.csproj", "{2E83B93B-5B4B-4B4B-9976-5EFF145B340F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ekrequest", "ekrequest\ekrequest.csproj", "{61A17AB4-9286-4B86-BAFF-55716F806A74}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ekrequest", "ekrequest\ekrequest.csproj", "{61A17AB4-9286-4B86-BAFF-55716F806A74}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "smartlinkTests", "smartlinkTests\smartlinkTests.csproj", "{E51EB428-30C8-4BB5-A0B6-6DDAEBC11453}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "smartlinkTests", "smartlinkTests\smartlinkTests.csproj", "{E51EB428-30C8-4BB5-A0B6-6DDAEBC11453}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "alter2", "alter2\alter2.csproj", "{BBD96648-4021-4222-897D-FCA28B6F46FB}"
 EndProject
@@ -59,10 +57,6 @@ Global
 		{58A37AB0-CD75-4603-98D7-6B7B29C162F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{58A37AB0-CD75-4603-98D7-6B7B29C162F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{58A37AB0-CD75-4603-98D7-6B7B29C162F8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{00F13329-FA43-4D3B-B748-AFB50283049C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{00F13329-FA43-4D3B-B748-AFB50283049C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{00F13329-FA43-4D3B-B748-AFB50283049C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{00F13329-FA43-4D3B-B748-AFB50283049C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2E83B93B-5B4B-4B4B-9976-5EFF145B340F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2E83B93B-5B4B-4B4B-9976-5EFF145B340F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2E83B93B-5B4B-4B4B-9976-5EFF145B340F}.Release|Any CPU.ActiveCfg = Release|Any CPU

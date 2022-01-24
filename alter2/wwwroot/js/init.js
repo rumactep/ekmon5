@@ -148,7 +148,7 @@ function populate_language_dropdown() {
 function load_settings() {
     $('#elektronikon').html(language.get('HEAD', 1));
 
-    var vQuestions = new Questions();
+    var vQuestions = new Questions(0);
 
     Q_2000_AI(vQuestions);
     Q_2000_DI(vQuestions);
@@ -157,7 +157,7 @@ function load_settings() {
     Q_2000_DO(vQuestions);
     Q_2000_CAI(vQuestions);
 
-    //Q_2000_CNV(vQuestions);
+    Q_2000_CNV(vQuestions);
 
     Q_2000_SPR(vQuestions);
     Q_2000_AO(vQuestions);
@@ -194,11 +194,11 @@ function load_settings() {
     create_checkbox('SPM', 11, vJSON.SPM2);
 
     create_tables();
-    //refresh_data();
+    refresh_data();
 }
 
 function refresh_data() {
-    var vQuestions = new Questions();
+    var vQuestions = new Questions(2);
 
     Q_3000_AI(vQuestions, vJSON.ANALOGINPUTS);
     Q_3000_DI(vQuestions, vJSON.DIGITALINPUTS);
