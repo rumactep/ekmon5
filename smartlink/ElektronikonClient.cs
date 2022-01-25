@@ -4,19 +4,26 @@ using System.Threading.Tasks;
 
 namespace smartlink; 
 
-public class ElektronikonClient : IClient{
+public class ElektronikonClient{
 
     private readonly string _url;
     private readonly HttpClient _client;
-    // private readonly HttpPost post;
 	
     public ElektronikonClient(string url) {
         _url = url;
         _client = new HttpClient();
-        //this.post = new HttpPost(this.url);
     }
 	
-    public string GetAnswerString(string question) {
+    public async Task AskAsync(ElektronikonRequest request) {
+
+        var urlParameters = new Dictionary<string, string> {
+            { "QUESTION", request.GetRequestString() }
+        };
+
+        var parametersContent = new FormUrlEncodedContent(urlParameters);
+        var response = await _client.PostAsync(_url, parametersContent);
+
+
         /*
     try {
         var urlParameters = new Dictionary<string, string> {
@@ -52,12 +59,9 @@ public class ElektronikonClient : IClient{
     } catch (Exception e) {
         Console.WriteLine(e.Message);
     } //*/
-		
-        return string.Empty;
+
+        
     }
 
 }
 
-public interface IClient {
-    string GetAnswerString(string questionString);
-}

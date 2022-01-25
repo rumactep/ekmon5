@@ -13,7 +13,7 @@ public class ReadAnalogInputsTest {
 
     [Fact]
     public void TestAnswerStringBy6() {
-        IClient client = new MyClient();
+        MyClient client = new MyClient();
         Assert.Equal("", client.GetAnswerString(""));
         Assert.Equal("X", client.GetAnswerString("1"));
         Assert.Equal("X", client.GetAnswerString("123456"));
@@ -24,24 +24,24 @@ public class ReadAnalogInputsTest {
 
     [Fact]
     public void TestGetRequestString4() {
-        IClient client = new MyClient();
-        string questionString = ReadAnalogInputs.GetElektronikonRequest4().GetRequestString();
+        MyClient client = new MyClient();
+        string questionString = ElektronikonReader.GetElektronikonRequest4().GetRequestString();
         // _testOutputHelper.WriteLine(questionString);
         Assert.Equal(AnalogInputsQuestion4, questionString);
     }
 
     [Fact]
     public void TestGetRequestString6() {
-        IClient client = new MyClient();
-        string questionString = ReadAnalogInputs.GetElektronikonRequest6().GetRequestString();
+        MyClient client = new MyClient();
+        string questionString = ElektronikonReader.GetElektronikonRequest6().GetRequestString();
         // _testOutputHelper.WriteLine(questionString);
         Assert.Equal(AnalogInputsQuestion6, questionString);
     }
 
     [Fact]
     public void TestElektronikonRequestX() {
-        IClient client = new MyClient();
-        string questionString = ReadAnalogInputs.GetElektronikonRequest4().GetRequestString();
+        MyClient client = new MyClient();
+        string questionString = ElektronikonReader.GetElektronikonRequest4().GetRequestString();
         string answerString = client.GetAnswerString(questionString);
         Assert.Equal("01234567XX", answerString);
     }
@@ -49,12 +49,12 @@ public class ReadAnalogInputsTest {
     [Fact]
     public void TestElektronikonRequest00() {
         MyClient client = new MyClient();
-        string questionString = ReadAnalogInputs.GetElektronikonRequest4().GetRequestString();
+        string questionString = ElektronikonReader.GetElektronikonRequest4().GetRequestString();
         string answerString = client.GetAnswerStringX(questionString);
         Assert.Equal("01234567XX", answerString);
     }
 
-    private class MyClient : IClient {
+    private class MyClient{
         public string GetAnswerStringX(string questionString) {
             StringBuilder result = new StringBuilder();
             for (var i = 0; i < questionString.Length / 6; i++) 

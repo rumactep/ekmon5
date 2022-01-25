@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace smartlink; 
 
-public class ReadAnalogInputs {
+public class ElektronikonReader{
     public static ElektronikonRequest GetElektronikonRequest4() {
         ElektronikonRequest er = new ElektronikonRequest();
         for (int i = 0x2010; i < 0x2090; i++) {
@@ -23,28 +23,16 @@ public class ReadAnalogInputs {
         return er;
     }
 
-    public void Run() {
+    public async void Run() {
         // 192.168.11.208/cgi-bin/mkv.cgi
         ElektronikonClient client = new ElektronikonClient("192.168.100.100/cgi-bin/mkv.cgi");
-
         ElektronikonRequest request = GetElektronikonRequest4();
+        await client.AskAsync(request);
 
-        // string question = request.GetRequestString();
-        Dictionary<DataItem, string> answer = SendReceiveBy1000(client, request);
-
-
-        foreach ((DataItem key, string value) in answer) {
-            Console.WriteLine($"{key} -> {value}"); 
-        }
+//        foreach ((DataItem key, string value) in answer) 
+//            Console.WriteLine($"{key} -> {value}"); 
     }
 
-    private Dictionary<DataItem, string> SendReceiveBy1000(ElektronikonClient client, ElektronikonRequest request) {
-        string answerString = client.GetAnswerString(request.GetRequestString());
-        Dictionary<DataItem, string> answer = ConvertToAnswer(answerString);
-        return answer; 
-
-
-    }
 
     // public void SenReceive() {
     //     var v1000 = 1000;

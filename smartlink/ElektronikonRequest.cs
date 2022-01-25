@@ -6,7 +6,8 @@ namespace smartlink;
 public class ElektronikonRequest {
 
     private readonly List<DataItem> _requests = new();
-	
+    // private readonly OrderedDictionary<DataItem, byte[]> _requests = new();
+
     public ElektronikonRequest AddQuestion(DataItem dataItem) {
         _requests.Add(dataItem);
         return this;

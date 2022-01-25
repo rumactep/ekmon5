@@ -5,4 +5,4 @@ using smartlink;
 
 Console.WriteLine("Hello, World!");
 
-new ReadAnalogInputs().Run();
+new ElektronikonReader().Run();
