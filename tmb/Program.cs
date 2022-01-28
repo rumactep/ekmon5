@@ -46,7 +46,7 @@ namespace ek2mb {
             }
             Thread.Sleep(5000);
             tcpListener.Start();
-            //network.ListenAsync().GetAwaiter().GetResult();
+            network.ListenAsync(); //.GetAwaiter().GetResult();
             Console.WriteLine("Press any key to exit");
             Console.ReadKey();
 

@@ -1,4 +1,15 @@
-namespace smartlink; 
+using System;
+using System.Collections.Generic;
+
+namespace smartlink;
+
+public class KeyComparer : IComparer<DataItem> {
+    public int Compare(DataItem? x, DataItem? y) {
+        if (x == null || y == null)
+            return 0;
+        return (x.Index.CompareTo(y.Index) == 0) ? x.SubIndex.CompareTo(y.SubIndex) : x.Index.CompareTo(y.Index);
+    }
+}
 
 public class DataItem {
 
@@ -12,12 +23,13 @@ public class DataItem {
         SubIndex = subIndex;
     }
 
-    public int CompareTo(DataItem di) {
-        return Index.CompareTo(di.Index) == 0 ? SubIndex.CompareTo(di.SubIndex) : Index.CompareTo(di.Index);
+    public int CompareTo2(object? dio) {
+        DataItem? di = dio as DataItem;
+        return Index.CompareTo(di?.Index) == 0 ? SubIndex.CompareTo(di?.SubIndex) : Index.CompareTo(di?.Index);
     }
 	
     public override string ToString() {
-        // выводим в 16ричном виде
+        // выводим в 16-ричном виде
         return $"{Index:x4}{SubIndex:x2}";
     }
 

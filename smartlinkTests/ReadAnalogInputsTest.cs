@@ -16,10 +16,10 @@ public class ReadAnalogInputsTest {
         MyClient client = new MyClient();
         Assert.Equal("", client.GetAnswerString(""));
         Assert.Equal("X", client.GetAnswerString("1"));
-        Assert.Equal("X", client.GetAnswerString("123456"));
-        Assert.Equal("XX", client.GetAnswerString("1234567"));
-        Assert.Equal("XX", client.GetAnswerString("123456654321"));
-        Assert.Equal("XXX", client.GetAnswerString("1234566543210"));
+        Assert.Equal("12345600", client.GetAnswerString("123456"));
+        Assert.Equal("12345600X", client.GetAnswerString("1234567"));
+        Assert.Equal("1234560065432100", client.GetAnswerString("123456654321"));
+        Assert.Equal("1234560065432100X", client.GetAnswerString("1234566543210"));
     }
 
     [Fact]
@@ -28,30 +28,6 @@ public class ReadAnalogInputsTest {
         string questionString = ElektronikonReader.GetElektronikonRequest4().GetRequestString();
         // _testOutputHelper.WriteLine(questionString);
         Assert.Equal(AnalogInputsQuestion4, questionString);
-    }
-
-    [Fact]
-    public void TestGetRequestString6() {
-        MyClient client = new MyClient();
-        string questionString = ElektronikonReader.GetElektronikonRequest6().GetRequestString();
-        // _testOutputHelper.WriteLine(questionString);
-        Assert.Equal(AnalogInputsQuestion6, questionString);
-    }
-
-    [Fact]
-    public void TestElektronikonRequestX() {
-        MyClient client = new MyClient();
-        string questionString = ElektronikonReader.GetElektronikonRequest4().GetRequestString();
-        string answerString = client.GetAnswerString(questionString);
-        Assert.Equal("01234567XX", answerString);
-    }
-
-    [Fact]
-    public void TestElektronikonRequest00() {
-        MyClient client = new MyClient();
-        string questionString = ElektronikonReader.GetElektronikonRequest4().GetRequestString();
-        string answerString = client.GetAnswerStringX(questionString);
-        Assert.Equal("01234567XX", answerString);
     }
 
     private class MyClient{

@@ -10,7 +10,7 @@ using OpenQA.Selenium.Firefox;
 
 namespace ek2mb {
     public class ElektronikonReader {
-        private IWebDriver _driver;
+        //private IWebDriver _driver;
         private bool _goodBrowser = false;
         private const int IMPLICIT_WAIT = 5;
         private const int TIMEOT_OPENING = 90;
@@ -28,9 +28,9 @@ namespace ek2mb {
                 arg = "http://" + arg;
         }
 
-        void TryNavigate(string url) {
+        void TryNavigate(IWebDriver driver, string url) {
             try {
-                _driver.Navigate().GoToUrl(url);
+                driver.Navigate().GoToUrl(url);
                 _goodBrowser = true;
             }
             catch (WebDriverException ex) {
@@ -49,17 +49,15 @@ namespace ek2mb {
                 string url = Storage.Info.Cip;
                 MakeHttpIfNeed(ref url);
 
-                while (true) {
-                    if (_driver == null) {
-                        _driver = GetWebDriver();
+                using (IWebDriver driver = GetWebDriverChrome()) { 
+
+                    while (true) {
                         for (int i = 0; i < 10; i++)
                             Thread.Sleep(1000);
-                    }
-                    else {
                         if (_goodBrowser)
-                            ReadData(url, Storage);
+                            ReadData(driver, url, Storage);
                         else
-                            TryNavigate(url);
+                            TryNavigate(driver, url);
 
                         for (int i = 0; i < 10; i++) {
                             Thread.Sleep(1000);
@@ -127,23 +125,23 @@ namespace ek2mb {
             return 0.0f;
         }
 
-        string ReadWorkState() {
+        string ReadWorkState(IWebDriver driver) {
             // <td id = "MACHINESTATER0C1">Cocтoяниe Maшины</td>
             // <td id = "MACHINESTATER0C2">Зaгpyзкa</td >
-            IWebElement header = _driver.FindElement(By.Id("MACHINESTATER0C1"));
+            IWebElement header = driver.FindElement(By.Id("MACHINESTATER0C1"));
             if (header.Text == "Cocтoяниe Maшины" || header.Text == "Machine Status")
-                return _driver.FindElement(By.Id("MACHINESTATER0C2")).Text;
+                return driver.FindElement(By.Id("MACHINESTATER0C2")).Text;
             return "";
         }
 
-        string ReadFlow() {
+        string ReadFlow(IWebDriver driver) {
             // <td id = "FLOWR1C1">Pacxoд</td>
             // <td id = "FLOWR1C3">90 %</td>
             try {
-                IWebElement header = _driver.FindElement(By.Id("FLOWR1C1"));
+                IWebElement header = driver.FindElement(By.Id("FLOWR1C1"));
                 // !!! один расход с русским буквами, другой с английскими
                 if (header.Text == "Расход" || header.Text == "Flow" || header.Text == "Pacxoд")
-                    return _driver.FindElement(By.Id("FLOWR1C3")).Text;
+                    return driver.FindElement(By.Id("FLOWR1C3")).Text;
             }
             catch (NoSuchElementException) {
                 return "";
@@ -152,13 +150,13 @@ namespace ek2mb {
             return "";
         }
 
-        string ReadPressure() {
+        string ReadPressure(IWebDriver driver) {
             // <td id = "ANALOGINPUTSR0C1">Дaвлeниe Ha Bыxoдe</td>
             // <td id = "ANALOGINPUTSR0C2">9.9 bar</td>
             try {
-                IWebElement header = _driver.FindElement(By.Id("ANALOGINPUTSR0C1"));
+                IWebElement header = driver.FindElement(By.Id("ANALOGINPUTSR0C1"));
                 if (header.Text == "Дaвлeниe Ha Bыxoдe" || header.Text == "Compressor Outlet")
-                    return _driver.FindElement(By.Id("ANALOGINPUTSR0C2")).Text;
+                    return driver.FindElement(By.Id("ANALOGINPUTSR0C2")).Text;
             }
             catch (NoSuchElementException) {
                 return "";
@@ -166,13 +164,13 @@ namespace ek2mb {
             return "";
         }
 
-        string ReadTemperature() {
+        string ReadTemperature(IWebDriver driver) {
             // <td id = "ANALOGINPUTSR1C1">Bыxoд Cтyпeни</td>
             // <td id = "ANALOGINPUTSR1C2">68 °C</td>
             try {
-                IWebElement header = _driver.FindElement(By.Id("ANALOGINPUTSR1C1"));
+                IWebElement header = driver.FindElement(By.Id("ANALOGINPUTSR1C1"));
                 if (header.Text == "Bыxoд Cтyпeни" || header.Text == "Element Outlet")
-                    return _driver.FindElement(By.Id("ANALOGINPUTSR1C2")).Text;
+                    return driver.FindElement(By.Id("ANALOGINPUTSR1C2")).Text;
             }
             catch (NoSuchElementException) {
                 return "";
@@ -180,9 +178,9 @@ namespace ek2mb {
             return "";
         }
 
-        private string ReadTime() {
+        private string ReadTime(IWebDriver driver) {
             // <span id="load_time">Cтpaницa Oбнoвлeнa: 15:52:1  3/12/2021</span>
-            IWebElement element = _driver.FindElement(By.Id("load_time"));
+            IWebElement element = driver.FindElement(By.Id("load_time"));
             if (element.Text.Contains("Cтpaницa Oбнoвлeнa: ") || element.Text.Contains("Page displayed at ")) {
                 string time = element.Text.Replace("Cтpaницa Oбнoвлeнa: ", "")
                     .Replace("Page displayed at ", "");
@@ -191,15 +189,15 @@ namespace ek2mb {
             return "0:0:0 0/0/0";
         }
 
-        string ReadSerial() {
+        string ReadSerial(IWebDriver driver) {
             var stopwatch = new Stopwatch();
             stopwatch.Start();
-            IWebElement serial = _driver.FindElement(By.Id("serial"));
+            IWebElement serial = driver.FindElement(By.Id("serial"));
             var elapsed = stopwatch.Elapsed;
             var timeoutOpening = TimeSpan.FromSeconds(TIMEOT_OPENING);
             string serialText = serial.Text;
             while (elapsed < timeoutOpening && string.IsNullOrEmpty(serialText)) {
-                serial = _driver.FindElement(By.Id("serial"));
+                serial = driver.FindElement(By.Id("serial"));
                 Thread.Sleep(50);
             }
 
@@ -222,16 +220,16 @@ namespace ek2mb {
             return f;
         }
 
-        private void ReadData(string url, SlaveStorage storage) {
+        private void ReadData(IWebDriver driver, string url, SlaveStorage storage) {
 
             try {
-                string readSerial = ReadSerial();
+                string readSerial = ReadSerial(driver);
                 // убедились что страница с парметрами компрессорами открылась и нормально загрузилась
-                string workState = ReadWorkState();
-                string flow = ReadFlow();
-                string pressure = ReadPressure();
-                string temperature = ReadTemperature();
-                string time = ReadTime();
+                string workState = ReadWorkState(driver);
+                string flow = ReadFlow(driver);
+                string pressure = ReadPressure(driver);
+                string temperature = ReadTemperature(driver);
+                string time = ReadTime(driver);
 
                 storage.WorkState = ParseWorkState(workState);
                 storage.Flow = ParseFlow(flow);
@@ -264,18 +262,23 @@ namespace ek2mb {
             return 0;
         }
 
-        private static IWebDriver GetWebDriver() {
-            //ChromeOptions chromeOptions = new ChromeOptions();
-            // chromeOptions1.AddArgument("headless");
-            // chromeOptions1.AddArgument("no-sandbox");
-            //chromeOptions.AddArgument("window-size=1420,1080");
-            // chromeOptions.AddArgument("disable-gpu");
+        private static IWebDriver GetWebDriverChrome() {
+            ChromeOptions chromeOptions = new ChromeOptions();
+            //chromeOptions.AddArgument("headless");
+            chromeOptions.AddArgument("no-sandbox");
+            chromeOptions.AddArgument("window-size=1420,980");
+            chromeOptions.AddArgument("disable-gpu");
+
+            IWebDriver driver = new ChromeDriver(chromeOptions);
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(IMPLICIT_WAIT);
+            return driver;
+        }
 
 
+        private static IWebDriver GetWebDriverFirefox() {
             var options = new FirefoxOptions {
                 BrowserExecutableLocation = GetLocalFolderPath() + @"\Mozilla Firefox\firefox.exe",
                 Profile = new FirefoxProfile(),
-                // LogLevel = FirefoxDriverLogLevel.Debug
                 LogLevel = FirefoxDriverLogLevel.Default
             };
             options.AddArguments("--disable-gpu");

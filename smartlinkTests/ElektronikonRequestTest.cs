@@ -14,7 +14,7 @@ public class ElektronikonRequestTest {
         request.AddQuestion(new DataItem(0x33, 0x44));
         request.AddQuestion(new DataItem(0x5555, 0x66));
         string requestString = request.GetRequestString();
-        Assert.Equal("00010200212c15b342", requestString);
+        Assert.Equal("000102003344555566", requestString);
     }
     
     IEnumerable<string> GetOrder() {
@@ -26,17 +26,18 @@ public class ElektronikonRequestTest {
     }
     [Fact]
     public void TestDictionaryOrder() {
-        Dictionary<DataItem, string> dict = new Dictionary<DataItem, string>();
-        dict.Add(new DataItem(11, 22), "2");
-        dict.Add(new DataItem(1, 2), "1");
-        dict.Add(new DataItem(1111, 2222), "4");
-        dict.Add(new DataItem(22, 11), "3");
+        var dict = new SortedDictionary<DataItem, string>(new KeyComparer());
+        dict.Add(new DataItem(0x11, 0x22), "2");
+        dict.Add(new DataItem(0x1, 0x2), "1");
+        dict.Add(new DataItem(0x1111, 0x2222), "4");
+        dict.Add(new DataItem(0x22, 0x11), "3");
 
-        Dictionary<DataItem, string>.Enumerator it1 = dict.GetEnumerator();
+        var it1 = dict.GetEnumerator();
         var it2 = GetOrder().GetEnumerator();
 
         while (it1.MoveNext() && it2.MoveNext()) {
             Assert.Equal(it1.Current.Value, it2.Current);
+            //Console.WriteLine($"{it1.Current.Value}, {it2.Current}");
         }
     }
 }
