@@ -10,9 +10,9 @@ public class ElektronikonRequestTest {
     [Fact]
     public void TestElektronikonRequest() {
         ElektronikonRequest request = new ElektronikonRequest();
-        request.AddQuestion(new DataItem(1, 2));
-        request.AddQuestion(new DataItem(0x33, 0x44));
-        request.AddQuestion(new DataItem(0x5555, 0x66));
+        request.Add(new DataItem(1, 2));
+        request.Add(new DataItem(0x33, 0x44));
+        request.Add(new DataItem(0x5555, 0x66));
         string requestString = request.GetRequestString();
         Assert.Equal("000102003344555566", requestString);
     }
@@ -26,14 +26,15 @@ public class ElektronikonRequestTest {
     }
     [Fact]
     public void TestDictionaryOrder() {
-        var dict = new SortedDictionary<DataItem, string>(new KeyComparer());
-        dict.Add(new DataItem(0x11, 0x22), "2");
-        dict.Add(new DataItem(0x1, 0x2), "1");
-        dict.Add(new DataItem(0x1111, 0x2222), "4");
-        dict.Add(new DataItem(0x22, 0x11), "3");
+        var dict = new SortedDictionary<DataItem, string>(new DataItemComparer()) {
+            { new DataItem(0x11, 0x22), "2" },
+            { new DataItem(0x1, 0x2), "1" },
+            { new DataItem(0x1111, 0x2222), "4" },
+            { new DataItem(0x22, 0x11), "3" }
+        };
 
-        var it1 = dict.GetEnumerator();
-        var it2 = GetOrder().GetEnumerator();
+        using var it1 = dict.GetEnumerator();
+        using var it2 = GetOrder().GetEnumerator();
 
         while (it1.MoveNext() && it2.MoveNext()) {
             Assert.Equal(it1.Current.Value, it2.Current);

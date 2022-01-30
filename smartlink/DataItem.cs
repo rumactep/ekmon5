@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace smartlink;
 
-public class KeyComparer : IComparer<DataItem> {
+public class DataItemComparer : IComparer<DataItem> {
     public int Compare(DataItem? x, DataItem? y) {
         if (x == null || y == null)
             return 0;
@@ -17,6 +17,7 @@ public class DataItem {
 
     public int Index {get; }
     public int SubIndex { get; }
+    public string Data { get; set; } = "";
     
     public DataItem(int index, int subIndex) {
         Index = index;
@@ -28,9 +29,15 @@ public class DataItem {
         return Index.CompareTo(di?.Index) == 0 ? SubIndex.CompareTo(di?.SubIndex) : Index.CompareTo(di?.Index);
     }
 	
+    public string Key =>
+        // выводим в 16-ричном виде
+        $"{Index:x4}{SubIndex:x2}";
+
+    // return $"{Index:d4}{SubIndex:d2}";
     public override string ToString() {
         // выводим в 16-ричном виде
-        return $"{Index:x4}{SubIndex:x2}";
+        return $"{Index:x4}{SubIndex:x2}:{Data}";
+        // return $"{Index:d4}{SubIndex:d2}";
     }
 
     public override int GetHashCode() {

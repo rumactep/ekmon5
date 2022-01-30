@@ -80,11 +80,11 @@ function Questions(NUMBEROF) {
                     var substring = vAnswersString.substring(iA, iA + 8);
                     questionsiQ.setData(substring);
                     if (questionsiQ.INDEX == 0x3113 && questionsiQ.SUBINDEX == 1)
-                        StopHere();
+                        DebugHere();
                     iA += 8;
                 } else {
                     if (questionsiQ.INDEX == 0x3113 && questionsiQ.SUBINDEX == 1)
-                        StopHere();
+                        DebugHere();
                     questionsiQ.setData("X");
                     iA++;
                 }
@@ -95,7 +95,7 @@ function Questions(NUMBEROF) {
     }
 }
 
-function StopHere() {
+function DebugHere() {
 }
 
 function Question() {
