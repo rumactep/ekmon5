@@ -109,8 +109,8 @@ namespace ek2mb {
         protected float this[ushort register] {
             get => FloatHelper.Ushort2Float(InputRegisters.GetTwoValues(register));
             set {
-                (ushort ush1, ushort ush2) values = FloatHelper.Float2Ushort(value);
-                InputRegisters.SetTwoValues(register, values.ush1, values.ush2);
+                (ushort ush1, ushort ush2) = FloatHelper.Float2Ushort(value);
+                InputRegisters.SetTwoValues(register, ush1, ush2);
             }
         }
 
@@ -129,7 +129,7 @@ namespace ek2mb {
         public TPoint this[ushort registerIndex] {
             get {
                 lock (_valuesLock) 
-                    return _values.TryGetValue(registerIndex, out var value) ? value : default(TPoint);
+                    return _values.TryGetValue(registerIndex, out var value) ? value : default;
             }
             set {
                 lock (_valuesLock)

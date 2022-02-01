@@ -3,9 +3,10 @@
 using System;
 using smartlink;
 
-Console.WriteLine("Hello, World!");
+var url = "http://192.168.11.208/cgi-bin/mkv.cgi";
+Console.WriteLine($"ElektronikonReader reading url: {url}");
 
-var reader = new ElektronikonReader();
-var client = new ElektronikonClient("192.168.100.100/cgi-bin/mkv.cgi");
-ElektronikonRequest request = await reader.Run(client);
+var reader = new QuestionReader();
+var client = new HttpElektronikonClient(url);
+ElektronikonRequest request = await reader.Run(ElektronikonRequest.SettingsQuestions, client);
 Console.WriteLine(request.GetDataString());

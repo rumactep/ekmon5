@@ -24,6 +24,13 @@ public class DataItem {
         SubIndex = subIndex;
     }
 
+    public DataItem(int index, int subIndex, string data) {
+        Index = index;
+        SubIndex = subIndex;
+        Data = data;
+    }
+
+
     public int CompareTo2(object? dio) {
         DataItem? di = dio as DataItem;
         return Index.CompareTo(di?.Index) == 0 ? SubIndex.CompareTo(di?.SubIndex) : Index.CompareTo(di?.Index);

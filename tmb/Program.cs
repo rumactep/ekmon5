@@ -37,8 +37,9 @@ namespace ek2mb {
                 var info = compressorInfos[i];
                 var storage = new SlaveStorage(info);
                 ElektronikonReader reader = new ElektronikonReader(storage, i);
+
+                Task task = Task.Factory.StartNew(ElektronikonReader.StaticReadDataThreadAsync, reader);
                 
-                Task.Factory.StartNew(ElektronikonReader.StaticReadDataThreadAsync, reader);
 
                 Thread.Sleep(2000);
                 IModbusSlave slave = factory.CreateSlave(info.UnitId, storage);
@@ -48,9 +49,8 @@ namespace ek2mb {
             tcpListener.Start();
             network.ListenAsync(); //.GetAwaiter().GetResult();
             Console.WriteLine("Press any key to exit");
-            Console.ReadKey();
-
-
+            Console.ReadKey();            
+            tcpListener.Stop();
         }
 
         private static List<CompressorInfo> ReadCompressorList() {

@@ -97,7 +97,7 @@ namespace ek2mb {
         // ParseFlow: 90 %
         ushort ParseFlow(string str) {
             str = str.Replace(" %", "");
-            if (UInt16.TryParse(str, out ushort res))
+            if (ushort.TryParse(str, out ushort res))
                 return res;
             Console.WriteLine($"ParseFlow: {str}");
             return 0;
@@ -224,7 +224,7 @@ namespace ek2mb {
 
             try {
                 string readSerial = ReadSerial(driver);
-                // убедились что страница с парметрами компрессорами открылась и нормально загрузилась
+                // убедились что страница с параметрами компрессорами открылась и нормально загрузилась
                 string workState = ReadWorkState(driver);
                 string flow = ReadFlow(driver);
                 string pressure = ReadPressure(driver);
