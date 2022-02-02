@@ -4,15 +4,15 @@ using System.Linq;
 using smartlink;
 using Xunit;
 
-namespace smartlinkTests; 
+namespace smartlinkTests;
 
 public class ElektronikonRequestTest {
     [Fact]
     public void TestElektronikonRequest() {
         ElektronikonRequest request = new ElektronikonRequest();
-        request.Add(new DataItem(1, 2));
-        request.Add(new DataItem(0x33, 0x44));
-        request.Add(new DataItem(0x5555, 0x66));
+        request.Add(new Question(1, 2));
+        request.Add(new Question(0x33, 0x44));
+        request.Add(new Question(0x5555, 0x66));
         string requestString = request.GetRequestString();
         Assert.Equal("000102003344555566", requestString);
     }
@@ -26,11 +26,11 @@ public class ElektronikonRequestTest {
     }
     [Fact]
     public void TestDictionaryOrder() {
-        var dict = new SortedDictionary<DataItem, string>(new DataItemComparer()) {
-            { new DataItem(0x11, 0x22), "2" },
-            { new DataItem(0x1, 0x2), "1" },
-            { new DataItem(0x1111, 0x2222), "4" },
-            { new DataItem(0x22, 0x11), "3" }
+        var dict = new SortedDictionary<Question, string>(new DataItemComparer()) {
+            { new Question(0x11, 0x22), "2" },
+            { new Question(0x1, 0x2), "1" },
+            { new Question(0x1111, 0x2222), "4" },
+            { new Question(0x22, 0x11), "3" }
         };
 
         using var it1 = dict.GetEnumerator();

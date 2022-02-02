@@ -8,5 +8,5 @@ Console.WriteLine($"ElektronikonReader reading url: {url}");
 
 var reader = new QuestionReader();
 var client = new HttpElektronikonClient(url);
-ElektronikonRequest request = await reader.Run(ElektronikonRequest.SettingsQuestions, client);
+ElektronikonRequest request = await reader.Run(client);
 Console.WriteLine(request.GetDataString());

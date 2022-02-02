@@ -22,15 +22,13 @@ public class ReadAnalogInputsTestIElektronikonClient {
 
     [Fact]
     public async void TestSendReceive() {
-        var reader = new QuestionReader();
+        //var reader = new QuestionReader();
         var client = new LocalElektronikonClient();
         var items = ElektronikonRequest.SettingsQuestions;
-        var request = await reader.Run(items, client);
+        var request = await QuestionReader.ReadSettings(items, client);
         Assert.Equal(1, client.Ask1);
         Assert.Equal(1, client.Ask2);
         Assert.Equal(0, client.AskOther);
         _testOutputHelper.WriteLine(request.GetFullString());
     }
-
-
 }

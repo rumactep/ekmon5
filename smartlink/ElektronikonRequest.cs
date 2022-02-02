@@ -7,25 +7,33 @@ namespace smartlink;
 public class ElektronikonRequest {
 
     //private readonly SortedDictionary<DataItem, string> _requests = new(new DataItemComparer());
-    private readonly List<DataItem> _requests = new();
+    private readonly List<Question> _requests = new();
     public int Length => _requests.Count;
 
-    public void Add(DataItem dataItem) {
+    public void Add(Question dataItem) {
         _requests.Add(dataItem);
     }
 
     public void Add(int index, int subindex) {
-        _requests.Add(new DataItem(index, subindex));
+        _requests.Add(new Question(index, subindex));
     }
-    
-    public static string GetRequestString(DataItem[] questions) {
+
+    public ElektronikonRequest SparseQuestions() {
+        ElektronikonRequest newRequest = new ElektronikonRequest();
+        foreach (Question dataItem in _requests) 
+            if (!dataItem.Data.IsEmpty) 
+                newRequest.Add(dataItem);
+        return newRequest;
+    }
+
+    public static string GetRequestString(Question[] questions) {
         StringBuilder sb = new StringBuilder();
         for (int idx = 0; idx < questions.Length; idx += 1)
             sb.Append(questions[idx].Key);
         return sb.ToString();
     }
 
-    public static string GetRequestString(DataItem[] questions, int from, int to) {
+    public static string GetRequestString(Question[] questions, int from, int to) {
         StringBuilder sb = new StringBuilder();
         for (int idx = from; idx < to; idx += 1)
             sb.Append(questions[idx].Key);
@@ -48,8 +56,8 @@ public class ElektronikonRequest {
     }
     public string GetDataString() {
         StringBuilder sb = new StringBuilder();
-        foreach (var item in _requests)
-            if (item.Data != "X")
+        foreach (Question item in _requests)
+            if (item.Data.Str != "X")
                 sb.Append(item + " ");
         return sb.ToString();
     }
@@ -61,11 +69,8 @@ public class ElektronikonRequest {
         return sb.ToString();
     }
 
-    public void SetData(int i, string substring) {
-        _requests[i].Data = substring;
-    }
 
-    public static DataItem[] SettingsQuestions {
+    public static Question[] SettingsQuestions {
         get {
             ElektronikonRequest er = new ElektronikonRequest();
             Q_2000_AI(er);
@@ -121,6 +126,15 @@ public class ElektronikonRequest {
             er.Add(i, 1);
             er.Add(i, 3);
         }
+    }
+
+    public AnswerData getData(int index, int subindex) {
+        for (var i = 0; i < _requests.Count; i++) {
+            var request = _requests[i];
+            if ((request.Index == index) && (request.Subindex == subindex)) 
+                return request.Data;            
+        }
+        return AnswerData.Empty;
     }
 
     private static void Q_2000_SPR(ElektronikonRequest er) {
