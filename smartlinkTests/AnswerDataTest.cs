@@ -1,4 +1,5 @@
 ﻿using smartlink;
+using System.Text;
 using Xunit;
 
 namespace smartlinkTests;

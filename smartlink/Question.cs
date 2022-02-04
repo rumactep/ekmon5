@@ -44,7 +44,7 @@ public class AnswerData {
     public static byte ToByte(string str, int reverseindex) {
         Debug.Assert(str.Length == 8);
         if (str == "X" || string.IsNullOrEmpty(str))
-            throw new Exception($"AnswerData.Str={str} is invalid");
+            throw new Exception($"AnswerData.Str='{str}' is invalid");
         //  reversed 3  2  1  0
         //  bytes    01 23 45 67
         //  index    0  2  4  6
@@ -62,6 +62,10 @@ public class AnswerData {
             v = -2147483648 + (v & 0x7FFFFFFF);
         return v;
     } //*/
+    
+    public ushort UInt16(int reverseindex) {
+        return ToUInt16(Str, reverseindex);
+    }
 
     public ushort ToUInt16(int reverseindex) {
         return ToUInt16(Str, reverseindex);
