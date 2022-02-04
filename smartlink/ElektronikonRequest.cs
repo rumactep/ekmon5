@@ -22,7 +22,7 @@ public class ElektronikonRequest {
         ElektronikonRequest newRequest = new ElektronikonRequest();
         foreach (Question dataItem in _requests) 
             if (!dataItem.Data.IsEmpty) 
-                newRequest.Add(dataItem);
+                newRequest.Add(dataItem); 
         return newRequest;
     }
 
