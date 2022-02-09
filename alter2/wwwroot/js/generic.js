@@ -102,7 +102,7 @@ function format_AI_value(AI_value, AI_type, AI_display) {
             case "psi":value=14.5038*value;break;
             case "MPa":value=0.1*value;break;
             case "kg/cm\u00b2":value=1.019716*value;break;
-            case "\u00b0F":value=(9/5)*value+32;break;
+            case "\u00b0F":value=(9/5)*value+32;break; // grad Fahheit?
             case "K":value=value+273.15;break;
             case "mmHg":value=value*750.061683;break;
         }

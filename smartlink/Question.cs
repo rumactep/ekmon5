@@ -28,8 +28,8 @@ public class HexConverter {
 }
 
 public class AnswerData {
-    public static AnswerData Empty = new AnswerData(string.Empty);
-    public string Str { get; set; }
+    public static readonly AnswerData Empty = new(string.Empty);
+    public string Str { get; }
     public AnswerData(string str) {
         Str = str; 
     }
@@ -37,6 +37,10 @@ public class AnswerData {
     public override string ToString() => Str; 
 
     public bool IsEmpty { get { return string.IsNullOrEmpty(Str) || Str == "X";} }
+
+    public byte Byte(int reverseindex) {
+        return ToByte(reverseindex);
+    }
 
     public byte ToByte(int reverseindex) {
         return ToByte(Str, reverseindex);
@@ -67,6 +71,23 @@ public class AnswerData {
         return ToUInt16(Str, reverseindex);
     }
 
+    public int Int16(int reverseindex) {
+        return Int16(Str, reverseindex);
+    }
+
+    public static int Int16 (string str, int reverseindex) {
+        Debug.Assert(str.Length == 8);
+        if (str == "X" || string.IsNullOrEmpty(str))
+            throw new Exception($"AnswerData.Str={str} is invalid");
+        var index = 4 - 4 * reverseindex;
+        string s = str.Substring(index, 4);
+        return Convert.ToInt16(s, 16);
+        //if (v >>> 15)
+        //    v = -32768 + (v & 0x00007FFF);
+        //return v;
+    }
+
+
     public ushort ToUInt16(int reverseindex) {
         return ToUInt16(Str, reverseindex);
     }
@@ -79,6 +100,14 @@ public class AnswerData {
         string s = str.Substring(index, 4);
         return Convert.ToUInt16(s, 16);
     }
+
+    public uint UInt32() {
+        Debug.Assert(Str.Length == 8);
+        if (Str == "X" || string.IsNullOrEmpty(Str))
+            throw new Exception($"AnswerData.Str={Str} is invalid");
+        return Convert.ToUInt32(Str, 16);        
+    }
+
 }
 
 public class Question {

@@ -9,6 +9,10 @@ function A_2000_AI(QUESTIONS, JSON) {
     for (var i = 0x2010; i < 0x2090; i++) {
         try {
             var vData1 = QUESTIONS.getData(i, 1);
+            if (i == 0x2011) {
+                var q = 0;
+                q++;
+            }
             var byte = vData1.Byte(0);
             if (byte != 0) {
                 var vAnalogInput = new AnalogInput();

@@ -55,23 +55,23 @@ function Counter() {
 }
 
 function calculate_counter_percentages(json) {
-    var raw = new Array();
+    var rawArray = new Array();
     var sum = 0;
 
     for (var i in json) {
         if (json[i].MPL >= 2706 && json[i].MPL <= 2710) {
-            raw[json[i].MPL] = json[i].getValue();
-            sum += raw[json[i].MPL];
+            rawArray[json[i].MPL] = json[i].getValue();
+            sum += rawArray[json[i].MPL];
         }
     }
 
-    if (raw.length != 0 && sum != 0) {
+    if (rawArray.length != 0 && sum != 0) {
         var quotients = new Array();
         var rests = new Array();
 
-        for (var i in raw) {
-            quotients[i] = Math.floor(raw[i] * 100 / sum);
-            rests[i] = ((raw[i] * 100) % sum);
+        for (var i in rawArray) {
+            quotients[i] = Math.floor(rawArray[i] * 100 / sum);
+            rests[i] = ((rawArray[i] * 100) % sum);
         }
 
         while (true) {
@@ -94,9 +94,9 @@ function calculate_counter_percentages(json) {
                 rests[max_index] = 0;
             }
         }
-    } else if (raw.length == 0) {
+    } else if (rawArray.length == 0) {
         return new Array();
     } else {
-        return raw;
+        return rawArray;
     }
 }

@@ -218,36 +218,36 @@ function create_serviceplan_table(type, json, tableBody) {
 }
 
 function update_table() {
-	var type = arguments[0];
+	var tableName = arguments[0];
 	var json = arguments[1];
 
 	// calculate the counter percentages if we are updating a counters table
-	if(type == "COUNTERS") {
+	if(tableName == "COUNTERS") {
 		var counter_percentages = calculate_counter_percentages(json);
 	}
 	
-	if(json.length > 0 && $('#' + type + 'body').is(':visible')) {
+	if(json.length > 0 && $('#' + tableName + 'body').is(':visible')) {
 		
 	
-		switch(type) {
+		switch(tableName) {
 			case "MACHINESTATE":
-				$('#' + type + 'R-1C1').html(language.get("TABLETITLE",5));
+				$('#' + tableName + 'R-1C1').html(language.get("TABLETITLE",5));
 				break;
 			case "ANALOGINPUTS":
-				$('#' + type + 'R-1C1').html(language.get("TABLETITLE",1));
-				$('#' + type + 'R-1C2').html(language.get("TABLEVALUE",1));
+				$('#' + tableName + 'R-1C1').html(language.get("TABLETITLE",1));
+				$('#' + tableName + 'R-1C2').html(language.get("TABLEVALUE",1));
 				break;
 			case "ANALOGOUTPUTS":
-				$('#' + type + 'R-1C1').html(language.get("TABLETITLE",2));
-				$('#' + type + 'R-1C2').html(language.get("TABLEVALUE",1));
+				$('#' + tableName + 'R-1C1').html(language.get("TABLETITLE",2));
+				$('#' + tableName + 'R-1C2').html(language.get("TABLEVALUE",1));
 				break;
 			case "COUNTERS":
-				$('#' + type + 'R-1C1').html(language.get("TABLETITLE",3));
-				$('#' + type + 'R-1C2').html(language.get("TABLEVALUE",1));
+				$('#' + tableName + 'R-1C1').html(language.get("TABLETITLE",3));
+				$('#' + tableName + 'R-1C2').html(language.get("TABLEVALUE",1));
 				break;
 			case "CONVERTERS":
-				$('#' + type + 'R-1C1').html(language.get("TABLETITLE",4));
-				$('#' + type + 'R-1C2').html(language.get("TABLEVALUE",1));
+				$('#' + tableName + 'R-1C1').html(language.get("TABLETITLE",4));
+				$('#' + tableName + 'R-1C2').html(language.get("TABLEVALUE",1));
 				if(json[0].CONVERTERDEVICETYPE==1)
 				{
 					$('#FLOWR1C1').html(language.get("TABLETITLE",11));
@@ -257,123 +257,123 @@ function update_table() {
 				}
 				break;
 			case "DIGITALINPUTS":
-				$('#' + type + 'R-1C1').html(language.get("TABLETITLE",6));
-				$('#' + type + 'R-1C2').html(language.get("TABLEVALUE",1));
+				$('#' + tableName + 'R-1C1').html(language.get("TABLETITLE",6));
+				$('#' + tableName + 'R-1C2').html(language.get("TABLEVALUE",1));
 				break;
 			case "DIGITALOUTPUTS":
-				$('#' + type + 'R-1C1').html(language.get("TABLETITLE",7));
-				$('#' + type + 'R-1C2').html(language.get("TABLEVALUE",1));
+				$('#' + tableName + 'R-1C1').html(language.get("TABLETITLE",7));
+				$('#' + tableName + 'R-1C2').html(language.get("TABLEVALUE",1));
 				break;
 			case "SPECIALPROTECTIONS":
-				$('#' + type + 'R-1C1').html(language.get("TABLETITLE",8));
+				$('#' + tableName + 'R-1C1').html(language.get("TABLETITLE",8));
 				break;
 			case "SERVICEPLAN":
-				$('#' + type + 'R-1C1').html(language.get("TABLETITLE",9));
-				$('#' + type + 'R-1C4').html(language.get("TABLEVALUE",2));
+				$('#' + tableName + 'R-1C1').html(language.get("TABLETITLE",9));
+				$('#' + tableName + 'R-1C4').html(language.get("TABLEVALUE",2));
 				break;
 			case "CALCULATEDANALOGINPUTS":
-				$('#' + type + 'R-1C1').html(language.get("TABLETITLE",10));
-				$('#' + type + 'R-1C2').html(language.get("TABLEVALUE",1));
+				$('#' + tableName + 'R-1C1').html(language.get("TABLETITLE",10));
+				$('#' + tableName + 'R-1C2').html(language.get("TABLEVALUE",1));
 				break;
 			case "SPM":
-				$('#' + type + 'R-1C1').html(language.get("TABLETITLE",12));
+				$('#' + tableName + 'R-1C1').html(language.get("TABLETITLE",12));
 				break;
 		}
 
 		for(var i in json) {
-			var row = json[i];
+			var jsonrow_i = json[i];
 			
-			switch(type) {
+			switch(tableName) {
 				case "MACHINESTATE":
-					$('#' + type + 'R' + i + 'C1').html(language.get('MACHINESTATUS', 1));
-					$('#' + type + 'R' + i + 'C2').html(language.get('MSTATE', row));
+					$('#' + tableName + 'R' + i + 'C1').html(language.get('MACHINESTATUS', 1));
+					$('#' + tableName + 'R' + i + 'C2').html(language.get('MSTATE', jsonrow_i));
 					break;
 				case "ANALOGINPUTS":
-					$('#' + type + 'R' + i + 'C1').html(language.get('MPL', row.MPL)); 
-					$('#' + type + 'R' + i + 'C2').html(format_AI_value(row.getValue(), row.INPUTTYPE, row.DISPLAYPRECISION)); 
-					$('#' + type + 'R' + i + 'C3 img').attr('src', get_status_icon1(row.getStatus(), 'images/Transparent.gif')); 
+					$('#' + tableName + 'R' + i + 'C1').html(language.get('MPL', jsonrow_i.MPL)); 
+					$('#' + tableName + 'R' + i + 'C2').html(format_AI_value(jsonrow_i.getValue(), jsonrow_i.INPUTTYPE, jsonrow_i.DISPLAYPRECISION)); 
+					$('#' + tableName + 'R' + i + 'C3 img').attr('src', get_status_icon1(jsonrow_i.getStatus(), 'images/Transparent.gif')); 
 					break;
 				case "ANALOGOUTPUTS":
-					$('#' + type + 'R' + i + 'C1').html(language.get('MPL', row.MPL));
-					$('#' + type + 'R' + i + 'C2').html(format_AO_value(row.getValue(), row.OUTPUTTYPE, row.DISPLAYPRECISION)); 
-					$('#' + type + 'R' + i + 'C3 img').attr('src', 'images/Transparent.gif'); 
+					$('#' + tableName + 'R' + i + 'C1').html(language.get('MPL', jsonrow_i.MPL));
+					$('#' + tableName + 'R' + i + 'C2').html(format_AO_value(jsonrow_i.getValue(), jsonrow_i.OUTPUTTYPE, jsonrow_i.DISPLAYPRECISION)); 
+					$('#' + tableName + 'R' + i + 'C3 img').attr('src', 'images/Transparent.gif'); 
 					break;
 				case "COUNTERS":
-					$('#' + type + 'R' + i + 'C1').html(language.get('MPL', row.MPL));
-					if(counter_percentages.length > 0 && row.MPL in counter_percentages) {
-						$('#' + type + 'R' + i + 'C2').html(counter_percentages[row.MPL] + ' %');  
+					$('#' + tableName + 'R' + i + 'C1').html(language.get('MPL', jsonrow_i.MPL));
+					if(counter_percentages.length > 0 && jsonrow_i.MPL in counter_percentages) {
+						$('#' + tableName + 'R' + i + 'C2').html(counter_percentages[jsonrow_i.MPL] + ' %');  
 					} else {
-						$('#' + type + 'R' + i + 'C2').html(format_CO_value(row.getValue(), row.COUNTERUNIT)); 
+						$('#' + tableName + 'R' + i + 'C2').html(format_CO_value(jsonrow_i.getValue(), jsonrow_i.COUNTERUNIT)); 
 					}
 					
-					$('#' + type + 'R' + i + 'C3 img').attr('src', 'images/Transparent.gif');
+					$('#' + tableName + 'R' + i + 'C3 img').attr('src', 'images/Transparent.gif');
 					break;
 				case "CONVERTERS":
-					$('#' + type + 'R' + i + 'C1').html(language.get('CVNAME', row.CONVERTERTYPE)); 
-					$('#' + type + 'R' + i + 'C2').html(row.getValue()+" rpm");
+					$('#' + tableName + 'R' + i + 'C1').html(language.get('CVNAME', jsonrow_i.CONVERTERTYPE)); 
+					$('#' + tableName + 'R' + i + 'C2').html(jsonrow_i.getValue()+" rpm");
 					break;
 				case "DIGITALINPUTS":
-					$('#' + type + 'R' + i + 'C1').html(language.get('MPL', row.MPL));
-					$('#' + type + 'R' + i + 'C2').html(language.get('MPL', row.MPL, row.getValue()+1)); 
-					$('#' + type + 'R' + i + 'C3 img').attr('src', get_status_icon1(row.getStatus(), 'images/Transparent.gif')); 
+					$('#' + tableName + 'R' + i + 'C1').html(language.get('MPL', jsonrow_i.MPL));
+					$('#' + tableName + 'R' + i + 'C2').html(language.get('MPL', jsonrow_i.MPL, jsonrow_i.getValue()+1)); 
+					$('#' + tableName + 'R' + i + 'C3 img').attr('src', get_status_icon1(jsonrow_i.getStatus(), 'images/Transparent.gif')); 
 					break;
 				case "DIGITALOUTPUTS":
-					$('#' + type + 'R' + i + 'C1').html(language.get('MPL', row.MPL));
-					$('#' + type + 'R' + i + 'C2').html(language.get('MPL', row.MPL, row.getValue()+1)); 
-					$('#' + type + 'R' + i + 'C3 img').attr('src', 'images/Transparent.gif'); 
+					$('#' + tableName + 'R' + i + 'C1').html(language.get('MPL', jsonrow_i.MPL));
+					$('#' + tableName + 'R' + i + 'C2').html(language.get('MPL', jsonrow_i.MPL, jsonrow_i.getValue()+1)); 
+					$('#' + tableName + 'R' + i + 'C3 img').attr('src', 'images/Transparent.gif'); 
 					break;
 				case "SPECIALPROTECTIONS":
-					$('#' + type + 'R' + i + 'C1').html(language.get("MPL", row.MPL)); 
+					$('#' + tableName + 'R' + i + 'C1').html(language.get("MPL", jsonrow_i.MPL)); 
 					
 					try {
-						$('#' + type + 'R' + i + 'C2 img').attr('src', get_status_icon1(row.getStatus(), 'images/Ok.gif')); 
+						$('#' + tableName + 'R' + i + 'C2 img').attr('src', get_status_icon1(jsonrow_i.getStatus(), 'images/Ok.gif')); 
 					} catch(e) {
-						$('#' + type + 'R' + i + 'C2 img').attr('src', 'images/Question.png'); 
+						$('#' + tableName + 'R' + i + 'C2 img').attr('src', 'images/Question.png'); 
 					}
 					break;
 				case "SERVICEPLAN":
-					var current_value = Math.ceil(row.STATICVALUE - (row.getValue()/3600));
+					var current_value = Math.ceil(jsonrow_i.STATICVALUE - (jsonrow_i.getValue()/3600));
 					
 					if(current_value>0)
 					{
-						var percentage = Math.ceil(100 - (current_value / row.STATICVALUE) * 100);
+						var percentage = Math.ceil(100 - (current_value / jsonrow_i.STATICVALUE) * 100);
 						
-						$('#' + type + 'R' + i + 'C2P0').css('width', percentage + '%');
-						$('#' + type + 'R' + i + 'C2P1').css('width', (100-percentage) + '%');
-						$('#' + type + 'R' + i + 'C3LEVEL').css('color', 'Black');
-						$('#' + type + 'R' + i + 'C3LEVEL').css('background-color',$('#' + type + 'R' + i + 'C3LEVEL').parent().css('background-color'));
-						$('#' + type + 'R' + i + 'C3LEVEL').html(current_value);
+						$('#' + tableName + 'R' + i + 'C2P0').css('width', percentage + '%');
+						$('#' + tableName + 'R' + i + 'C2P1').css('width', (100-percentage) + '%');
+						$('#' + tableName + 'R' + i + 'C3LEVEL').css('color', 'Black');
+						$('#' + tableName + 'R' + i + 'C3LEVEL').css('background-color',$('#' + tableName + 'R' + i + 'C3LEVEL').parent().css('background-color'));
+						$('#' + tableName + 'R' + i + 'C3LEVEL').html(current_value);
 					}
 					else
 					{
-						$('#' + type + 'R' + i + 'C2P0').css('width', '100%');
-						$('#' + type + 'R' + i + 'C2P1').css('width', '0%');
-						$('#' + type + 'R' + i + 'C3LEVEL').css('color', 'White');
-						$('#' + type + 'R' + i + 'C3LEVEL').css('background-color', 'Red');
-						$('#' + type + 'R' + i + 'C3LEVEL').html(-current_value+1);
+						$('#' + tableName + 'R' + i + 'C2P0').css('width', '100%');
+						$('#' + tableName + 'R' + i + 'C2P1').css('width', '0%');
+						$('#' + tableName + 'R' + i + 'C3LEVEL').css('color', 'White');
+						$('#' + tableName + 'R' + i + 'C3LEVEL').css('background-color', 'Red');
+						$('#' + tableName + 'R' + i + 'C3LEVEL').html(-current_value+1);
 					}
 
-					if(row.getNext()) {
-						if(row.getType())
-							$('#' + type + 'R' + i + 'C2P2').css('background-color','#00FF00');
+					if(jsonrow_i.getNext()) {
+						if(jsonrow_i.getType())
+							$('#' + tableName + 'R' + i + 'C2P2').css('background-color','#00FF00');
 						else
-							$('#' + type + 'R' + i + 'C2P2').css('background-color','#0000FF');
-						$('#' + type + 'R' + i + 'C2P2').css('color','White');
+							$('#' + tableName + 'R' + i + 'C2P2').css('background-color','#0000FF');
+						$('#' + tableName + 'R' + i + 'C2P2').css('color','White');
 					}
 					else
 					{
-						$('#' + type + 'R' + i + 'C2P2').css('background-color',$('#' + type + 'R' + i + 'C2P2').parent().css('background-color'));
-						$('#' + type + 'R' + i + 'C2P2').css('color','Black');
+						$('#' + tableName + 'R' + i + 'C2P2').css('background-color',$('#' + tableName + 'R' + i + 'C2P2').parent().css('background-color'));
+						$('#' + tableName + 'R' + i + 'C2P2').css('color','Black');
 					}
 					break;
 				case "CALCULATEDANALOGINPUTS":
-					$('#' + type + 'R' + i + 'C1').html(language.get('MPL', row.MPL));
-					$('#' + type + 'R' + i + 'C2').html(format_AI_value(row.getValue(), row.INPUTTYPE, row.DISPLAYPRECISION)); 
-					$('#' + type + 'R' + i + 'C3 img').attr('src', get_status_icon1(row.getStatus(), 'images/Transparent.gif'));
+					$('#' + tableName + 'R' + i + 'C1').html(language.get('MPL', jsonrow_i.MPL));
+					$('#' + tableName + 'R' + i + 'C2').html(format_AI_value(jsonrow_i.getValue(), jsonrow_i.INPUTTYPE, jsonrow_i.DISPLAYPRECISION)); 
+					$('#' + tableName + 'R' + i + 'C3 img').attr('src', get_status_icon1(jsonrow_i.getStatus(), 'images/Transparent.gif'));
 					break;
 				case "SPM":
-					$('#' + type + 'R' + i + 'C1').html(language.get('MPL', row.MPL)); 
-					$('#' + type + 'R' + i + 'C2').html(row.getValue()); 
+					$('#' + tableName + 'R' + i + 'C1').html(language.get('MPL', jsonrow_i.MPL)); 
+					$('#' + tableName + 'R' + i + 'C2').html(jsonrow_i.getValue()); 
 					break;
 			}
 		}
