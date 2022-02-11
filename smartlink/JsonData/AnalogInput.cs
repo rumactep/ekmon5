@@ -20,6 +20,7 @@ public class AnalogInput : BaseData {
     public int getValue() => Data.Int16(1);
     public int getStatus() => Data.UInt16(1);
 
+     
     public override string ToString() {
         return $"MPL:{MPL}, RTD_SI:{RTD_SI}, INPUTTYPE:{INPUTTYPE}, DISPLAYPRECISION:{DISPLAYPRECISION}, PRESSUREMEASUREMENT:{PRESSUREMEASUREMENT}, absATMpres:{absATMpres}, getValue:{getValue()}, getStatus:{getStatus()}\n";
     }
