@@ -21,16 +21,14 @@ public class ElektronikonRequest {
     public ElektronikonRequest SparseQuestions() {
         ElektronikonRequest newRequest = new ElektronikonRequest();
         foreach (Question dataItem in _requests) {
-            if (dataItem.Index == 0x2011)
-                Console.WriteLine("0x2011 " + dataItem.ToString() );
             if (!dataItem.Data.IsEmpty)
                 newRequest.Add(dataItem);
         }
         return newRequest;
     }
 
-    public static void ProcessData(ElektronikonRequest answers, JSON json) {
-        A_3000_AI(answers, json.ANALOGINPUTS);
+    public static void ProcessData(ElektronikonRequest answers, JSONS json) {
+        AnalogInputs.A_3000_AI(answers, json.ANALOGINPUTS);
         A_3000_DI(answers, json.DIGITALINPUTS);
         A_3000_CNT(answers, json.COUNTERS);
         A_3000_CNV(answers, json.CONVERTERS);
@@ -45,12 +43,7 @@ public class ElektronikonRequest {
         A_3000_MS(answers, json.DEVICE);
     }
 
-    private static void A_3000_AI(ElektronikonRequest answers, List<AnalogInput> JSON) {
-        for (var i = 0; i < JSON.Count; i++) {
-            AnswerData vdata = answers.getData(0x3002, JSON[i].RTD_SI);
-            JSON[i].setData(vdata);
-        }
-    }
+
 
     private static void A_3000_DI(ElektronikonRequest answers, List<DigitalInput> JSON) {
         for (var i = 0; i < JSON.Count; i++)
@@ -96,6 +89,7 @@ public class ElektronikonRequest {
     }
 
     private static void A_3000_ES(ElektronikonRequest QUESTIONS, List<object> JSON) {
+        // not implemented
         /*
          try {
              var vData1 = QUESTIONS.getData(0x3113, 1);
@@ -163,9 +157,9 @@ public class ElektronikonRequest {
         JSON[0] = vData.ToUInt16(0);
     }
 
-    public static Question[] DataQuestions(JSON vJSON) {
+    public static Question[] DataQuestions(JSONS vJSON) {
         ElektronikonRequest QUESTIONS = new ElektronikonRequest();
-        Q_3000_AI(QUESTIONS, vJSON.ANALOGINPUTS);
+        AnalogInputs.Q_3000_AI(QUESTIONS, vJSON.ANALOGINPUTS);
         Q_3000_DI(QUESTIONS, vJSON.DIGITALINPUTS);
         Q_3000_CNT(QUESTIONS, vJSON.COUNTERS);
         Q_3000_CNV(QUESTIONS, vJSON.CONVERTERS);
@@ -181,10 +175,6 @@ public class ElektronikonRequest {
         return QUESTIONS._requests.ToArray();
     }
 
-    private static void Q_3000_AI(ElektronikonRequest QUESTIONS, List<AnalogInput> JSON) {
-        for (var i = 0; i < JSON.Count; i++)
-            QUESTIONS.Add(0x3002, JSON[i].RTD_SI);
-    }
 
     private static void Q_3000_DI(ElektronikonRequest QUESTIONS, List<DigitalInput> JSON) {
         for (var i = 0; i < JSON.Count; i++)
@@ -281,9 +271,9 @@ public class ElektronikonRequest {
     }
 
 
-    public static JSON ProcessConfig(ElektronikonRequest vQuestions) {
-        var vJSON = new JSON();
-        A_2000_AI(vQuestions, vJSON.ANALOGINPUTS);
+    public static JSONS ProcessConfig(ElektronikonRequest vQuestions) {
+        var vJSON = new JSONS();
+        AnalogInputs.A_2000_AI(vQuestions, vJSON.ANALOGINPUTS);
         A_2000_DI(vQuestions, vJSON.DIGITALINPUTS);
         A_2000_CNT(vQuestions, vJSON.COUNTERS);
         A_2000_CNV(vQuestions, vJSON.CONVERTERS);
@@ -299,27 +289,8 @@ public class ElektronikonRequest {
         return vJSON;
     }
 
-    private static void A_2000_AI(ElektronikonRequest questions, List<AnalogInput> aNALOGINPUTS) {
-        for (var i = 0x2010; i < 0x2090; i++) {
-            AnswerData data1 = questions.getData(i, 1);
-            if (data1.IsEmpty)
-                continue;
-            var byte0 = data1.ToByte(0);
-            if (byte0 != 0) {
-                var data4 = questions.getData(i, 4);
-                var vAnalogInput = new AnalogInput {
-                    MPL = data1.ToUInt16(1),
-                    INPUTTYPE = data1.ToByte(1),
-                    DISPLAYPRECISION = data4.ToByte(3),
-                    RTD_SI = i - 0x2010 + 1
-                };
-                aNALOGINPUTS.Add(vAnalogInput);
-            }
-            else {
-                // TODO: invalidate data
-            }
-        }
-    }
+
+ 
 
     private static void A_2000_DI(ElektronikonRequest vQuestions, List<DigitalInput> dIGITALINPUTS) {
         for (var i = 0x20b0; i < 0x2100; i++) {
@@ -488,7 +459,7 @@ public class ElektronikonRequest {
     public static Question[] ConfigQuestions {
         get {
             ElektronikonRequest er = new ElektronikonRequest();
-            Q_2000_AI(er);
+            AnalogInputs.Q_2000_AI(er);
             Q_2000_DI(er);
             Q_2000_CNT(er);
             Q_2000_CNV(er); // 1st
@@ -507,14 +478,9 @@ public class ElektronikonRequest {
         }
     }
 
-    private static void Q_2000_AI(ElektronikonRequest er) {
-        for (var i = 0x2010; i < 0x2090; i++) {
-            er.Add(i, 1);
-            er.Add(i, 4);
-        }
-    }
 
-    private static void Q_2000_DI(ElektronikonRequest er) {
+
+private static void Q_2000_DI(ElektronikonRequest er) {
         for (var i = 0x20b0; i < 0x2100; i++)
             er.Add(i, 1);
     }

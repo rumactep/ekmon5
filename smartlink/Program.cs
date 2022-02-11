@@ -1,6 +1,4 @@
-﻿
-
-using System;
+﻿using System;
 using smartlink;
 
 var url = "http://192.168.11.208/cgi-bin/mkv.cgi";

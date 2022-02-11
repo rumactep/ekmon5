@@ -1,0 +1,264 @@
+html, body{
+	width:100%;
+	height:100%;
+	margin: 0;
+	padding: 0;
+} 
+
+#WEBSITE {
+	float: left;
+	width: 100%;
+	height: 100%;
+}
+
+#left_side {
+	float: left;
+	width: 150px;
+	height: 100%;
+	margin: 30px 0 0 30px;
+}
+
+#left_side img {
+	border: 0px;
+}
+
+#left_side #menu {
+	height: 100%;
+	margin-top: 30px;
+	background-color: /*Sidebar_Background*/#0099cc;
+	color: /*Sidebar_Text*/#c4e9f6;
+}
+
+#left_side #menu ul {
+	padding: 0;
+	margin: 0;
+}
+
+#left_side #menu ul li {
+	margin: 0 3px;
+	padding: 4px 0;
+	list-style: none;
+	border-bottom: 1px solid #FFFFFF;
+	text-align: center;
+	font-weight: 700;
+}
+
+#left_side #menu:hover {
+	cursor: pointer;
+	cursor: hand;
+}
+
+#main {
+	float: left;
+    margin-right: -100%;
+    width: 100%;
+}
+
+#main #main_content {
+	margin-left: 180px;
+	padding: 30px;
+}
+
+#main #main_content #header {
+	background-color: /*Header_Background*/#e6e6e6;
+	padding: 5px;
+}
+
+#main #main_content #header p {
+	margin: 0;
+}
+
+#main #main_content #header #left {
+	float: left;
+}
+
+#main #main_content #header #left #serial {
+	color: /*Header_Subtitle*/#777777;
+}
+
+#main #main_content #header #left #page {
+	color: /*Header_Subtitle*/#777777;
+	margin-top: 25px;
+	font-size: x-large;
+}
+
+#main #main_content #header #right {
+	float: right;
+}
+
+#main #main_content #header #right #elektronikon {
+	color: /*Header_Title*/#0099cc;
+	font-size: xx-large;
+	text-align: right;
+}
+
+#main #main_content #header #right #langs {
+	color: /*Header_Subtitle*/#777777;
+	margin-top: 10px;
+	text-align: right;
+}
+
+#main #main_content #error {
+	margin-top: 12px;
+	border: 3px solid #FF0000;
+	color: #FF0000;
+	font-size: 12px;
+	font-weight: 700;
+	text-align: center;
+}
+
+#main #main_content #checks {
+	margin-top: 30px;
+	border: 4px solid /*CheckItemsFrame*/#0099cc;
+	padding: 0 5px;
+}
+
+#main #main_content #checks #checkbox_container {
+	width: 100%;
+}
+
+#main #main_content #checks .checkbox {
+	float: left;
+	width: 25%;
+	margin: 5px 0;
+}
+
+#main #main_content #tables {
+	margin-top: 30px;
+	width: 100%;
+}
+
+#main #main_content #tables #TABLELEFT_L1 {
+	float: left;
+	width: 48%;
+}
+
+#main #main_content #tables #TABLERIGHT_L1 {
+	float: right;
+	width: 48%;
+}
+
+#TABLELEFT_L1 table, #TABLERIGHT_L1 table, #TABLELEFT_L12 table {
+	width: 100%;
+	border: 0px;
+	border-style: hidden;
+	background-color: /*GridHeader_Background*/#0099cc;
+	color: /*GridHeader_Text*/#ffffff;
+}
+
+#TABLELEFT_L1 table tr td, #TABLERIGHT_L1 table tr td, #TABLELEFT_L12 table tr td {
+	padding: 3px;
+	border: 0px;
+}
+
+#SERVICEPLANbody .progressbar {
+	border: 1px solid #000;
+}
+
+#main #main_content #units {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#main #main_content #footer {
+	margin-top: 52px;
+	border-top: 1px solid #000000;
+	text-align: right;
+}
+
+tr.table_header td {
+	padding: 2px;
+	text-align: center;
+}
+
+tr.row {
+	color: #000000;
+	background-color: #eeeeee;
+}
+
+tr.row1 {
+	color: #000000;
+	background-color: #ffffff;
+}
+
+tr.row td, tr.row1 td {
+	text-align: center;
+}
+
+td.icon {
+	width: 50px;
+}
+
+.clearfix {
+	clear: both;
+}
+
+.progressbar {
+	width: 100%;
+	table-layout: fixed;
+	height: 20px;
+	margin: 3px;
+	padding: 0;
+	border-spacing: 0;
+}
+
+.progressbar tr  td {
+	border-spacing: 0;
+	padding: 0;
+	margin:0;
+}
+
+.progressbar .left {
+	background-color: #FFFFFF;
+}
+
+.progressbar .right {
+	width: 100%;
+}
+
+.service_plan_level {
+	color: #FFFFFF;
+	padding: 0 5px;
+}
+
+.progressbar .right.rh, .service_plan_level.rh {
+	background-color: #00FF00;
+}
+
+.progressbar .right.rth, .service_plan_level.rth {
+	background-color: #0000FF;
+}
+
+.compressor_container {
+	width: 20px;
+	text-align: center;
+	margin-left: 10px;
+}
+
+.compressor_container .compressor_box {
+	width:20px;
+	height:200px;
+	border: 1px solid #000000;
+}
+
+.compressor_container .compressor_u {
+	left:5px;
+	width:20px;
+	height:200px;
+	background-color: #FFFFFF;
+	table-layout: fixed;
+}
+
+.compressor_container .compressor_d {
+	left:5px;
+	width:20px;
+	height:0px;
+	background-color: #B8ECF8;
+	table-layout: fixed;
+}
+
+.compressor_container .compressor_bottom {
+	width:20px;
+	height:50px;
+	background-color: #FFFFFF;
+}

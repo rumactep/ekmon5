@@ -1,24 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace smartlink;
-
-public class JSON {
-    public List<AnalogInput> ANALOGINPUTS { get; set; } = new();
-    public List<DigitalInput> DIGITALINPUTS { get; set; } = new();
-    public List<Counter> COUNTERS { get; set; } = new();
-    public List<Converter> CONVERTERS { get; set; } = new();
-    public List<DigitalOutput> DIGITALOUTPUTS { get; set; } = new();
-    public List<CalculatedAnalogInput> CALCULATEDANALOGINPUTS { get; set; } = new(); 
-    public List<SpecialProtection> SPECIALPROTECTIONS { get; set; } = new();
-    public List<AnalogOutput> ANALOGOUTPUTS { get; set; } = new();
-    public List<SPM1> SPM2 { get; set; } = new();
-    // ES is not implemented yet
-    public List<object> ES { get; set; } = new();
-    public List<ServicePlan> SERVICEPLAN { get; set; } = new();
-    public List<ushort> DEVICE { get; set; } = new();
-
-}
 
 public abstract class BaseData {
     public AnswerData Data { get; set; } = AnswerData.Empty;
@@ -27,17 +9,26 @@ public abstract class BaseData {
     }
 }
 
-public class DigitalInput : BaseData {
-    public ushort MPL { get; set; }
-    public int RTD_SI { get; set; }
-}
 public class AnalogInput : BaseData {
     public ushort MPL { get; set; }
     public int RTD_SI { get; set; }
     public byte INPUTTYPE { get; set; }
     public byte DISPLAYPRECISION { get; set; }
-    public int getValue() => Data.Int16(1); 
+    public byte PRESSUREMEASUREMENT { get; set; }
+    public ushort absATMpres { get; set; }
+
+    public int getValue() => Data.Int16(1);
     public int getStatus() => Data.UInt16(1);
+
+    public override string ToString() {
+        return $"MPL:{MPL}, RTD_SI:{RTD_SI}, INPUTTYPE:{INPUTTYPE}, DISPLAYPRECISION:{DISPLAYPRECISION}, PRESSUREMEASUREMENT:{PRESSUREMEASUREMENT}, absATMpres:{absATMpres}, getValue:{getValue()}, getStatus:{getStatus()}\n";
+    }
+
+}
+
+public class DigitalInput : BaseData {
+    public ushort MPL { get; set; }
+    public int RTD_SI { get; set; }
 }
 
 public class Counter : BaseData {
@@ -102,3 +93,5 @@ public class ServicePlan : BaseData {
         Data2 = data2;
     }
 }
+
+

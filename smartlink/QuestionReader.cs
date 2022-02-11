@@ -1,5 +1,5 @@
 using System;
-using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace smartlink;
@@ -9,32 +9,35 @@ public class QuestionReader {
     public async Task Run(IElektronikonClient client) {        
         var list = ElektronikonRequest.ConfigQuestions;
         
-        ElektronikonRequest config = await SendReceive(list, client);
+        ElektronikonRequest config = await SendReceive(list, client, Logger);
         ElektronikonRequest sparsedConfig = config.SparseQuestions();
         Logger.Log("sparsed config:", sparsedConfig.GetRequestString());
-
-        JSON json = ElektronikonRequest.ProcessConfig(sparsedConfig);
-
-        string strlog = json.ToString()!;
-        Logger.Log("json:", strlog);
-        //create_tables();
-        var dataQuestions = ElektronikonRequest.DataQuestions(json);
-        ElektronikonRequest answers = await SendReceive(dataQuestions, client);
-        ElektronikonRequest.ProcessData(answers, json);
-        strlog = json.ToString()!;
-        Logger.Log("json:", strlog);
-
-        ProcessView(json);
+        int count = 1;
+        while (count > 0) {
+            JSONS json = ElektronikonRequest.ProcessConfig(sparsedConfig);
+            string strlog = json.ToString()!;
+            Logger.Log("json:", strlog);
+            //create_tables();
+            var dataQuestions = ElektronikonRequest.DataQuestions(json);
+            ElektronikonRequest answers = await SendReceive(dataQuestions, client, Logger);
+            ElektronikonRequest.ProcessData(answers, json);
+            strlog = json.ToString()!;
+            Logger.Log("json:", strlog);
+            ProcessView(json);
+            Thread.Sleep(5000);
+            count--;
+        }
     }
 
-    private void ProcessView(JSON vJSON) {
-        Console.WriteLine(vJSON);
+    private void ProcessView(JSONS vJSON) {
+        IPartWriter writer = new StringWriter();
+        vJSON.BuildString(writer);
+        var str = writer.Text;
+        Logger.Log(str);
     }
 
-    public static async Task<ElektronikonRequest> SendReceive(Question[] questions, IElektronikonClient client, ILogger? logger = null) {
-        if (logger == null) 
-            logger = NoLogger.Instance;
-            
+    public static async Task<ElektronikonRequest> SendReceive(Question[] questions, IElektronikonClient client, ILogger logger) {
+           
         ElektronikonRequest request = new ElektronikonRequest();
         // Elektronikon kontroller can process max 1000 questions. Otherwise it can hang 
         
