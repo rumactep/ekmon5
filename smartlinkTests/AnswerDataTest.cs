@@ -17,7 +17,7 @@ public class AnswerDataTest {
     [Fact]
     public void TestToUInt16() {
         AnswerData data = new AnswerData("ab89cd67");
-        Assert.Equal(0xCD67, data.ToUInt16(0));
-        Assert.Equal(0xab89, data.ToUInt16(1));
+        Assert.Equal(0xCD67, data.UInt16(0));
+        Assert.Equal(0xab89, data.UInt16(1));
     }
 }

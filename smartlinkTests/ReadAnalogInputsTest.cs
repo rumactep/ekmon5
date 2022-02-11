@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using smartlink;
+using smartlink.JsonData;
 using Xunit;
 using Xunit.Abstractions;
 

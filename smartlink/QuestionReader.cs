@@ -1,6 +1,7 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using smartlink.JsonData;
 
 namespace smartlink;
 
@@ -15,7 +16,7 @@ public class QuestionReader {
         int count = 1;
         while (count > 0) {
             JSONS json = ElektronikonRequest.ProcessConfig(sparsedConfig);
-            string strlog = json.ToString()!;
+            var strlog = json.ToString()!;
             Logger.Log("json:", strlog);
             //create_tables();
             var dataQuestions = ElektronikonRequest.DataQuestions(json);
@@ -30,9 +31,9 @@ public class QuestionReader {
     }
 
     private void ProcessView(JSONS vJSON) {
-        IPartWriter writer = new StringWriter();
-        vJSON.BuildString(writer);
-        var str = writer.Text;
+        StringVisitor visitor = new StringVisitor(new StringPartWriter());
+        vJSON.Accept(visitor);
+        string str = visitor.Text;
         Logger.Log(str);
     }
 
@@ -49,24 +50,22 @@ public class QuestionReader {
 
             // for each 6 chars of question we receive 8 chars of answer
             string answersString = await client.AskAsync(questionsString);
-            if (answersString != null) {
-                logger.Log("answersString:", answersString);
-                for (int iQ = idx, iA = 0; iQ < to; iQ++) {
-                    var question = questions[iQ];
-                    if (iA >= answersString.Length)
-                        // wrong or partial answer. I don't know what to do
-                        break;
-                    if (answersString[iA] != 'X' && iA < answersString.Length + 8) {
-                        string substring = answersString.Substring(iA, 8);
-                        var newQuestion = new Question(question.Index, question.Subindex, substring);
-                        request.Add(newQuestion);
-                        iA += 8;
-                    }
-                    else {
-                        //var newQuestion = new Question(question.Index, question.Subindex, "X");
-                        //request.Add(newQuestion);
-                        iA++;
-                    }
+            logger.Log("answersString:", answersString);
+            for (int iQ = idx, iA = 0; iQ < to; iQ++) {
+                Question question = questions[iQ];
+                if (iA >= answersString.Length)
+                    // wrong or partial answer. I don't know what to do
+                    break;
+                if (answersString[iA] != 'X' && iA < answersString.Length + 8) {
+                    string substring = answersString.Substring(iA, 8);
+                    var newQuestion = new Question(question.Index, question.Subindex, substring);
+                    request.Add(newQuestion);
+                    iA += 8;
+                }
+                else {
+                    //var newQuestion = new Question(question.Index, question.Subindex, "X");
+                    //request.Add(newQuestion);
+                    iA++;
                 }
             }
         }
