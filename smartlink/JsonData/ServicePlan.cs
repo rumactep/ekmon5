@@ -13,6 +13,11 @@ public class ServicePlan : BaseData {
         setData(data1);
         Data2 = data2;
     }
+    public override string ToString() {
+        return
+            $"MPL:-, RTD_SI:{RTD_SI}, STATICVALUE:{STATICVALUE}, LEVEL:{LEVEL}, Type:{Type}\n";
+    }
+
 }
 
 public class ServicePlans : List<ServicePlan> { 

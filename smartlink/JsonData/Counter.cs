@@ -6,6 +6,11 @@ public class Counter : BaseData {
     public ushort MPL { get; set; }
     public byte COUNTERUNIT { get; set; }
     public int RTD_SI { get; set; }
+    public override string ToString() {
+        return
+            $"MPL:{MPL}, RTD_SI:{RTD_SI}, INPUTTYPE:{COUNTERUNIT}\n";
+    }
+
 }
 
 public class Counters : List<Counter> { 

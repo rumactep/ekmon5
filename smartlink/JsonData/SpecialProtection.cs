@@ -5,6 +5,10 @@ namespace smartlink.JsonData;
 public class SpecialProtection : BaseData {
     public ushort MPL { get; set; }
     public int RTD_SI { get; set; }
+    public override string ToString() {
+        return
+            $"MPL:{MPL}, RTD_SI:{RTD_SI}\n";
+    }
 }
 public class SpecialProtections : List<SpecialProtection> { 
     public void Visit(IVisitor v) { v.VisitSpecialProtections(this); }

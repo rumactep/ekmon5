@@ -37,7 +37,8 @@ namespace airtgbot {
 
         }
         // я chatid 1041976546
-        // группа chatid -448703968
+        // старая группа chatid -448703968
+        // новая супергруппа chatid chatId -1001539497277
         static async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken) {
             // Only process Message updates: https://core.telegram.org/bots/api#message
             if (update.Type != UpdateType.Message)
@@ -48,6 +49,8 @@ namespace airtgbot {
 
             var chatId = update.Message.Chat.Id;
             var messageText = update.Message.Text;
+            if (string.IsNullOrEmpty(messageText))
+                return;
 
             Console.WriteLine($"Received a '{messageText}' message in chat {chatId}.");
 

@@ -7,6 +7,10 @@ public class CalculatedAnalogInput : BaseData {
     public byte INPUTTYPE { get; set; }
     public byte DISPLAYPRECISION { get; set; }
     public int RTD_SI { get; set; }
+    public override string ToString() {
+        return
+            $"MPL:{MPL}, RTD_SI:{RTD_SI}, INPUTTYPE:{INPUTTYPE}, DISPLAYPRECISION:{DISPLAYPRECISION}\n";
+    }
 }
 public class CalculatedAnalogInputs : List<CalculatedAnalogInput> { 
     public void Visit(IVisitor visitor) { visitor.VisitCalculatedAnalogInputs(this); }

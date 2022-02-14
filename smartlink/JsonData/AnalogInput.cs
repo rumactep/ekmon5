@@ -21,11 +21,37 @@ public class AnalogInput : BaseData {
 
     public override string ToString() {
         return
-            $"MPL:{MPL}, RTD_SI:{RTD_SI}, INPUTTYPE:{INPUTTYPE}, DISPLAYPRECISION:{DISPLAYPRECISION}, PRESSUREMEASUREMENT:{PRESSUREMEASUREMENT}, absATMpres:{absATMpres}, getValue:{getValue()}, getStatus:{getStatus()}\n";
+            $"MMPL:{MPL}, RTD_SI:{RTD_SI}, INPUTTYPE:{INPUTTYPE}, DISPLAYPRECISION:{DISPLAYPRECISION}, PRESSUREMEASUREMENT:{PRESSUREMEASUREMENT}, absATMpres:{absATMpres}, getValue:{getValue()}, getStatus:{getStatus()}\n";
     }
 }
 
-public class AnalogInputs : List<AnalogInput> {
+public interface IView {
+    string GetString();
+}
+
+public interface IViewCreator {
+    IView CreateView(object item);
+}
+
+// Зачем здесь эторазделение на жанные и View - непонятно- возможно это какая-то попытка посмотреть что из этого выйдет
+public class AnalogInputView : IView {
+    private readonly AnalogInput _item;
+    public AnalogInputView(AnalogInput item) {
+        _item = item;
+    }
+    public string GetString() {
+        return
+            $"+MPL:{_item.MPL}, RTD_SI:{_item.RTD_SI}, INPUTTYPE:{_item.INPUTTYPE}, DISPLAYPRECISION:{_item.DISPLAYPRECISION}, PRESSUREMEASUREMENT:{_item.PRESSUREMEASUREMENT}, absATMpres:{_item.absATMpres}, getValue:{_item.getValue()}, getStatus:{_item.getStatus()}\n";
+    }
+}
+
+public class AnalogInputs : List<AnalogInput>, IViewCreator {
+    public void Visit(IVisitor visitor) {
+        visitor.VisitAnalogInputs(this, this);
+    }
+    public IView CreateView(object item) {
+        return new AnalogInputView((AnalogInput)item);
+    }
     public static void Q_2000_AI(ElektronikonRequest er) {
         for (var i = 0x2010; i < 0x2090; i++) {
             er.Add(i, 1);
@@ -90,9 +116,5 @@ public class AnalogInputs : List<AnalogInput> {
             AnswerData vdata = answers.getData(0x3002, JSON[i].RTD_SI);
             JSON[i].setData(vdata);
         }
-    }
-
-    public void Visit(IVisitor visitor) {
-        visitor.VisitAnalogInputs(this);
     }
 }

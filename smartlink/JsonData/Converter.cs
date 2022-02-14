@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace smartlink.JsonData;
 
@@ -7,9 +8,23 @@ public class Converter : BaseData {
     public byte CONVERTERDEVICETYPE { get; set; }
     public int RTD_SI { get; set; }
     public AnswerData Data2 { get; set; } = AnswerData.Empty;
+
     public void setData(AnswerData data1, AnswerData data2) {
         setData(data1);
         Data2 = data2;
+    }
+
+    public ushort getValue() {
+        return Data.UInt16(1);
+    }
+
+    public ushort getFlow() {
+        return Data2.UInt16(0);
+    }
+
+    public override string ToString() {
+        return
+            $"MPL:-, RTD_SI:{RTD_SI}, TYPE:{CONVERTERTYPE}, DEVICETYPE:{CONVERTERDEVICETYPE}, Value:{getValue()}, Flow:{getFlow()}%\n";
     }
 }
 

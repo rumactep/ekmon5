@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace smartlink.JsonData;
 
 public interface IVisitor {
-    void VisitAnalogInputs(List<AnalogInput> list);
+    void VisitAnalogInputs(IViewCreator creator, List<AnalogInput> list);
     void VisitDigitalInputs(List<DigitalInput> list);
     void VisitCounters(List<Counter> list);
     void VisitConverters(List<Converter> list);
@@ -38,11 +38,11 @@ public class StringPartWriter : IPartWriter {
 
 public class VisitorHelper<T> {
     public static void VisitItems(IPartWriter partWriter, List<T> items) {
+        if (items.Count == 0)
+            return;
         partWriter.WriteLine(items.GetType().ToString());
-        foreach (T item in items)
-#pragma warning disable CS8602 // Разыменование вероятной пустой ссылки.
-            partWriter.Write(item.ToString()!);
-#pragma warning restore CS8602 // Разыменование вероятной пустой ссылки.
+        foreach (T item in items) 
+            partWriter.Write(item!.ToString()!);
         partWriter.WriteLine("");
     }
 }
@@ -55,8 +55,14 @@ public class StringVisitor : IVisitor {
         _partWriter = partWriter;
     }
 
-    public void VisitAnalogInputs(List<AnalogInput> list) {
-        VisitorHelper<AnalogInput>.VisitItems(_partWriter, list);
+    public void VisitAnalogInputs(IViewCreator creator, List<AnalogInput> list) {
+        if (list.Count == 0)
+            return;
+        _partWriter.WriteLine(list.GetType().ToString());
+        foreach (AnalogInput item in list)
+            _partWriter.Write(creator.CreateView(item).GetString());
+            //_partWriter.Write(item!.ToString()!);
+        _partWriter.WriteLine("");
     }
 
     public void VisitDigitalInputs(List<DigitalInput> list) {
@@ -99,6 +105,8 @@ public class StringVisitor : IVisitor {
         VisitorHelper<ushort>.VisitItems(_partWriter, list);
     }
 }
+
+
 
 public abstract class BaseData {
     public AnswerData Data { get; set; } = AnswerData.Empty;

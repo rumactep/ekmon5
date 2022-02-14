@@ -10,6 +10,10 @@ public class SPM : BaseData {
         setData(data1);
         Data2 = data2;
     }
+    public override string ToString() {
+        return
+            $"MPL:{MPL}, RTD_SI:{RTD_SI}\n";
+    }
 }
 
 public class SPMs : List<SPM> { 
@@ -45,7 +49,6 @@ public class SPMs : List<SPM> {
                 sPM2.Add( vSPM);
             }
         }
-
     }
 
     public static void Q_2000_SPM(ElektronikonRequest er) {

@@ -7,9 +7,12 @@ public class AnalogOutput : BaseData {
     public byte OUTPUTTYPE { get; set; }
     public byte DISPLAYPRECISION { get; set; }
     public int RTD_SI { get; set; }
-
-}
-    public class AnalogOutputs : List<AnalogOutput> { 
+    public override string ToString() {
+        return
+            $"MPL:{MPL}, RTD_SI:{RTD_SI}, INPUTTYPE:{OUTPUTTYPE}, DISPLAYPRECISION:{DISPLAYPRECISION}\n";
+    }
+} 
+public class AnalogOutputs : List<AnalogOutput> { 
     public void Visit(IVisitor v) { v.VisitAnalogOutputs(this); }
 
     public static void A_3000_AO(ElektronikonRequest answers, List<AnalogOutput> JSON) {
