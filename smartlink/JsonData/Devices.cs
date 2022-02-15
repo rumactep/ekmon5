@@ -15,7 +15,10 @@ public class Devices : List<ushort> {
     }
 
     public static void A_2000_MMT(ElektronikonRequest vQuestions, List<ushort> dEVICE) {
-        byte data = vQuestions.getData(0x2001, 1).Byte(0);
+        var data1 = vQuestions.getData(0x2001, 1);
+        if (data1.IsEmpty)
+            return;
+        byte data = data1.Byte(0);
         dEVICE.Add(data);
     }
 

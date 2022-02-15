@@ -6,9 +6,17 @@ public class DigitalOutput : BaseData {
     public ushort MPL { get; set; }
     public int RTD_SI { get; set; }
 
+    public uint getValue() {
+        return Data.UInt16(1);
+    }
+
+    public int getStatus() {
+        return Data.UInt16(0);
+    }
+
     public override string ToString() {
         return
-            $"MPL:{MPL}, RTD_SI:{RTD_SI}\n";
+            $"MPL:{MPL}, RTD_SI:{RTD_SI}, value:{getValue()}, status:{getStatus()}\n";
     }
 
 }

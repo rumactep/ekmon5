@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace smartlink.JsonData;
 
@@ -9,6 +10,26 @@ public class SPM : BaseData {
     public void setData(AnswerData data1, AnswerData data2) {
         setData(data1);
         Data2 = data2;
+    }
+    string getValue() {
+        var dBm1 = Data.Byte(3);
+        string strdBm = (dBm1 < 10 ? "0" : "") + dBm1;
+        var dBc1 = Data.Byte(2);
+        string strdBc = (dBc1 < 10 ? "0" : "") + dBc1;
+
+        var date = new DateTime(Data2.UInt32() * 1000);
+        var day = date.Day;
+        string strday = (day < 10 ? "0" : "") + day;
+        var month = date.Month + 1;
+        string strmonth = (month < 10 ? "0" : "") + month;
+        var stryear = date.Year;
+        var hours = date.Hour - 2;
+        string strhours = (hours < 10 ? "0" : "") + hours;
+        var minutes = date.Minute;
+        string strminutes = (minutes < 10 ? "0" : "") + minutes;
+        var timestamp = strday + "/" + strmonth + "/" + stryear + " - " + strhours + ":" + strminutes;
+
+        return timestamp + " " + strdBc + " dBcsv / " + strdBm + " dBmsv";
     }
     public override string ToString() {
         return

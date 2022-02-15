@@ -16,13 +16,17 @@ public class AnalogInput : BaseData {
     }
 
     public int getStatus() {
-        return Data.UInt16(1);
+        return Data.UInt16(0);
     }
 
-    public override string ToString() {
-        return
-            $"MMPL:{MPL}, RTD_SI:{RTD_SI}, INPUTTYPE:{INPUTTYPE}, DISPLAYPRECISION:{DISPLAYPRECISION}, PRESSUREMEASUREMENT:{PRESSUREMEASUREMENT}, absATMpres:{absATMpres}, getValue:{getValue()}, getStatus:{getStatus()}\n";
-    }
+//    public override string ToString() {
+//        return            $"MMPL:{MPL}, RTD_SI:{RTD_SI}, INPUTTYPE:{INPUTTYPE}, DISPLAYPRECISION:{DISPLAYPRECISION}, PRESSUREMEASUREMENT:{PRESSUREMEASUREMENT}, absATMpres:{absATMpres}, getValue:{getValue()}, getStatus:{getStatus()}\n";
+//    }
+
+
+    //case 0:value=value/1000;unit=$('#P option:selected').attr('value');break;//mbar   // ---> loadlanguage.js
+    //case 1:value=value/10;unit=$('#T option:selected').attr('value');break;//0.1°C   // ---> loadlanguage.js 
+
 }
 
 public interface IView {

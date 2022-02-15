@@ -6,10 +6,64 @@ public class Counter : BaseData {
     public ushort MPL { get; set; }
     public byte COUNTERUNIT { get; set; }
     public int RTD_SI { get; set; }
+
+    public int getValue() {
+        return Data.Int32();
+    }
+
     public override string ToString() {
         return
-            $"MPL:{MPL}, RTD_SI:{RTD_SI}, INPUTTYPE:{COUNTERUNIT}\n";
+            $"MPL:{MPL}, RTD_SI:{RTD_SI}, INPUTTYPE:{COUNTERUNIT}, value:{getValue()}\n";
     }
+
+    /*
+    var rawArray = new Array();
+    var sum = 0;
+
+    for (var i in json) {
+        if (json[i].MPL >= 2706 && json[i].MPL <= 2710) {
+            rawArray[json[i].MPL] = json[i].getValue();
+    sum += rawArray[json[i].MPL];
+        }
+    }
+
+    if (rawArray.length != 0 && sum != 0) {
+    var quotients = new Array();
+    var rests = new Array();
+
+        for (var i in rawArray) {
+        quotients[i] = Math.floor(rawArray[i] * 100 / sum);
+        rests[i] = ((rawArray[i] * 100) % sum);
+    }
+
+    while (true) {
+        var quotient_sum = 0;
+        var max = 0;
+        var max_index = 0;
+            for (var i in quotients) {
+            quotient_sum += quotients[i];
+
+            if (rests[i] > max) {
+                max = rests[i];
+                max_index = i;
+            }
+        }
+
+        if (quotient_sum == 100) {
+            return quotients;
+        }
+        else {
+            quotients[max_index]++;
+            rests[max_index] = 0;
+        }
+    }
+}
+else if (rawArray.length == 0) {
+    return new Array();
+}
+else {
+    return rawArray;
+} //*/
 
 }
 

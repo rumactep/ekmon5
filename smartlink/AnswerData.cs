@@ -68,6 +68,13 @@ public class AnswerData {
         //    v = -32768 + (v & 0x00007FFF);
         //return v;
     }
+    
+    public int Int32() {
+        Debug.Assert(Str.Length == 8);
+        if (Str == "X" || string.IsNullOrEmpty(Str))
+            throw new Exception($"AnswerData.Str={Str} is invalid");
+        return Convert.ToInt32(Str, 16);
+    }
 
     public uint UInt32() {
         Debug.Assert(Str.Length == 8);

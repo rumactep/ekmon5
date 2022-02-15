@@ -7,9 +7,18 @@ public class AnalogOutput : BaseData {
     public byte OUTPUTTYPE { get; set; }
     public byte DISPLAYPRECISION { get; set; }
     public int RTD_SI { get; set; }
+
+    public int getValue() {
+        return Data.Int16(1);
+    }
+
+    public int getStatus() {
+        return Data.UInt16(0);
+    }
+
     public override string ToString() {
         return
-            $"MPL:{MPL}, RTD_SI:{RTD_SI}, INPUTTYPE:{OUTPUTTYPE}, DISPLAYPRECISION:{DISPLAYPRECISION}\n";
+            $"MPL:{MPL}, RTD_SI:{RTD_SI}, OUTPUTTYPE:{OUTPUTTYPE}, DISPLAYPRECISION:{DISPLAYPRECISION}, value:P{getValue()}, status:{getStatus()}\n";
     }
 } 
 public class AnalogOutputs : List<AnalogOutput> { 
