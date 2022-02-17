@@ -37,7 +37,7 @@ public interface IViewCreator {
     IView CreateView(object item);
 }
 
-// Зачем здесь эторазделение на жанные и View - непонятно- возможно это какая-то попытка посмотреть что из этого выйдет
+// Зачем здесь это разделение на данные и View - непонятно- возможно это какая-то попытка посмотреть что из этого выйдет
 public class AnalogInputView : IView {
     private readonly AnalogInput _item;
     public AnalogInputView(AnalogInput item) {

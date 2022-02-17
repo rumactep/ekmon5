@@ -8,6 +8,7 @@ Console.WriteLine($"ElektronikonReader reading url: {url}");
 var reader = new QuestionReader {
     Logger = ConsoleLogger.Instance
 };
+reader.LoadLanguage("Russian.txt");
 var client = new HttpElektronikonClient(url);
 //var client = new ElektronikonClientStub();
 await reader.Run(client);

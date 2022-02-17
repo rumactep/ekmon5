@@ -5,7 +5,16 @@ using smartlink.JsonData;
 
 namespace smartlink;
 
+
 public class QuestionReader {
+    Language _language = new ();
+
+    public void LoadLanguage(string languagefilename) {
+        var loader = new LanguageLoader();
+        loader.LoadLanguage(languagefilename, _language);
+        Logger.Log($"loaded {_language.StringCount} lines from {languagefilename}");
+    }
+
     public ILogger Logger { get; set; } = NoLogger.Instance;
     public async Task Run(IElektronikonClient client) {        
         var list = ElektronikonRequest.ConfigQuestions;
@@ -30,6 +39,8 @@ public class QuestionReader {
         }
     }
 
+
+
     private void ProcessView(JSONS vJSON) {
         StringVisitor visitor = new StringVisitor(new StringPartWriter());
         vJSON.Accept(visitor);
@@ -40,15 +51,16 @@ public class QuestionReader {
     public static async Task<ElektronikonRequest> SendReceive(Question[] questions, IElektronikonClient client, ILogger logger) {
            
         ElektronikonRequest request = new ElektronikonRequest();
-        // Elektronikon kontroller can process max 1000 questions. Otherwise it can hang 
-        
+
+        // Elektronikon kontroller can process max 1000 questions. Otherwise it can hang        
         const int step1000 = 1000;
+
         for (int idx = 0; idx < questions.Length; idx += step1000) {
             int to = Math.Min(idx + step1000, questions.Length);
             string questionsString = ElektronikonRequest.GetRequestString(questions, idx, to);
             logger.Log("questionsString:", questionsString);
 
-            // for each 6 chars of question we receive 8 chars of answer
+            // for each 6 chars of question we receive 8 chars of answer or 'X'
             string answersString = await client.AskAsync(questionsString);
             logger.Log("answersString:", answersString);
             for (int iQ = idx, iA = 0; iQ < to; iQ++) {
