@@ -15,7 +15,7 @@ public class QuestionReader {
         Logger.Log($"loaded {_language.StringCount} lines from {languagefilename}");
     }
 
-    public ILogger Logger { get; set; } = NoLogger.Instance;
+    public ILogger Logger { get; set; } = ILogger.Null;
     public async Task Run(IElektronikonClient client) {        
         var list = ElektronikonRequest.ConfigQuestions;
         
@@ -39,10 +39,8 @@ public class QuestionReader {
         }
     }
 
-
-
     private void ProcessView(JSONS vJSON) {
-        StringVisitor visitor = new StringVisitor(new StringPartWriter());
+        StringVisitor visitor = new StringVisitor(new StringPartWriter(), _language);
         vJSON.Accept(visitor);
         string str = visitor.Text;
         Logger.Log(str);
@@ -88,6 +86,18 @@ public class QuestionReader {
 public interface ILogger {
     void Log(string message);
     void Log(string prefix, string message);
+
+    public static ILogger Null => NoLogger.Instance;
+
+    private sealed class NoLogger : ILogger {
+        private static readonly Lazy<NoLogger> instance = new(() => new NoLogger());
+        public static ILogger Instance => instance.Value;
+
+        //public static readonly NoLogger Instance = new NoLogger();
+        public void Log(string message) { }
+        public void Log(string prefix, string message) { }
+    }
+
 }
 
 public class ConsoleLogger : ILogger{
@@ -98,9 +108,4 @@ public class ConsoleLogger : ILogger{
     public void Log(string prefix, string message) {
         Console.WriteLine(prefix + " " + message);
     }
-}
-public class NoLogger : ILogger {
-    public static readonly NoLogger Instance = new NoLogger();
-    public void Log(string message) { }
-    public void Log(string prefix, string message) {}
 }

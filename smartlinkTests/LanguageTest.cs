@@ -7,6 +7,15 @@ using Xunit;
 using smartlink;
 
 namespace smartlinkTests {
+    public class FormatterHelperTest {
+        [Fact]
+        public void TestFormatterHelper() {
+            short value = 20;
+            byte dISPLAYPRECISION = 1;
+            string answer = value.ToString("N" + $"{dISPLAYPRECISION}");
+            //Assert.Equal
+        }
+    }
     public class LanguageTest {
         [Fact]
         public void TestLanguage() {

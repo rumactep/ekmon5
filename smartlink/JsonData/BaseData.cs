@@ -49,10 +49,12 @@ public class VisitorHelper<T> {
 
 public class StringVisitor : IVisitor {
     private readonly IPartWriter _partWriter;
+    private readonly Language _language;
     public string Text => _partWriter.Text;
 
-    public StringVisitor(IPartWriter partWriter) {
+    public StringVisitor(IPartWriter partWriter, Language language) {
         _partWriter = partWriter;
+        _language = language;
     }
 
     public void VisitAnalogInputs(IViewCreator creator, List<AnalogInput> list) {
@@ -60,13 +62,18 @@ public class StringVisitor : IVisitor {
             return;
         _partWriter.WriteLine(list.GetType().ToString());
         foreach (AnalogInput item in list)
-            _partWriter.Write(creator.CreateView(item).GetString());
+            _partWriter.Write(creator.CreateView(item, _language).GetString());
             //_partWriter.Write(item!.ToString()!);
         _partWriter.WriteLine("");
     }
 
-    public void VisitDigitalInputs(List<DigitalInput> list) {
-        VisitorHelper<DigitalInput>.VisitItems(_partWriter, list);
+    public void VisitDigitalInputs(List<DigitalInput> items) {
+        if (items.Count == 0)
+            return;
+        _partWriter.WriteLine(items.GetType().ToString());
+        foreach (var item in items)
+            _partWriter.Write(item.ToString() );
+        _partWriter.WriteLine("");
     }
 
     public void VisitCounters(List<Counter> list) {

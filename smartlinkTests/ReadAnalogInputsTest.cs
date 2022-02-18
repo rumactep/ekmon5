@@ -32,7 +32,7 @@ public class ReadAnalogInputsTestIElektronikonClient {
         //var reader = new QuestionReader();
         var client = new ElektronikonClientStub();
         var items = ElektronikonRequest.ConfigQuestions;
-        var config = await QuestionReader.SendReceive(items, client, NoLogger.Instance);
+        var config = await QuestionReader.SendReceive(items, client, ILogger.Null);
         Assert.Equal(1, client.Ask1);
         Assert.Equal(1, client.Ask2);
         Assert.Equal(0, client.AskOther);
@@ -43,14 +43,14 @@ public class ReadAnalogInputsTestIElektronikonClient {
         //var reader = new QuestionReader();
         var client = new ElektronikonClientStub();
         var items = ElektronikonRequest.ConfigQuestions;
-        var config = await QuestionReader.SendReceive(items, client, NoLogger.Instance);
+        var config = await QuestionReader.SendReceive(items, client, ILogger.Null);
         Assert.Equal(1, client.Ask1);
         Assert.Equal(1, client.Ask2);
         Assert.Equal(0, client.AskOther);
         ElektronikonRequest sparsedConfig = config.SparseQuestions();
         JSONS json = ElektronikonRequest.ProcessConfig(sparsedConfig);
         var dataQuestions = ElektronikonRequest.DataQuestions(json);
-        var datas = await QuestionReader.SendReceive(dataQuestions, client, NoLogger.Instance);
+        var datas = await QuestionReader.SendReceive(dataQuestions, client, ILogger.Null);
         Assert.Equal(1, client.Ask1);
         Assert.Equal(1, client.Ask2);
         Assert.Equal(0, client.AskOther);

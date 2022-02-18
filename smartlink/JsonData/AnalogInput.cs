@@ -11,11 +11,11 @@ public class AnalogInput : BaseData {
     public byte PRESSUREMEASUREMENT { get; set; }
     public ushort absATMpres { get; set; }
 
-    public int getValue() {
+    public short getValue() {
         return Data.Int16(1);
     }
 
-    public int getStatus() {
+    public ushort getStatus() {
         return Data.UInt16(0);
     }
 
@@ -34,27 +34,154 @@ public interface IView {
 }
 
 public interface IViewCreator {
-    IView CreateView(object item);
+    IView CreateView(object item, Language language);
 }
 
-// Зачем здесь это разделение на данные и View - непонятно- возможно это какая-то попытка посмотреть что из этого выйдет
+public class ValueFormatHelper {
+    // AI_value, AI_type, AI_display
+    public static string FormatAiValue(short AI_value, byte iNPUTTYPE, byte dISPLAYPRECISION, Language language) {
+        if (AI_value == short.MaxValue || AI_value == short.MinValue)
+            return language.GetString("SENSORERROR", 1);
+        return AI_value.ToString();
+        // perhaps, need to increment (or decrement) value for negative numbers ?
+        /*
+        var str = "";
+        short value = AI_value;
+
+            string unit;
+            switch (iNPUTTYPE) {
+                case 0: 
+                    value = value / 1000; 
+                    unit = "mbar";  break;
+                case 1: value = value / 10; unit =$('#T option:selected').attr('value'); break;//0.1°C   // ---> loadlanguage.js 
+                case 2: value = value / 100; unit = "µm"; break;
+                case 3: value = value / 10; unit = "mm"; break;
+                case 4: unit = "µS/cm"; break;
+                case 5: unit = "dB"; break;
+                case 6: unit = "l/s"; break;
+                case 7: value = value / 10; unit = "A"; break;//0.1 A        
+                case 8: unit = "rpm"; break;
+                case 9: value = value / 100; unit =$('#P option:selected').attr('value'); break;//cBar   // ---> loadlanguage.js
+                case 10: unit = "%"; break;
+                case 11: value = value * 10; unit = "rpm"; break;
+                case 12: unit = "ppm"; break;
+                case 13: value = value / 100; unit = "ppm"; break;
+                case 14: value = value / 100; unit = "% VV"; break;
+                case 15: unit = "%"; break;
+                case 16: value = value / 10; unit =$('#T option:selected').attr('value'); break;//0.1°C   // ---> loadlanguage.js 
+                case 17: value = value / 1000; unit = ""; break;
+                case 18: unit = ""; break;
+                case 19: value = value / 10; unit = "kW"; break;
+                case 20: unit = "kW"; break;
+                case 21: unit = "J"; break;
+                case 22: unit = "mі"; break;
+                case 23: unit = "J/l"; break;
+                case 24: unit = ""; break;
+                case 25: unit = "Pa/s"; break;
+                case 26: unit = ""; break;
+                case 27: value = value / 100; unit = "%"; break;
+                case 29: value = value * 10; unit = "Micron"; break;
+            }
+
+            switch (unit) {
+                case "psi": value = 14.5038 * value; break;
+                case "MPa": value = 0.1 * value; break;
+                case "kg/cm\u00b2": value = 1.019716 * value; break;
+                case "\u00b0F": value = (9 / 5) * value + 32; break; // grad Fahheit?
+                case "K": value = value + 273.15; break;
+                case "mmHg": value = value * 750.061683; break;
+            }
+            //value = value.toFixed(AI_display);
+            value.ToString("N"+$"{dISPLAYPRECISION}");
+
+            str = value.toString() + " " + unit; //*/
+    }
+
+}
+
+    /*
+    var str = "";
+    var value = 0;
+	
+    if(AI_value>>>15) {
+        value=-32767;
+	}
+
+    var value = value + (AI_value & 0x7FFF);
+    
+    if(value==32767) {
+        str=language.get('SENSORERROR', 1);
+    } else {
+    var unit;
+    switch (AI_type) {
+        case 0: value = value / 1000; unit =$('#P option:selected').attr('value'); break;//mbar   // ---> loadlanguage.js
+        case 1: value = value / 10; unit =$('#T option:selected').attr('value'); break;//0.1°C   // ---> loadlanguage.js 
+        case 2: value = value / 100; unit = "µm"; break;
+        case 3: value = value / 10; unit = "mm"; break;
+        case 4: unit = "µS/cm"; break;
+        case 5: unit = "dB"; break;
+        case 6: unit = "l/s"; break;
+        case 7: value = value / 10; unit = "A"; break;//0.1 A        
+        case 8: unit = "rpm"; break;
+        case 9: value = value / 100; unit =$('#P option:selected').attr('value'); break;//cBar   // ---> loadlanguage.js
+        case 10: unit = "%"; break;
+        case 11: value = value * 10; unit = "rpm"; break;
+        case 12: unit = "ppm"; break;
+        case 13: value = value / 100; unit = "ppm"; break;
+        case 14: value = value / 100; unit = "% VV"; break;
+        case 15: unit = "%"; break;
+        case 16: value = value / 10; unit =$('#T option:selected').attr('value'); break;//0.1°C   // ---> loadlanguage.js 
+        case 17: value = value / 1000; unit = ""; break;
+        case 18: unit = ""; break;
+        case 19: value = value / 10; unit = "kW"; break;
+        case 20: unit = "kW"; break;
+        case 21: unit = "J"; break;
+        case 22: unit = "mі"; break;
+        case 23: unit = "J/l"; break;
+        case 24: unit = ""; break;
+        case 25: unit = "Pa/s"; break;
+        case 26: unit = ""; break;
+        case 27: value = value / 100; unit = "%"; break;
+        case 29: value = value * 10; unit = "Micron"; break;
+    }
+
+    switch (unit) {
+        case "psi": value = 14.5038 * value; break;
+        case "MPa": value = 0.1 * value; break;
+        case "kg/cm\u00b2": value = 1.019716 * value; break;
+        case "\u00b0F": value = (9 / 5) * value + 32; break; // grad Fahheit?
+        case "K": value = value + 273.15; break;
+        case "mmHg": value = value * 750.061683; break;
+    }
+    value = value.toFixed(AI_display);
+    str = value.toString() + " " + unit; //*/
+
+
 public class AnalogInputView : IView {
     private readonly AnalogInput _item;
-    public AnalogInputView(AnalogInput item) {
+    private readonly Language _language;
+
+    public AnalogInputView(AnalogInput item, Language language) {
         _item = item;
+        _language = language;
     }
     public string GetString() {
+        // format_AI_value(jsonrow_i.getValue(), jsonrow_i.INPUTTYPE, jsonrow_i.DISPLAYPRECISION)
+        string strMpl = _language.GetString("MPL", _item.MPL);
+        string strValue = ValueFormatHelper.FormatAiValue(_item.getValue(), _item.INPUTTYPE, _item.DISPLAYPRECISION, _language);
         return
-            $"+MPL:{_item.MPL}, RTD_SI:{_item.RTD_SI}, INPUTTYPE:{_item.INPUTTYPE}, DISPLAYPRECISION:{_item.DISPLAYPRECISION}, PRESSUREMEASUREMENT:{_item.PRESSUREMEASUREMENT}, absATMpres:{_item.absATMpres}, getValue:{_item.getValue()}, getStatus:{_item.getStatus()}\n";
+            $"MPL:{_item.MPL} {strMpl}, RTD_SI:{_item.RTD_SI}, INPUTTYPE:{_item.INPUTTYPE}, DISPLAYPRECISION:{_item.DISPLAYPRECISION}, PRESSUREMEASUREMENT:{_item.PRESSUREMEASUREMENT}, absATMpres:{_item.absATMpres}, getValue:{_item.getValue()} {strValue}, getStatus:{_item.getStatus()}\n";
     }
+
+
 }
 
 public class AnalogInputs : List<AnalogInput>, IViewCreator {
     public void Visit(IVisitor visitor) {
         visitor.VisitAnalogInputs(this, this);
     }
-    public IView CreateView(object item) {
-        return new AnalogInputView((AnalogInput)item);
+    public IView CreateView(object item, Language language) {
+        return new AnalogInputView((AnalogInput)item, language);
     }
     public static void Q_2000_AI(ElektronikonRequest er) {
         for (var i = 0x2010; i < 0x2090; i++) {

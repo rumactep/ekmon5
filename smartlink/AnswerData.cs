@@ -57,7 +57,7 @@ public class AnswerData {
         return Convert.ToUInt16(s, 16);
     }
 
-    public int Int16(int reverseindex) {
+    public short Int16(int reverseindex) {
         Debug.Assert(Str.Length == 8);
         if (Str == "X" || string.IsNullOrEmpty(Str))
             throw new Exception($"AnswerData.Str={Str} is invalid");
