@@ -11,10 +11,6 @@ public class Counter : BaseData {
         return Data.Int32();
     }
 
-    public override string ToString() {
-        return
-            $"MPL:{MPL}, RTD_SI:{RTD_SI}, INPUTTYPE:{COUNTERUNIT}, value:{getValue()}\n";
-    }
 
     /*
     var rawArray = new Array();
@@ -67,9 +63,27 @@ else {
 
 }
 
-public class Counters : List<Counter> { 
-    public void Visit(IVisitor visitor) { visitor.VisitCounters(this); }
+public class CounterView : IView {
+    private Counter _item;
+    private Language _language;
 
+    public CounterView(Counter item, Language language) {
+        _item = item;
+        _language = language;
+    }
+
+    public string GetString() {
+        return
+            $"MPL:{_item.MPL}, RTD_SI:{_item.RTD_SI}, INPUTTYPE:{_item.COUNTERUNIT}, value:{_item.getValue()}\n";
+    }
+}
+
+
+public class Counters : List<Counter>, IViewCreator { 
+    public void Visit(IVisitor visitor) { visitor.VisitCounters(this, this); }
+    public IView CreateView(object item, Language language) {
+        return new CounterView((Counter)item, language);
+    }
     public static void Q_2000_CNT(ElektronikonRequest er) {
         for (var i = 1; i < 256; i++)
             er.Add(0x2607, i);

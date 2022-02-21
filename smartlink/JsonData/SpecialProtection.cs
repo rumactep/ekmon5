@@ -6,17 +6,30 @@ public class SpecialProtection : BaseData {
     public ushort MPL { get; set; }
     public int RTD_SI { get; set; }
 
-    uint getStatus() {
+    public uint getStatus() {
         return Data.UInt16(0);
     }
-    public override string ToString() {
-        return
-            $"MPL:{MPL}, RTD_SI:{RTD_SI}, status:{getStatus()}\n";
+}
+
+public class SpecialProtectionView : IView {
+    private SpecialProtection _item;
+    private Language _language;
+
+    public SpecialProtectionView(SpecialProtection item, Language language) {
+        _item = item;
+        _language = language;
+    }
+
+    public string GetString() {
+        return $"MPL:{_item.MPL}, RTD_SI:{_item.RTD_SI}, status:{_item.getStatus()}\n";
     }
 }
-public class SpecialProtections : List<SpecialProtection> { 
-    public void Visit(IVisitor v) { v.VisitSpecialProtections(this); }
 
+public class SpecialProtections : List<SpecialProtection>, IViewCreator { 
+    public void Visit(IVisitor v) { v.VisitSpecialProtections(this, this); }
+    public IView CreateView(object item, Language language) {
+        return new SpecialProtectionView((SpecialProtection)item, language);
+    }
     public static void A_3000_SPR(ElektronikonRequest answers, List<SpecialProtection> JSON) {
         for (var i = 0; i < JSON.Count; i++)
             JSON[i].setData(answers.getData(0x300E, JSON[i].RTD_SI));

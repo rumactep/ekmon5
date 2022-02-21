@@ -31,14 +31,27 @@ public class SPM : BaseData {
 
         return timestamp + " " + strdBc + " dBcsv / " + strdBm + " dBmsv";
     }
-    public override string ToString() {
-        return
-            $"MPL:{MPL}, RTD_SI:{RTD_SI}\n";
+}
+
+public class SPMView : IView {
+    private SPM _item;
+    private Language _language;
+
+    public SPMView(SPM item, Language language) {
+        _item = item;
+        _language = language;
+    }
+
+    public string GetString() {
+        return $"MPL:{_item.MPL}, RTD_SI:{_item.RTD_SI}\n";
     }
 }
 
-public class SPMs : List<SPM> { 
-    public void Visit(IVisitor v) { v.VisitSpms(this); }
+public class SPMs : List<SPM>, IViewCreator { 
+    public void Visit(IVisitor v) { v.VisitSpms(this, this); }
+    public IView CreateView(object item, Language language) {
+        return new SPMView((SPM)item, language);
+    }
 
     public static void A_3000_SPM(ElektronikonRequest answers, List<SPM> JSON) {
         for (var i = 0; i < JSON.Count; i++) {

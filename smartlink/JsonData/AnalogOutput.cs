@@ -15,14 +15,28 @@ public class AnalogOutput : BaseData {
     public int getStatus() {
         return Data.UInt16(0);
     }
+           
+}
 
-    public override string ToString() {
-        return
-            $"MPL:{MPL}, RTD_SI:{RTD_SI}, OUTPUTTYPE:{OUTPUTTYPE}, DISPLAYPRECISION:{DISPLAYPRECISION}, value:P{getValue()}, status:{getStatus()}\n";
+public class AnalogOutputView : IView {
+    private readonly AnalogOutput _item;
+    private readonly Language _language;
+    public AnalogOutputView(AnalogOutput item, Language language) {
+        _item = item;
+        _language = language;
     }
-} 
-public class AnalogOutputs : List<AnalogOutput> { 
-    public void Visit(IVisitor v) { v.VisitAnalogOutputs(this); }
+
+    public string GetString() {
+        return
+            $"MPL:{_item.MPL}, RTD_SI:{_item.RTD_SI}, OUTPUTTYPE:{_item.OUTPUTTYPE}, DISPLAYPRECISION:{_item.DISPLAYPRECISION}, value:P{_item.getValue()}, status:{_item.getStatus()}\n";
+    }
+}
+
+public class AnalogOutputs : List<AnalogOutput>, IViewCreator { 
+    public void Visit(IVisitor v) { v.VisitAnalogOutputs(this, this); }
+    public IView CreateView(object item, Language language) {
+        return new AnalogOutputView((AnalogOutput)item, language);
+    }
 
     public static void A_3000_AO(ElektronikonRequest answers, List<AnalogOutput> JSON) {
         for (var i = 0; i < JSON.Count; i++)
@@ -59,4 +73,6 @@ public class AnalogOutputs : List<AnalogOutput> {
             er.Add(i, 3);
         }
     }
+
+
 }

@@ -5,16 +5,16 @@ namespace smartlink.JsonData;
 
 public interface IVisitor {
     void VisitAnalogInputs(IViewCreator creator, List<AnalogInput> list);
-    void VisitDigitalInputs(List<DigitalInput> list);
-    void VisitCounters(List<Counter> list);
-    void VisitConverters(List<Converter> list);
-    void VisitDigitalOutputs(List<DigitalOutput> list);
-    void VisitCalculatedAnalogInputs(List<CalculatedAnalogInput> list);
-    void VisitSpecialProtections(List<SpecialProtection> list);
-    void VisitAnalogOutputs(List<AnalogOutput> list);
-    void VisitSpms(List<SPM> list);
-    void VisitServicePlans(List<ServicePlan> list);
-    void VisitDevices(List<ushort> list);
+    void VisitDigitalInputs(IViewCreator creator, List<DigitalInput> list);
+    void VisitCounters(IViewCreator creator, List<Counter> list);
+    void VisitConverters(IViewCreator creator, List<Converter> list);
+    void VisitDigitalOutputs(IViewCreator creator, List<DigitalOutput> list);
+    void VisitCalculatedAnalogInputs(IViewCreator creator, List<CalculatedAnalogInput> list);
+    void VisitSpecialProtections(IViewCreator creator, List<SpecialProtection> list);
+    void VisitAnalogOutputs(IViewCreator creator, List<AnalogOutput> list);
+    void VisitSpms(IViewCreator creator, List<SPM> list);
+    void VisitServicePlans(IViewCreator creator, List<ServicePlan> list);
+    void VisitDevices(IViewCreator creator, List<ushort> list);
 }
 
 public interface IPartWriter {
@@ -36,6 +36,7 @@ public class StringPartWriter : IPartWriter {
     }
 }
 
+/*
 public class VisitorHelper<T> {
     public static void VisitItems(IPartWriter partWriter, List<T> items) {
         if (items.Count == 0)
@@ -45,7 +46,7 @@ public class VisitorHelper<T> {
             partWriter.Write(item!.ToString()!);
         partWriter.WriteLine("");
     }
-}
+} //*/
 
 public class StringVisitor : IVisitor {
     private readonly IPartWriter _partWriter;
@@ -67,49 +68,94 @@ public class StringVisitor : IVisitor {
         _partWriter.WriteLine("");
     }
 
-    public void VisitDigitalInputs(List<DigitalInput> items) {
+    public void VisitDigitalInputs(IViewCreator creator, List<DigitalInput> items) {
         if (items.Count == 0)
             return;
         _partWriter.WriteLine(items.GetType().ToString());
         foreach (var item in items)
-            _partWriter.Write(item.ToString() );
+            _partWriter.Write(creator.CreateView(item, _language).GetString());
         _partWriter.WriteLine("");
     }
 
-    public void VisitCounters(List<Counter> list) {
-        VisitorHelper<Counter>.VisitItems(_partWriter, list);
+    public void VisitCounters(IViewCreator creator, List<Counter> items) {
+        if (items.Count == 0)
+            return;
+        _partWriter.WriteLine(items.GetType().ToString());
+        foreach (var item in items)
+            _partWriter.Write(creator.CreateView(item, _language).GetString());
+        _partWriter.WriteLine("");
     }
 
-    public void VisitConverters(List<Converter> list) {
-        VisitorHelper<Converter>.VisitItems(_partWriter, list);
+    public void VisitConverters(IViewCreator creator, List<Converter> items) {
+        if (items.Count == 0)
+            return;
+        _partWriter.WriteLine(items.GetType().ToString());
+        foreach (var item in items)
+            _partWriter.Write(creator.CreateView(item, _language).GetString());
+        _partWriter.WriteLine("");
     }
 
-    public void VisitDigitalOutputs(List<DigitalOutput> list) {
-        VisitorHelper<DigitalOutput>.VisitItems(_partWriter, list);
+    public void VisitDigitalOutputs(IViewCreator creator, List<DigitalOutput> items) {
+        if (items.Count == 0)
+            return;
+        _partWriter.WriteLine(items.GetType().ToString());
+        foreach (var item in items)
+            _partWriter.Write(creator.CreateView(item, _language).GetString());
+        _partWriter.WriteLine("");
     }
 
-    public void VisitCalculatedAnalogInputs(List<CalculatedAnalogInput> list) {
-        VisitorHelper<CalculatedAnalogInput>.VisitItems(_partWriter, list);
+    public void VisitCalculatedAnalogInputs(IViewCreator creator, List<CalculatedAnalogInput> items) {
+        if (items.Count == 0)
+            return;
+        _partWriter.WriteLine(items.GetType().ToString());
+        foreach (var item in items)
+            _partWriter.Write(creator.CreateView(item, _language).GetString());
+        _partWriter.WriteLine("");
     }
 
-    public void VisitSpecialProtections(List<SpecialProtection> list) {
-        VisitorHelper<SpecialProtection>.VisitItems(_partWriter, list);
+    public void VisitSpecialProtections(IViewCreator creator, List<SpecialProtection> items) {
+        if (items.Count == 0)
+            return;
+        _partWriter.WriteLine(items.GetType().ToString());
+        foreach (var item in items)
+            _partWriter.Write(creator.CreateView(item, _language).GetString());
+        _partWriter.WriteLine("");
     }
 
-    public void VisitAnalogOutputs(List<AnalogOutput> list) {
-        VisitorHelper<AnalogOutput>.VisitItems(_partWriter, list);
+    public void VisitAnalogOutputs(IViewCreator creator, List<AnalogOutput> items) {
+        if (items.Count == 0)
+            return;
+        _partWriter.WriteLine(items.GetType().ToString());
+        foreach (var item in items)
+            _partWriter.Write(creator.CreateView(item, _language).GetString());
+        _partWriter.WriteLine("");
     }
 
-    public void VisitSpms(List<SPM> list) {
-        VisitorHelper<SPM>.VisitItems(_partWriter, list);
+    public void VisitSpms(IViewCreator creator, List<SPM> items) {
+        if (items.Count == 0)
+            return;
+        _partWriter.WriteLine(items.GetType().ToString());
+        foreach (var item in items)
+            _partWriter.Write(creator.CreateView(item, _language).GetString());
+        _partWriter.WriteLine("");
     }
 
-    public void VisitServicePlans(List<ServicePlan> list) {
-        VisitorHelper<ServicePlan>.VisitItems(_partWriter, list);
+    public void VisitServicePlans(IViewCreator creator, List<ServicePlan> items) {
+        if (items.Count == 0)
+            return;
+        _partWriter.WriteLine(items.GetType().ToString());
+        foreach (var item in items)
+            _partWriter.Write(creator.CreateView(item, _language).GetString());
+        _partWriter.WriteLine("");
     }
 
-    public void VisitDevices(List<ushort> list) {
-        VisitorHelper<ushort>.VisitItems(_partWriter, list);
+    public void VisitDevices(IViewCreator creator, List<ushort> items) {
+        if (items.Count == 0)
+            return;
+        _partWriter.WriteLine(items.GetType().ToString());
+        foreach (var item in items)
+            _partWriter.Write(creator.CreateView(item, _language).GetString());
+        _partWriter.WriteLine("");
     }
 }
 

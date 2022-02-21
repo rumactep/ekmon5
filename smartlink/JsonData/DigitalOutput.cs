@@ -13,15 +13,27 @@ public class DigitalOutput : BaseData {
     public int getStatus() {
         return Data.UInt16(0);
     }
+}
 
-    public override string ToString() {
-        return
-            $"MPL:{MPL}, RTD_SI:{RTD_SI}, value:{getValue()}, status:{getStatus()}\n";
+public class DigitalOutputView : IView {
+    private DigitalOutput _item;
+    private Language _language;
+
+    public DigitalOutputView(DigitalOutput item, Language language) {
+        _item = item;
+        _language = language;
+    }
+
+    public string GetString() {
+        return $"MPL:{_item.MPL}, RTD_SI:{_item.RTD_SI}, value:{_item.getValue()}, status:{_item.getStatus()}\n";
     }
 
 }
-public class DigitalOutputs : List<DigitalOutput> { 
-    public void Visit(IVisitor v) { v.VisitDigitalOutputs(this); }
+public class DigitalOutputs : List<DigitalOutput>, IViewCreator { 
+    public void Visit(IVisitor v) { v.VisitDigitalOutputs(this, this); }
+    public IView CreateView(object item, Language language) {
+        return new DigitalOutputView((DigitalOutput)item, language);
+    }
 
     public static void A_3000_DO(ElektronikonRequest answers, List<DigitalOutput> JSON) {
         for (var i = 0; i < JSON.Count; i++)

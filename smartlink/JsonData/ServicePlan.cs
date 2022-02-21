@@ -14,19 +14,31 @@ public class ServicePlan : BaseData {
         Next = ((data2.UInt32() >> (LEVEL - 1)) & 1) == 1;
     }
 
-    uint getValue() {
+    public uint getValue() {
         return Data.UInt32();
     }
-    public override string ToString() {
-        return
-            $"MPL:-, RTD_SI:{RTD_SI}, STATICVALUE:{STATICVALUE}, LEVEL:{LEVEL}, Type:{Type}, next:{Next}, value:{getValue()/3600}\n";
-    }
-
 }
 
-public class ServicePlans : List<ServicePlan> { 
-    public void Visit(IVisitor v) { v.VisitServicePlans(this); }
+public class ServicePlanView : IView {
+    private ServicePlan _item;
+    private Language _language;
 
+    public ServicePlanView(ServicePlan item, Language language) {
+        _item = item;
+        _language = language;
+    }
+
+    public string GetString() {
+        return
+            $"MPL:-, RTD_SI:{_item.RTD_SI}, STATICVALUE:{_item.STATICVALUE}, LEVEL:{_item.LEVEL}, Type:{_item.Type}, next:{_item.Next}, value:{_item.getValue() / 3600}\n";
+    }
+}
+
+public class ServicePlans : List<ServicePlan>,  IViewCreator { 
+    public void Visit(IVisitor v) { v.VisitServicePlans(this, this); }
+    public IView CreateView(object item, Language language) {
+        return new ServicePlanView((ServicePlan)item, language);
+    }
     public static void A_3000_SPL(ElektronikonRequest answers, List<ServicePlan> JSON) {
         for (var i = 0; i < JSON.Count; i++) {
             var data1 = answers.getData(0x3009, JSON[i].RTD_SI);

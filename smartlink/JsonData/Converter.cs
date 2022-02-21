@@ -21,15 +21,27 @@ public class Converter : BaseData {
     public ushort getFlow() {
         return Data2.UInt16(0);
     }
+}
 
-    public override string ToString() {
-        return
-            $"MPL:-, RTD_SI:{RTD_SI}, TYPE:{CONVERTERTYPE}, DEVICETYPE:{CONVERTERDEVICETYPE}, Value:{getValue()}, Flow:{getFlow()}%\n";
+public class ConverterView : IView {
+    private Converter _item;
+    private Language _language;
+
+    public ConverterView(Converter item, Language language) {
+        _item = item;
+        _language = language;
+    }
+
+    public string GetString() {
+        return $"MPL:-, RTD_SI:{_item.RTD_SI}, TYPE:{_item.CONVERTERTYPE}, DEVICETYPE:{_item.CONVERTERDEVICETYPE}, Value:{_item.getValue()}, Flow:{_item.getFlow()}%\n";
     }
 }
 
-public class Converters : List<Converter> { 
-    public void Visit(IVisitor visitor) { visitor.VisitConverters(this); }
+public class Converters : List<Converter>, IViewCreator { 
+    public void Visit(IVisitor visitor) { visitor.VisitConverters(this, this); }
+    public IView CreateView(object item, Language language) {
+        return new ConverterView((Converter)item, language);
+    }
 
     public static void A_3000_CNV(ElektronikonRequest answers, List<Converter> JSON) {
         for (var i = 0; i < JSON.Count; i++)

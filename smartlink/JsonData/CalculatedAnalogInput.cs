@@ -15,15 +15,27 @@ public class CalculatedAnalogInput : BaseData {
     public int getStatus() {
         return Data.UInt16(0);
     }
+}
 
-    public override string ToString() {
-        return
-            $"MPL:{MPL}, RTD_SI:{RTD_SI}, INPUTTYPE:{INPUTTYPE}, DISPLAYPRECISION:{DISPLAYPRECISION}, value:{getValue()}, status:{getStatus()}\n";
+public class CalculatedAnalogInputView : IView {
+    private CalculatedAnalogInput _item;
+    private Language _language;
+
+    public CalculatedAnalogInputView(CalculatedAnalogInput item, Language language) {
+        _item = item;
+        _language = language;
+    }
+
+    public string GetString() {
+        return $"MPL:{_item.MPL}, RTD_SI:{_item.RTD_SI}, INPUTTYPE:{_item.INPUTTYPE}, DISPLAYPRECISION:{_item.DISPLAYPRECISION}, value:{_item.getValue()}, status:{_item.getStatus()}\n";
     }
 }
-public class CalculatedAnalogInputs : List<CalculatedAnalogInput> { 
-    public void Visit(IVisitor visitor) { visitor.VisitCalculatedAnalogInputs(this); }
 
+public class CalculatedAnalogInputs : List<CalculatedAnalogInput>, IViewCreator { 
+    public void Visit(IVisitor visitor) { visitor.VisitCalculatedAnalogInputs(this, this); }
+    public IView CreateView(object item, Language language) {
+        return new CalculatedAnalogInputView((CalculatedAnalogInput)item, language);
+    }
     public static void A_3000_CAI(ElektronikonRequest answers, List<CalculatedAnalogInput> JSON) {
         for (var i = 0; i < JSON.Count; i++)
             JSON[i].setData(answers.getData(0x3004, JSON[i].RTD_SI));

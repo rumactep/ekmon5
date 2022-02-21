@@ -2,8 +2,25 @@
 
 namespace smartlink.JsonData;
 
-public class Devices : List<ushort> { 
-    public void Visit(IVisitor v) { v.VisitDevices(this); }
+public class DevicesView : IView {
+    private ushort _item;
+    private Language _language;
+
+    public DevicesView(ushort item, Language language) {
+        _item = item;
+        _language = language;
+    }
+
+    public string GetString() {
+        return _item.ToString();
+    }
+}
+
+public class Devices : List<ushort>, IViewCreator { 
+    public void Visit(IVisitor v) { v.VisitDevices(this, this); }
+    public IView CreateView(object item, Language language) {
+        return new DevicesView((ushort)item, language);
+    }
 
     public static void A_3000_MS(ElektronikonRequest answers, List<ushort> JSON) {
         var vData = answers.getData(0x3001, 8);
