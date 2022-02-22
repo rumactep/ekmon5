@@ -29,12 +29,21 @@ public class ServicePlanView : IView {
     }
 
     public string GetString() {
+        int current_value = (int)Math.Ceiling(_item.STATICVALUE - _item.getValue() / 3600.0);
+        string strminus = current_value > 0 ? "+" : "-";
+        int percent = (int)Math.Ceiling(100 - (current_value / _item.STATICVALUE) * 100.0);
+        // if percent < 0, why -current_value + 1?
+        string strpercent = percent.ToString() + "%";
+		
+		string str1 = _language.GetString("TABLETITLE", 9);
+        string str2 = _language.GetString("TABLEVALUE", 2);
+        // TODO проверить работу
         return
-            $"MPL:-, RTD_SI:{_item.RTD_SI}, STATICVALUE:{_item.STATICVALUE}, LEVEL:{_item.LEVEL}, Type:{_item.Type}, next:{_item.Next}, value:{_item.getValue() / 3600}\n";
+            $"MPL:-{str1} {str2}, {strminus}{current_value} {strpercent}, RTD_SI:{_item.RTD_SI}, STATICVALUE:{_item.STATICVALUE}, LEVEL:{_item.LEVEL}, Type:{_item.Type}, next:{_item.Next}, value:{_item.getValue() / 3600}\n";
     }
 }
 
-public class ServicePlans : List<ServicePlan>,  IViewCreator { 
+public class ServicePlans : List<ServicePlan>, IViewCreator {
     public void Visit(IVisitor v) { v.VisitServicePlans(this, this); }
     public IView CreateView(object item, Language language) {
         return new ServicePlanView((ServicePlan)item, language);
@@ -76,3 +85,4 @@ public class ServicePlans : List<ServicePlan>,  IViewCreator {
             er.Add(0x2602, i);
     }
 }
+
