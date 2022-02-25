@@ -29,7 +29,7 @@ public class ServicePlanView : IView {
     }
 
     public string GetString() {
-        int current_value = (int)Math.Ceiling(_item.STATICVALUE - _item.getValue() / 3600.0);
+        double current_value = Math.Ceiling(_item.STATICVALUE - _item.getValue() / 3600.0);
         string strminus = current_value > 0 ? "+" : "-";
         int percent = (int)Math.Ceiling(100 - (current_value / _item.STATICVALUE) * 100.0);
         // if percent < 0, why -current_value + 1?

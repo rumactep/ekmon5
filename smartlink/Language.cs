@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace smartlink {
+namespace smartlink;
 
     public class Translation {
         public Translation(string name) {
@@ -123,4 +123,3 @@ namespace smartlink {
             }
         }
     }
-}

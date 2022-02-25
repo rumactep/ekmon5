@@ -34,25 +34,26 @@ namespace ek2mb {
             Console.WriteLine($"starting TcpListener for Modbus on port: {PORT_MODBUS}");
             ReadLogger logger = new ReadLogger();
             IModbusFactory factory = new ModbusFactory(null, true);
-            IModbusSlaveNetwork network = factory.CreateSlaveNetwork(tcpListener);
-            for (int i = 0; i < compressorInfos.Count; i++) {
-                var info = compressorInfos[i];
-                var storage = new SlaveStorage(info);
-                ElektronikonReader reader = new ElektronikonReader(storage, i);
+            using (IModbusSlaveNetwork network = factory.CreateSlaveNetwork(tcpListener)) {
+                for (int i = 0; i < compressorInfos.Count; i++) {
+                    var info = compressorInfos[i];
+                    var storage = new SlaveStorage(info);
+                    ElektronikonReader reader = new ElektronikonReader(storage, i);
 
-                Task task = Task.Factory.StartNew(ElektronikonReader.StaticReadDataThreadAsync, reader);
-                
+                    Task task = Task.Factory.StartNew(ElektronikonReader.StaticReadDataThreadAsync, reader);
 
-                Thread.Sleep(2000);
-                IModbusSlave slave = factory.CreateSlave(info.UnitId, storage);
-                network.AddSlave(slave);
+                    Thread.Sleep(2000);
+                    IModbusSlave slave = factory.CreateSlave(info.UnitId, storage);
+                    network.AddSlave(slave);
+                }
+                Thread.Sleep(5000);
+                tcpListener.Start();
+                network.ListenAsync(); //.GetAwaiter().GetResult();
+                Console.WriteLine("Press any key to exit");
+                Console.ReadKey();
+
+                tcpListener.Stop();
             }
-            Thread.Sleep(5000);
-            tcpListener.Start();
-            network.ListenAsync(); //.GetAwaiter().GetResult();
-            Console.WriteLine("Press any key to exit");
-            Console.ReadKey();            
-            tcpListener.Stop();
         }
 
         private static List<CompressorInfo> ReadCompressorList() {
