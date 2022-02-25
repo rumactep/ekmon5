@@ -21,18 +21,18 @@ namespace smartlink {
 
             ElektronikonRequest config = await SendReceive(list, client, Logger);
             ElektronikonRequest sparsedConfig = config.SparseQuestions();
-            Logger.Log("sparsed config:", sparsedConfig.GetRequestString());
+            //Logger.Log("sparsed config:", sparsedConfig.GetRequestString());
             int count = 1;
             while (count > 0) {
                 JSONS json = ElektronikonRequest.ProcessConfig(sparsedConfig);
                 var strlog = json.ToString()!;
-                Logger.Log("json:", strlog);
+                //Logger.Log("json:", strlog);
                 //create_tables();
                 var dataQuestions = ElektronikonRequest.DataQuestions(json);
                 ElektronikonRequest answers = await SendReceive(dataQuestions, client, Logger);
                 ElektronikonRequest.ProcessData(answers, json);
                 strlog = json.ToString()!;
-                Logger.Log("json:", strlog);
+                //Logger.Log("json:", strlog);
                 ProcessView(json);
                 count--;
                 if (count > 0)
@@ -57,11 +57,11 @@ namespace smartlink {
             for (int idx = 0; idx < questions.Length; idx += step1000) {
                 int to = Math.Min(idx + step1000, questions.Length);
                 string questionsString = ElektronikonRequest.GetRequestString(questions, idx, to);
-                logger.Log("questionsString:", questionsString);
+                //logger.Log("questionsString:", questionsString);
 
                 // for each 6 chars of question we receive 8 chars of answer or 'X'
                 string answersString = await client.AskAsync(questionsString);
-                logger.Log("answersString:", answersString);
+                //logger.Log("answersString:", answersString);
                 for (int iQ = idx, iA = 0; iQ < to; iQ++) {
                     Question question = questions[iQ];
                     if (iA >= answersString.Length)

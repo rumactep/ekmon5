@@ -36,7 +36,7 @@ namespace smartlink.JsonData {
             // ES not implemented
             // ES.Visit(visitor);
             SERVICEPLAN.Visit(visitor);
-            //DEVICE.Visit(visitor);
+            DEVICE.Visit(visitor);
         }
     }
 }

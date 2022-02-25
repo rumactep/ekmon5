@@ -12,7 +12,10 @@ namespace smartlink.JsonData {
         }
 
         public string GetString() {
-            return _item.ToString();
+            string strstatus = _language.GetString("MACHINESTATUS", 1);
+			string strstate = _language.GetString("MSTATE", _item);
+
+            return $"{strstatus} {strstate}";
         }
     }
 

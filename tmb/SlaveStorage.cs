@@ -49,7 +49,7 @@ namespace ek2mb {
     // 3 word Pacxoд (в процентах)
     // 4 word Time
     // 5 6 float давление на выходе, бар
-    // 7 8 float выход ступени компрессора
+    // 7 8 float t выход ступени компрессора
 
     public class SlaveStorage : ISlaveDataStore {
         public SlaveStorage(CompressorInfo info) {

@@ -8,6 +8,8 @@ using Newtonsoft.Json;
 using NModbus;
 
 namespace ek2mb {
+
+    // JSON Serializable
     public class CompressorInfo {
         // UnitId - номер устройства в модбасе
         public byte UnitId { get; set; }

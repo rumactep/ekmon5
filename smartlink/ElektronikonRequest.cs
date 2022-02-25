@@ -46,62 +46,63 @@ namespace smartlink {
 
 
         private static void A_3000_ES(ElektronikonRequest QUESTIONS, List<object> JSON) {
+            // I have not data for this case, cannot test this, so just comment it
             // not implemented
             /*
-             try {
-                 var vData1 = QUESTIONS.getData(0x3113, 1);
-                 JSON.NRCOMPRESSORS = vData1.Byte(0);
-                 JSON.NRDRYERS = vData1.Byte(2);
-                 JSON.ACTIVE = (vData1.Byte(1) == 1);
-                 var data3 = QUESTIONS.getData(0x3113, 3);
-                 JSON.STATE = data3.UInt16(0);
-                 var data4 = QUESTIONS.getData(0x3113, 4);
-                 JSON.REGULATIONPRESSURE = data4.UInt32();
-                 var data5 = QUESTIONS.getData(0x3113, 5);
-                 JSON.CONTROLVSD = data5.Byte(2);
+            try {
+                var vData1 = QUESTIONS.getData(0x3113, 1);
+                var data3 = QUESTIONS.getData(0x3113, 3);
+                var data4 = QUESTIONS.getData(0x3113, 4);
+                var data5 = QUESTIONS.getData(0x3113, 5);
+                JSON.NRCOMPRESSORS = vData1.Byte(0);
+                JSON.NRDRYERS = vData1.Byte(2);
+                JSON.ACTIVE = (vData1.Byte(1) == 1);
+                JSON.STATE = data3.UInt16(0);
+                JSON.REGULATIONPRESSURE = data4.UInt32();
+                JSON.CONTROLVSD = data5.Byte(2);
 
-                 for (var i = 0; i < JSON.NRCOMPRESSORS; i++) {
-                     var vSlave = new Slave();
-                     vSlave.MIN = QUESTIONS.getData(0x3113, 7 + 4 * i).UInt16(1);
-                     vSlave.ACT = QUESTIONS.getData(0x3113, 8 + 4 * i).UInt16(0);
-                     vSlave.MAX = QUESTIONS.getData(0x3113, 8 + 4 * i).UInt16(1);
-                     vSlave.TYPE = QUESTIONS.getData(0x3113, 7 + 4 * i).Byte(1);
-                     vSlave.MS = QUESTIONS.getData(0x3113, 7 + 4 * i).Byte(0);
-                     vSlave.SUMMARY1 = QUESTIONS.getData(0x3113, 9 + 4 * i).UInt32();
-                     vSlave.SUMMARY2 = QUESTIONS.getData(0x3113, 10 + 4 * i).UInt32();
-                     JSON.COMPRESSORS[i] = vSlave;
-                 }
-                 for (var i = 0; i < JSON.NRDRYERS; i++) {
-                     var vDryer = new Dryer();
-                     vDryer.UPPERICON = QUESTIONS.getData(0x3113, 31 + 2 * i).Int16(1);
-                     vDryer.LOWERICON = QUESTIONS.getData(0x3113, 31 + 2 * i).Int16(0);
-                     vDryer.BARVALUE = QUESTIONS.getData(0x3113, 32 + 2 * i).Byte(0);
-                     JSON.DRYERS[i] = vDryer;
-                 }
-                 if (JSON.NRCOMPRESSORS > 0) {
-                     var vMasterBar = new MasterBar();
-                     vMasterBar.LEVEL1 = QUESTIONS.getData(0x3114, 1).Int32();
-                     vMasterBar.LEVEL2 = QUESTIONS.getData(0x3114, 2).Int32();
-                     vMasterBar.ACT = QUESTIONS.getData(0x3114, 3).Int32();
-                     vMasterBar.INRANGE = QUESTIONS.getData(0x3114, 4).Byte(1);
-                     vMasterBar.PERCENTAGE = QUESTIONS.getData(0x3114, 4).Byte(0);
-                     vMasterBar.METHODOFFILLING = QUESTIONS.getData(0x3114, 4).Byte(2);
-                     vMasterBar.TYPE = QUESTIONS.getData(0x3114, 4).Byte(3); //0-->25/75 1-->0/100
-                     JSON.COMPRESSORMASTERBAR = vMasterBar;
-                 }
+                for (var i = 0; i < JSON.NRCOMPRESSORS; i++) {
+                    var vSlave = new Slave();
+                    vSlave.MIN = QUESTIONS.getData(0x3113, 7 + 4 * i).UInt16(1);
+                    vSlave.ACT = QUESTIONS.getData(0x3113, 8 + 4 * i).UInt16(0);
+                    vSlave.MAX = QUESTIONS.getData(0x3113, 8 + 4 * i).UInt16(1);
+                    vSlave.TYPE = QUESTIONS.getData(0x3113, 7 + 4 * i).Byte(1);
+                    vSlave.MS = QUESTIONS.getData(0x3113, 7 + 4 * i).Byte(0);
+                    vSlave.SUMMARY1 = QUESTIONS.getData(0x3113, 9 + 4 * i).UInt32();
+                    vSlave.SUMMARY2 = QUESTIONS.getData(0x3113, 10 + 4 * i).UInt32();
+                    JSON.COMPRESSORS[i] = vSlave;
+                }
+                for (var i = 0; i < JSON.NRDRYERS; i++) {
+                    var vDryer = new Dryer();
+                    vDryer.UPPERICON = QUESTIONS.getData(0x3113, 31 + 2 * i).Int16(1);
+                    vDryer.LOWERICON = QUESTIONS.getData(0x3113, 31 + 2 * i).Int16(0);
+                    vDryer.BARVALUE = QUESTIONS.getData(0x3113, 32 + 2 * i).Byte(0);
+                    JSON.DRYERS[i] = vDryer;
+                }
+                if (JSON.NRCOMPRESSORS > 0) {
+                    var vMasterBar = new MasterBar();
+                    vMasterBar.LEVEL1 = QUESTIONS.getData(0x3114, 1).Int32();
+                    vMasterBar.LEVEL2 = QUESTIONS.getData(0x3114, 2).Int32();
+                    vMasterBar.ACT = QUESTIONS.getData(0x3114, 3).Int32();
+                    vMasterBar.INRANGE = QUESTIONS.getData(0x3114, 4).Byte(1);
+                    vMasterBar.PERCENTAGE = QUESTIONS.getData(0x3114, 4).Byte(0);
+                    vMasterBar.METHODOFFILLING = QUESTIONS.getData(0x3114, 4).Byte(2);
+                    vMasterBar.TYPE = QUESTIONS.getData(0x3114, 4).Byte(3); //0-->25/75 1-->0/100
+                    JSON.COMPRESSORMASTERBAR = vMasterBar;
+                }
 
-                 if (JSON.NRDRYERS > 0) {
-                     var vDryerMasterBar = new DryerMasterBar();
-                     vDryerMasterBar.LEVEL1 = QUESTIONS.getData(0x3114, 7).Int32();
-                     vDryerMasterBar.LEVEL2 = QUESTIONS.getData(0x3114, 8).Int32();
-                     vDryerMasterBar.ACT = QUESTIONS.getData(0x3114, 9).Int32();
-                     vDryerMasterBar.INRANGE = QUESTIONS.getData(0x3114, 10).Byte(1);
-                     vDryerMasterBar.PERCENTAGE = QUESTIONS.getData(0x3114, 10).Byte(0);
-                     vDryerMasterBar.METHODOFFILLING = QUESTIONS.getData(0x3114, 10).Byte(2);
-                     vDryerMasterBar.TYPE = QUESTIONS.getData(0x3114, 10).Byte(3); //0-->25/75 1-->0/100
-                     JSON.DRYERMASTERBAR = vDryerMasterBar;
-                 }
-             }
+                if (JSON.NRDRYERS > 0) {
+                    var vDryerMasterBar = new DryerMasterBar();
+                    vDryerMasterBar.LEVEL1 = QUESTIONS.getData(0x3114, 7).Int32();
+                    vDryerMasterBar.LEVEL2 = QUESTIONS.getData(0x3114, 8).Int32();
+                    vDryerMasterBar.ACT = QUESTIONS.getData(0x3114, 9).Int32();
+                    vDryerMasterBar.INRANGE = QUESTIONS.getData(0x3114, 10).Byte(1);
+                    vDryerMasterBar.PERCENTAGE = QUESTIONS.getData(0x3114, 10).Byte(0);
+                    vDryerMasterBar.METHODOFFILLING = QUESTIONS.getData(0x3114, 10).Byte(2);
+                    vDryerMasterBar.TYPE = QUESTIONS.getData(0x3114, 10).Byte(3); //0-->25/75 1-->0/100
+                    JSON.DRYERMASTERBAR = vDryerMasterBar;
+                }
+            }
             //*/
         }
 
