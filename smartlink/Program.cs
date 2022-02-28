@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Net;
+using System.Net.Sockets;
 using smartlink;
 
 //var url = "http://192.168.11.208/cgi-bin/mkv.cgi";
@@ -22,3 +25,17 @@ foreach (var ip in ips) {
     Console.WriteLine("");
 }
 //Console.WriteLine("press any key");Console.ReadKey();
+
+public class CompressorInfo {
+    // UnitId - номер устройства в модбасе
+    public byte UnitId { get; set; }
+
+    // Cnumber - номер компрессора - для понимания человеком
+    public ushort Cnumber { get; set; }
+    public string Cip { get; set; }
+
+    public override string ToString() {
+        return $"Cnumber: {Cnumber}, UnitId: {UnitId}, Cip: {Cip}";
+    }
+}
+
