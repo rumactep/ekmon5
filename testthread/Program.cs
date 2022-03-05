@@ -36,6 +36,10 @@ public class Program {
         }
         Thread.Sleep(10);
         Console.WriteLine("press any key to exit from main thread");
+
+        // tcpListener.Start();
+        // modbus_network.ListenAsync();
+
         Console.ReadKey();  // по какому-то условию заканчиваем работу
         Console.WriteLine("trying to exit:");
         mainExitEvent.Set();
