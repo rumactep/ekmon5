@@ -119,8 +119,8 @@ namespace smartlinkserver {
     }
 
     public class SparsePointSource<TPoint> : IPointSource<TPoint> {
-        private readonly object _valuesLock = new object();
-        private readonly Dictionary<ushort, TPoint> _values = new Dictionary<ushort, TPoint>();
+        private readonly object _valuesLock = new();
+        private readonly Dictionary<ushort, TPoint> _values = new();
 
         public event EventHandler<StorageEventArgs<TPoint>> StorageOperationOccurred;
 

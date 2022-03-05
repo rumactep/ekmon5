@@ -8,11 +8,13 @@ using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace smartlinkserver;
+using smartlinkserver;
 
-public class App {
+App2.Main();
+
+public class App2 {
     const int PORT_MODBUS = 502;
-    public void Main(string[] args) {
+    public static void Main() {
         List<CompressorInfo> compressorInfos = ReadCompressorList();
         IPAddress[] addressList = Dns.GetHostEntry(Dns.GetHostName()).AddressList;
         foreach (IPAddress address in addressList)
@@ -26,7 +28,7 @@ public class App {
             CompressorInfo info = compressorInfos[i];
             SlaveStorage storage = new(info);
 
-            Task task = Task.Run(async () => {
+            Task task = Task.Run(async () =>  {
                 await Task.Delay(i * 1000);
                         Console.WriteLine($"started working on {info}");
 
@@ -45,6 +47,7 @@ public class App {
         Console.WriteLine("Press any key to exit");
         Console.ReadKey();
         tcpListener.Stop();
+        
 
     }
 
@@ -54,3 +57,4 @@ public class App {
         return JsonConvert.DeserializeObject<List<CompressorInfo>>(jsonText)!;
     }
 }
+

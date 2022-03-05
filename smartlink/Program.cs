@@ -32,7 +32,7 @@ public class CompressorInfo {
 
     // Cnumber - номер компрессора - для понимания человеком
     public ushort Cnumber { get; set; }
-    public string Cip { get; set; }
+    public string Cip { get; set; } = string.Empty;
 
     public override string ToString() {
         return $"Cnumber: {Cnumber}, UnitId: {UnitId}, Cip: {Cip}";
