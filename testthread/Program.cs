@@ -23,7 +23,7 @@ class WorkClass {
     }
 }
 
-public class Program {
+public class Program { 
     public static void Main(string[] args) {
         ManualResetEvent mainExitEvent = new(false);
         const int THREAD_COUNT = 10;
