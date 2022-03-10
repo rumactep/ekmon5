@@ -25,26 +25,26 @@ class WorkClass {
 
 public class Program { 
     public static void Main(string[] args) {
-        ManualResetEvent mainExitEvent = new(false);
-        const int THREAD_COUNT = 10;
-        ManualResetEvent [] workEndEvents = new ManualResetEvent[THREAD_COUNT];
-        for (int i = 0; i < THREAD_COUNT; i++) {
-            workEndEvents[i] = new ManualResetEvent(false);
-            WorkClass work = new WorkClass(i, mainExitEvent, workEndEvents[i]);
-            Thread workThread = new Thread(new ThreadStart(work.ThreadProc));
-            workThread.Start();
-        }
-        Thread.Sleep(10);
-        Console.WriteLine("press any key to exit from main thread");
+            ManualResetEvent mainExitEvent = new(false);
+            const int THREAD_COUNT = 10;
+            ManualResetEvent [] workEndEvents = new ManualResetEvent[THREAD_COUNT];
+            for (int i = 0; i < THREAD_COUNT; i++) {
+                workEndEvents[i] = new ManualResetEvent(false);
+                WorkClass work = new WorkClass(i, mainExitEvent, workEndEvents[i]);
+                Thread workThread = new Thread(new ThreadStart(work.ThreadProc));
+                workThread.Start();
+            }
+            Thread.Sleep(10);
+            Console.WriteLine("press any key to exit from main thread");
 
-        // tcpListener.Start();
-        // modbus_network.ListenAsync();
+            // tcpListener.Start();
+            // modbus_network.ListenAsync();
 
-        Console.ReadKey();  // по какому-то условию заканчиваем работу
-        Console.WriteLine("trying to exit:");
-        mainExitEvent.Set();
-        Thread.Sleep(10);
-        WaitHandle.WaitAll(workEndEvents);
-        Console.WriteLine("All exited!");
+            Console.ReadKey();  // по какому-то условию заканчиваем работу
+            Console.WriteLine("trying to exit:");
+            mainExitEvent.Set();
+            Thread.Sleep(10);
+            WaitHandle.WaitAll(workEndEvents);
+            Console.WriteLine("All exited!");
     }
 }

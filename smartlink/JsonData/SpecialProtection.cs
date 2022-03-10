@@ -45,7 +45,7 @@ namespace smartlink.JsonData {
             string strMpl = _language.GetString("MPL", _item.MPL);
             // where is "Question"?
             string statusicon = get_status_icon1(_item.getStatus(), "Ok");
-            return $"MPL:{_item.MPL}, RTD_SI:{_item.RTD_SI}, {strMpl} {statusicon}\n";
+            return $"RTD_SI:{_item.RTD_SI}, {strMpl} {statusicon}\n";
         }
     }
 

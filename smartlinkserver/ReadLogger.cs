@@ -43,7 +43,7 @@ namespace smartlinkserver {
     // перечень всех возможных параметров
     // используем InputRegisters
     // 1 word номер компрессора
-    // 2 word состояние компрессора. 0 - (неизвестно, нет связи) 1 - авария, 2 - стоп, 3 - разгрузка, 4 загрузка
+    // 2 word состояние компрессора. 0 - (неизвестно, нет связи) 1 - авария, 2 - стоп, 3 - разгрузка, 4 загрузка, 5 - другое
     // 3 word Pacxoд (в процентах)
     // 4 word Time
     // 5 6 float давление на выходе, бар
@@ -122,36 +122,36 @@ namespace smartlinkserver {
         private readonly object _valuesLock = new();
         private readonly Dictionary<ushort, TPoint> _values = new();
 
-        public event EventHandler<StorageEventArgs<TPoint>> StorageOperationOccurred;
+        public event EventHandler<StorageEventArgs<TPoint>>? StorageOperationOccurred;
 
-        public TPoint this[ushort registerIndex] {
+        public TPoint? this[ushort registerIndex] {
             get {
                 lock (_valuesLock)
-                    return _values.TryGetValue(registerIndex, out TPoint value) ? value : default;
+                    return _values.TryGetValue(registerIndex, out TPoint? value) ? value : default;
             }
             set {
                 lock (_valuesLock)
-                    _values[registerIndex] = value;
+                    _values[registerIndex] = value!;
             }
         }
 
         public (TPoint, TPoint) GetTwoValues(ushort registerIndex) {
-            // lock (_valuesLock) 
-            return (this[registerIndex], this[(ushort)(registerIndex + 1)]);
+            lock (_valuesLock) 
+                return (this[registerIndex]!, this[(ushort)(registerIndex + 1)]!);
         }
 
         public void SetTwoValues(ushort registerIndex, TPoint value1, TPoint value2) {
-            // lock (_valuesLock) {
+            lock (_valuesLock) {
             _values[registerIndex] = value1;
             _values[(ushort)(registerIndex + 1)] = value2;
-            // }
+            }
         }
 
 
         public TPoint[] ReadPoints(ushort startAddress, ushort numberOfPoints) {
             var points = new TPoint[numberOfPoints];
             for (ushort i = 0; i < numberOfPoints; i++)
-                points[i] = this[(ushort)(i + startAddress)];
+                points[i] = this[(ushort)(i + startAddress)]!;
             StorageOperationOccurred?.Invoke(this, new StorageEventArgs<TPoint>(PointOperation.Read, startAddress, points));
             return points;
         }

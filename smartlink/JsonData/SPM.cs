@@ -46,7 +46,7 @@ namespace smartlink.JsonData {
             string strMpl = _language.GetString("MPL", _item.MPL);
             string strvalue = _item.getValue();
 
-            return $"MPL:{_item.MPL}, RTD_SI:{_item.RTD_SI} {strMpl} {strvalue}\n";
+            return $"RTD_SI:{_item.RTD_SI} {strMpl} {strvalue}\n";
         }
     }
 

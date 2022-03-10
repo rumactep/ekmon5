@@ -39,7 +39,7 @@ public class ServicePlanView : IView {
         string str2 = _language.GetString("TABLEVALUE", 2);
         // TODO проверить работу
         return
-            $"RTD_SI:{_item.RTD_SI}, {str1} {str2}, {strminus}{current_value} {strpercent}, STATICVALUE:{_item.STATICVALUE}, LEVEL:{_item.LEVEL}, Type:{_item.Type}, next:{_item.Next}, value:{_item.getValue() / 3600}\n";
+            $"RTD_SI:{_item.RTD_SI}, {str1} {str2} {_item.LEVEL}, {strminus}{current_value} {strpercent}, STATICVALUE:{_item.STATICVALUE}, Type:{_item.Type}, next:{_item.Next}, value:{_item.getValue() / 3600}\n";
     }
 }
 

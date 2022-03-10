@@ -29,7 +29,7 @@ namespace smartlink.JsonData {
         public string GetString() {
             string strMpl = _language.GetString("MPL", _item.MPL);
             string strvalue = AnalogInputView.FormatAiValue(_item.getValue(), _item.INPUTTYPE, _item.DISPLAYPRECISION, _language);
-            return $"MPL:{strMpl}, RTD_SI:{_item.RTD_SI}, value:{strvalue}, INPUTTYPE:{_item.INPUTTYPE}, DISPLAYPRECISION:{_item.DISPLAYPRECISION}, status:{_item.getStatus()}\n";
+            return $"RTD_SI:{_item.RTD_SI}, value:{strvalue}, INPUTTYPE:{_item.INPUTTYPE}, DISPLAYPRECISION:{_item.DISPLAYPRECISION}, status:{_item.getStatus()}\n";
         }
     }
 

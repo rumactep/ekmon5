@@ -22,22 +22,11 @@ namespace smartlink {
             ElektronikonRequest config = await SendReceive(list, client, Logger);
             ElektronikonRequest sparsedConfig = config.SparseQuestions();
             //Logger.Log("sparsed config:", sparsedConfig.GetRequestString());
-            int count = 1;
-            while (count > 0) {
-                JSONS json = ElektronikonRequest.ProcessConfig(sparsedConfig);
-                var strlog = json.ToString()!;
-                //Logger.Log("json:", strlog);
-                //create_tables();
-                var dataQuestions = ElektronikonRequest.DataQuestions(json);
-                ElektronikonRequest answers = await SendReceive(dataQuestions, client, Logger);
-                ElektronikonRequest.ProcessData(answers, json);
-                strlog = json.ToString()!;
-                //Logger.Log("json:", strlog);
-                ProcessView(json);
-                count--;
-                if (count > 0)
-                    Thread.Sleep(5000);
-            }
+            JSONS json = ElektronikonRequest.ProcessConfig(sparsedConfig);
+            var dataQuestions = ElektronikonRequest.DataQuestions(json);
+            ElektronikonRequest answers = await SendReceive(dataQuestions, client, Logger);
+            ElektronikonRequest.ProcessData(answers, json);
+            ProcessView(json);
         }
 
         private void ProcessView(JSONS vJSON) {

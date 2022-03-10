@@ -84,7 +84,7 @@ namespace smartlink.JsonData {
                 format_CO_value(_item.getValue(), _item.COUNTERUNIT);
 
             return
-                $"MPL:{_item.MPL}, RTD_SI:{_item.RTD_SI} {strMpl} {strvalue}, INPUTTYPE:{_item.COUNTERUNIT}, value:{_item.getValue()}\n";
+                $"RTD_SI:{_item.RTD_SI} {strMpl} {strvalue}, INPUTTYPE:{_item.COUNTERUNIT}, value:{_item.getValue()}\n";
         }
         string format_CO_value(uint CO_value, byte CO_unit) {
             uint value = CO_value;

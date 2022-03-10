@@ -41,7 +41,7 @@ namespace smartlink.JsonData {
                 (_language.GetString("TABLETITLE", 11), $"{_item.getFlow()}")
                 : ("", "");
 
-            return $"RTD_SI:{_item.RTD_SI}, TYPE:{strtype}, value:{_item.getValue()} rpm, DEVICETYPE:{_item.CONVERTERDEVICETYPE}, {strflowname}:{strflow} %\n";
+            return $"TYPE:{strtype}, value:{_item.getValue()} rpm, DEVICETYPE:{_item.CONVERTERDEVICETYPE}, {strflowname}:{strflow} %\n";
         }
     }
 

@@ -41,7 +41,7 @@ namespace smartlink.JsonData {
             string strMpl = _language.GetString("MPL", _item.MPL);
             string strValue = FormatAiValue(_item.getValue(), _item.INPUTTYPE, _item.DISPLAYPRECISION, _language);
             return
-                $"MPL:{_item.MPL}, RTD_SI:{_item.RTD_SI} {strMpl}, value:{strValue}, INPUTTYPE:{_item.INPUTTYPE}, DISPLAYPRECISION:{_item.DISPLAYPRECISION}, getStatus:{_item.getStatus()}\n";
+                $"RTD_SI:{_item.RTD_SI} {strMpl}, value:{strValue}, INPUTTYPE:{_item.INPUTTYPE}, DISPLAYPRECISION:{_item.DISPLAYPRECISION}, getStatus:{_item.getStatus()}\n";
         }
 
         public static string FormatAiValue(short AI_value, byte iNPUTTYPE, byte dISPLAYPRECISION, Language language) {
