@@ -35,7 +35,7 @@ public class SmartlinkserverApp {
             Worker work = new Worker(mainExitEvent, workEndEvents[i], info, storage);
             Thread workThread = new Thread(new ThreadStart(work.ThreadProc));
             workThread.Start();
-            Thread.Sleep(1000);
+            //Thread.Sleep(1000);
             IModbusSlave slave = factory.CreateSlave(info.UnitId, storage);
             network.AddSlave(slave);
         }
@@ -55,7 +55,7 @@ public class SmartlinkserverApp {
     }
 
     private static List<CompressorInfo> ReadCompressorList() {
-        string jsonText = @"[{UnitId:4,cnumber:4,cip:""192.168.11.28""}, {UnitId:5,cnumber:5,cip:""192.168.11.209""}, {UnitId:8,cnumber:8,cip:""192.168.11.211""}, {UnitId:10,cnumber:10,cip:""192.168.11.210""}, {UnitId:12,cnumber:12,cip:""192.168.11.207""}, {UnitId:13,cnumber:13,cip:""192.168.11.212""}, {UnitId:14,cnumber:14,cip:""192.168.11.221""}]"; 
+        string jsonText = @"[{UnitId:4,cnumber:4,cip:""192.168.11.208""}, {UnitId:5,cnumber:5,cip:""192.168.11.209""}, {UnitId:8,cnumber:8,cip:""192.168.11.211""}, {UnitId:10,cnumber:10,cip:""192.168.11.210""}, {UnitId:12,cnumber:12,cip:""192.168.11.207""}, {UnitId:13,cnumber:13,cip:""192.168.11.212""}, {UnitId:14,cnumber:14,cip:""192.168.11.221""}]"; 
         //string jsonText = @"[{UnitId:4,cnumber:4,cip:""192.168.11.208""}]";
         return JsonConvert.DeserializeObject<List<CompressorInfo>>(jsonText)!;
     }

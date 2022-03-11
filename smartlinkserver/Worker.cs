@@ -21,29 +21,30 @@ namespace smartlinkserver {
             _storage = storage;
         }
         public async void ThreadProc() {
-            Console.WriteLine($"thread {_info.Cnumber} started");
+            Console.WriteLine($"thread {_info} started");
             var reader = new QuestionReader {
                 Logger = ConsoleLogger.Instance
             };
-            reader.LoadLanguage("Russian.txt");
-            var url = "http://" + _info.Cip + "/cgi-bin/mkv.cgi";
-            Console.WriteLine($"ElektronikonReader reading url: {url}");
-            var client = new HttpElektronikonClient(url);
+            try {
+                reader.LoadLanguage("Russian.txt");
+                var url = "http://" + _info.Cip + "/cgi-bin/mkv.cgi";
+                Console.WriteLine($"ElektronikonReader reading url: {url}");
+                var client = new HttpElektronikonClient(url);
 
-            while (!_mainExitEvent.WaitOne(10000)) {
-                try {
-                    await reader.Run(client);
-                }
-                catch (HttpRequestException ex) {
-                    Console.WriteLine($"{_info} " + ex);
-                }
-                catch {
-                    Console.WriteLine($"{_info} Неизвестная ошибка!");
-                    break;
-                }
-                Console.WriteLine("");
+                do {
+                    try {
+                        await reader.Run(client);
+                    }
+                    catch (HttpRequestException ex) {
+                        Console.WriteLine($"{_info} " + ex);
+                    }
+                    Console.WriteLine("");
+                } while (!_mainExitEvent.WaitOne(10000));
             }
-            Console.WriteLine($"thread {_info.Cnumber} stopped");
+            catch (Exception e) {
+                Console.WriteLine($"{_info} Неизвестная ошибка! " + e);
+            }
+            Console.WriteLine($"thread {_info} stopped");
             _workEndedEvent.Set(); // событие того, что работа зкончена
         }
     }

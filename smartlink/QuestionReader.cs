@@ -2,10 +2,9 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using smartlink.JsonData;
+using Newtonsoft.Json;
 
 namespace smartlink {
-
-
     public class QuestionReader {
         Language _language = new();
 
@@ -16,12 +15,14 @@ namespace smartlink {
         }
 
         public ILogger Logger { get; set; } = ILogger.Null;
+
+
+
+        //TODO: разделить на 2 метода загрузку настроек и загрузку текущей информации
         public async Task Run(IElektronikonClient client) {
             var list = ElektronikonRequest.ConfigQuestions;
-
             ElektronikonRequest config = await SendReceive(list, client, Logger);
             ElektronikonRequest sparsedConfig = config.SparseQuestions();
-            //Logger.Log("sparsed config:", sparsedConfig.GetRequestString());
             JSONS json = ElektronikonRequest.ProcessConfig(sparsedConfig);
             var dataQuestions = ElektronikonRequest.DataQuestions(json);
             ElektronikonRequest answers = await SendReceive(dataQuestions, client, Logger);
@@ -33,7 +34,9 @@ namespace smartlink {
             StringVisitor visitor = new StringVisitor(new StringPartWriter(), _language);
             vJSON.Accept(visitor);
             string str = visitor.Text;
-            Logger.Log(str);
+            string strjson = JsonConvert.SerializeObject(vJSON);
+
+            Logger.Log(strjson);
         }
 
         public static async Task<ElektronikonRequest> SendReceive(Question[] questions, IElektronikonClient client, ILogger logger) {
@@ -99,4 +102,5 @@ namespace smartlink {
             Console.WriteLine(prefix + " " + message);
         }
     }
+
 }
