@@ -54,7 +54,7 @@ public class ReadAnalogInputsTestIElektronikonClient {
         Assert.Equal(1, client.Ask1);
         Assert.Equal(1, client.Ask2);
         Assert.Equal(0, client.AskOther);
-        ElektronikonRequest.ProcessData(datas, json);
+        ElektronikonRequest.ProcessDataToJson(datas, json);
 #pragma warning disable xUnit2013 // Do not use equality check to check for collection size.
         Assert.Equal(2, json.ANALOGINPUTS.Count);
         Assert.Equal(0, json.ANALOGOUTPUTS.Count);

@@ -16,9 +16,7 @@ namespace smartlink {
         }
 
         public async Task<string> AskAsync(string questionsString) {
-            var urlParameters = new Dictionary<string, string> {
-            { "QUESTION", questionsString }
-        };
+            var urlParameters = new Dictionary<string, string> { { "QUESTION", questionsString } };
             var parametersContent = new FormUrlEncodedContent(urlParameters);
             using HttpClient client = new HttpClient();
             var response = await client.PostAsync(_url, parametersContent);

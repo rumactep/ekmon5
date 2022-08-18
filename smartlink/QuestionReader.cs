@@ -1,5 +1,4 @@
 using System;
-using System.Threading;
 using System.Threading.Tasks;
 using smartlink.JsonData;
 using Newtonsoft.Json;
@@ -17,26 +16,36 @@ namespace smartlink {
         public ILogger Logger { get; set; } = ILogger.Null;
 
 
-
         //TODO: разделить на 2 метода загрузку настроек и загрузку текущей информации
-        public async Task Run(IElektronikonClient client) {
+        public async Task<JSONS> LoadSettings(IElektronikonClient client) {
             var list = ElektronikonRequest.ConfigQuestions;
-            ElektronikonRequest config = await SendReceive(list, client, Logger);
+            ElektronikonRequest config = await SendReceive(list, client, Logger);            
             ElektronikonRequest sparsedConfig = config.SparseQuestions();
             JSONS json = ElektronikonRequest.ProcessConfig(sparsedConfig);
+            return json;
+
+            /*
             var dataQuestions = ElektronikonRequest.DataQuestions(json);
             ElektronikonRequest answers = await SendReceive(dataQuestions, client, Logger);
             ElektronikonRequest.ProcessData(answers, json);
             ProcessView(json);
+            return true; //*/
         }
 
-        private void ProcessView(JSONS vJSON) {
+        public async Task RefreshData(IElektronikonClient client, JSONS json, CompressorInfo info) {
+            var dataQuestions = ElektronikonRequest.DataQuestions(json);
+            ElektronikonRequest answers = await SendReceive(dataQuestions, client, Logger);
+            ElektronikonRequest.ProcessDataToJson(answers, json);
+            ProcessView(json, info);
+        }
+
+        private void ProcessView(JSONS vJSON, CompressorInfo info) {
             StringVisitor visitor = new StringVisitor(new StringPartWriter(), _language);
             vJSON.Accept(visitor);
-            string str = visitor.Text;
+            string str = Environment.NewLine + info.ToString() + ": " + visitor.Text;
             string strjson = JsonConvert.SerializeObject(vJSON);
 
-            Logger.Log(strjson);
+            //Logger.Log(str);
         }
 
         public static async Task<ElektronikonRequest> SendReceive(Question[] questions, IElektronikonClient client, ILogger logger) {

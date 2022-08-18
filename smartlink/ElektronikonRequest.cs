@@ -20,7 +20,7 @@ namespace smartlink {
         }
 
         public ElektronikonRequest SparseQuestions() {
-            ElektronikonRequest newRequest = new ElektronikonRequest();
+            ElektronikonRequest newRequest = new();
             foreach (Question dataItem in _requests) {
                 if (!dataItem.Data.IsEmpty)
                     newRequest.Add(dataItem);
@@ -28,7 +28,7 @@ namespace smartlink {
             return newRequest;
         }
 
-        public static void ProcessData(ElektronikonRequest answers, JSONS json) {
+        public static void ProcessDataToJson(ElektronikonRequest answers, JSONS json) {
             AnalogInputs.A_3000_AI(answers, json.ANALOGINPUTS);
             DigitalInputs.A_3000_DI(answers, json.DIGITALINPUTS);
             Counters.A_3000_CNT(answers, json.COUNTERS);

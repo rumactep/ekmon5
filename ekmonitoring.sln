@@ -11,8 +11,6 @@ Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "mbread", "mbread\mbread.pyp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ek2mb", "tmb\ek2mb.csproj", "{748DE91B-7CBB-47FE-B8E9-839529EFD2B6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "simpletest", "simpletest\simpletest.csproj", "{2144B834-2468-46BE-89D4-ADBC326C780A}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ekmbTests", "ekmbTests\ekmbTests.csproj", "{1F8078EB-F106-4A42-98CB-D9336FCA6FEE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "airtgbot", "airtgbot\airtgbot.csproj", "{58A37AB0-CD75-4603-98D7-6B7B29C162F8}"
@@ -24,10 +22,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "smartlinkTests", "smartlinkTests\smartlinkTests.csproj", "{E51EB428-30C8-4BB5-A0B6-6DDAEBC11453}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "alter2", "alter2\alter2.csproj", "{BBD96648-4021-4222-897D-FCA28B6F46FB}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "smartlinkserver", "smartlinkserver\smartlinkserver.csproj", "{9AE1E490-D5A9-41D4-BE7C-64A1621319CD}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "testthread", "testthread\testthread.csproj", "{5253175D-210A-4878-82A9-EB778D9F680D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,10 +43,6 @@ Global
 		{748DE91B-7CBB-47FE-B8E9-839529EFD2B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{748DE91B-7CBB-47FE-B8E9-839529EFD2B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{748DE91B-7CBB-47FE-B8E9-839529EFD2B6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2144B834-2468-46BE-89D4-ADBC326C780A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2144B834-2468-46BE-89D4-ADBC326C780A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2144B834-2468-46BE-89D4-ADBC326C780A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2144B834-2468-46BE-89D4-ADBC326C780A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1F8078EB-F106-4A42-98CB-D9336FCA6FEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1F8078EB-F106-4A42-98CB-D9336FCA6FEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1F8078EB-F106-4A42-98CB-D9336FCA6FEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -77,14 +67,6 @@ Global
 		{BBD96648-4021-4222-897D-FCA28B6F46FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BBD96648-4021-4222-897D-FCA28B6F46FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BBD96648-4021-4222-897D-FCA28B6F46FB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9AE1E490-D5A9-41D4-BE7C-64A1621319CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9AE1E490-D5A9-41D4-BE7C-64A1621319CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9AE1E490-D5A9-41D4-BE7C-64A1621319CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9AE1E490-D5A9-41D4-BE7C-64A1621319CD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5253175D-210A-4878-82A9-EB778D9F680D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5253175D-210A-4878-82A9-EB778D9F680D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5253175D-210A-4878-82A9-EB778D9F680D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5253175D-210A-4878-82A9-EB778D9F680D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
