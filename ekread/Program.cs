@@ -89,7 +89,7 @@ namespace ekread {
 
         private static ChromeOptions GetChromeOptions() {
             ChromeOptions chromeOptions1 = new ChromeOptions();
-            chromeOptions1.AddArgument("headless");
+            //chromeOptions1.AddArgument("headless");
             chromeOptions1.AddArgument("no-sandbox");
             chromeOptions1.AddArgument("window-size=1420,1080");
             chromeOptions1.AddArgument("disable-gpu");
@@ -141,7 +141,7 @@ namespace ekread {
 
         private static List<string> ReadIpsFromFile(string settingsFilename) {
             return new List<string>(File.ReadLines(settingsFilename));
-            /*http://192.168.11.207/", "http://192.168.11.208/","http://192.168.11.209/", "http://192.168.11.210/", "http://192.168.11.211/", "http://192.168.11.212/", "http://192.168.11.221/" */
+            /*http://192.168.11.207/", "http://192.168.11.208/","http://192.168.11.209/", "http://192.168.11.210/", "http://192.168.11.211/", "http://192.168.11.212/", "http://192.168.11.221/", "http://192.168.11.226/" */
         }
     }
 }

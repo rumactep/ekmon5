@@ -126,8 +126,10 @@ namespace ekread {
                 }
             }
             catch (NoSuchElementException ex) {
+                Console.WriteLine("Сервисный план на 4000 не найден"); 
                 Console.WriteLine(ex.ToString());
-                throw;
+                return "-";
+                //throw;
             }
         }
 

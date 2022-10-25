@@ -14,9 +14,9 @@ public class ReadLogger : IModbusLogger {
         switch (level) {
             case LoggingLevel.Critical:
             case LoggingLevel.Debug:
-            case LoggingLevel.Error:
-            case LoggingLevel.Trace:
-            case LoggingLevel.Warning: return true;
+            case LoggingLevel.Error: return true;
+            case LoggingLevel.Trace: 
+            case LoggingLevel.Warning: 
             case LoggingLevel.Information: return false;
 
             default: return false;

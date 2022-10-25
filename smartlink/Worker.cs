@@ -7,15 +7,15 @@ using System.Threading;
 namespace smartlink;
 class Worker {
     readonly ManualResetEvent _mainExitEvent;
-    readonly ManualResetEvent _workEndedEvent;
+    readonly ManualResetEvent _myworkEndedEvent;
     readonly CompressorInfo _info;
     readonly SlaveStorage _storage;
 
     const int READ_INTERVAL = 10000;
 
-    public Worker(ManualResetEvent mainExitEvent, ManualResetEvent workEndedEvent, CompressorInfo info, SlaveStorage storage) {
+    public Worker(ManualResetEvent mainExitEvent, ManualResetEvent myworkEndedEvent, CompressorInfo info, SlaveStorage storage) {
         _mainExitEvent = mainExitEvent;
-        _workEndedEvent = workEndedEvent;
+        _myworkEndedEvent = myworkEndedEvent;
         _info = info;
         _storage = storage;
     }
@@ -75,7 +75,7 @@ class Worker {
             ResetStorageCurrentData(_storage);
         }
         Console.WriteLine($"thread stopped {_info}");
-        _workEndedEvent.Set(); // событие того, что работа закончена
+        _myworkEndedEvent.Set(); // событие того, что работа закончена
     }
 
     private static void LogStorageCurrentData(SlaveStorage storage) {
