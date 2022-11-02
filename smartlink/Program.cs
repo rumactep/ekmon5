@@ -161,6 +161,7 @@ public class SmartlinkserverApp {
                 disableNotification: true,
                 text: "Пишите боту vmAirBotName в личку",
                 cancellationToken: token);
+            return;
         }
 
         var messageText = update.Message.Text;
